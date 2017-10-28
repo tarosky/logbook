@@ -1,4 +1,8 @@
-.column-_log_level,
+.column-_log_level
+{
+	width: 10%;
+}
+
 .column-_user
 {
 	width: 10%;

@@ -51,6 +51,12 @@ class Logger
 		}
 
 		$user = $this->get_user();
+		if ( empty( $user->ID ) ) {
+			$user_id = 0;
+		} else {
+			$user_id = $user->ID;
+		}
+
 		$last_error = $this->error_get_last();
 		$current_hook = $this->get_current_hook();
 
@@ -85,7 +91,7 @@ class Logger
 			'post_title' => $log,
 			'post_content' => $message,
 			'post_status' => 'publish',
-			'post_author' => intval( $user->ID )
+			'post_author' => intval( $user_id )
 		) );
 
 		// Followings will be used for `orderby` for query.

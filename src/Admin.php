@@ -146,21 +146,23 @@ class Admin
 	public function manage_custom_column( $column_name, $post_id )
 	{
 		if ( '_title' === $column_name ) {
+			$meta = get_post_meta( $post_id, '_talog', true );
 			$post = get_post( $post_id );
+			$post_title = $post->post_title;
+			if ( ! empty( $meta['is_cli'] )) {
+				$post_title = '[WP-CLI] ' . $post_title;
+			}
 			printf(
-				'<a class="row-title" href="%2$s"><strong>%1$s</strong></a>',
-				esc_html( $post->post_title ),
+				'<a class="row-title" href="%2$s"><strong>%1$s</strong></a> ',
+				$post_title,
 				get_admin_url() . '/options.php?page=talog&log_id=' . intval( $post_id )
 			);
 		} elseif ( '_user' === $column_name ) {
-			$meta = get_post_meta( $post_id, '_talog', true );
 			$post = get_post( $post_id );
-			if ( ! $post->post_author && ! empty( $meta['is_cli'] ) ) {
-				echo 'WP_CLI';
-			} elseif( $post->post_author ) {
+			if( $post->post_author ) {
 				echo esc_html( get_userdata( $post->post_author )->user_login );
 			} else {
-				echo 'anonymous';
+				echo '';
 			}
 		} elseif ( '_log_level' === $column_name ) {
 			$meta = get_post_meta( $post_id, '_talog', true );

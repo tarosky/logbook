@@ -34,7 +34,9 @@ class Submenu_Page
 
 	public function meta_contents()
 	{
-		if ( empty( $this->post->post_author ) ) {
+		if ( ! empty( $this->meta['is_cli'] ) ) {
+			$author = 'WP-CLI';
+		} elseif ( empty( $this->post->post_author ) ) {
 			$author = 'anonymous';
 		} else {
 			$author = get_userdata( $this->post->post_author )->user_login;
