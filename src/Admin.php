@@ -29,10 +29,28 @@ class Admin
 	public function restrict_manage_posts()
 	{
 		echo '<select name="_log_level">';
-		echo '<option value="">Log levels</option>';
+		echo '<option value="">Log level&nbsp;</option>';
 		$levels = $this->get_meta_values( '_talog_log_level', 'talog' );
 		foreach ( $levels as $level ) {
-			if ( $_GET['_log_level'] ) {
+			if ( $level === $_GET['_log_level'] ) {
+				$selected = 'selected';
+			} else {
+				$selected = '';
+			}
+			printf(
+				'<option value="%1$s" %2$s>%3$s</option>',
+				esc_attr( $level ),
+				$selected,
+				esc_html( $level )
+			);
+		}
+		echo '</select>';
+
+		echo '<select name="_hook">';
+		echo '<option value="">Action</option>';
+		$levels = $this->get_meta_values( '_talog_hook', 'talog' );
+		foreach ( $levels as $level ) {
+			if ( $level === $_GET['_hook'] ) {
 				$selected = 'selected';
 			} else {
 				$selected = '';
@@ -73,24 +91,35 @@ class Admin
 
 	public function request( $vars )
 	{
-		if ( 'talog' === $_GET['post_type'] && array_key_exists( 'orderby', $vars ) ) {
-			if( 'Date' == $vars['orderby'] ) {
-				$vars['orderby'] = 'post_date_gmt';
-			} elseif ( 'User' == $vars['orderby'] ) {
-				$vars['orderby'] = 'post_author';
-			} elseif ( 'Level' == $vars['orderby'] ) {
-				$vars['orderby'] = 'meta_value';
-				$vars['meta_key'] = '_talog_log_level';
+		if ( ! empty( $_GET['post_type'] ) ) {
+			if ( 'talog' === $_GET['post_type'] && array_key_exists( 'orderby', $vars ) ) {
+				if ( 'Date' == $vars['orderby'] ) {
+					$vars['orderby'] = 'post_date_gmt';
+				} elseif ( 'User' == $vars['orderby'] ) {
+					$vars['orderby'] = 'post_author';
+				} elseif ( 'Level' == $vars['orderby'] ) {
+					$vars['orderby']  = 'meta_value';
+					$vars['meta_key'] = '_talog_log_level';
+				}
 			}
-		}
 
-		if ( 'talog' === $_GET['post_type'] && ! empty( $_GET['_log_level'] ) ) {
-			$vars['meta_query'] = array(
-				array(
-					'key' => '_talog_log_level',
-					'value' => $_GET['_log_level'],
-				),
-			);
+			if ( 'talog' === $_GET['post_type'] && ! empty( $_GET['_log_level'] ) ) {
+				$vars['meta_query'] = array(
+					array(
+						'key'   => '_talog_log_level',
+						'value' => $_GET['_log_level'],
+					),
+				);
+			}
+
+			if ( 'talog' === $_GET['post_type'] && ! empty( $_GET['_hook'] ) ) {
+				$vars['meta_query'] = array(
+					array(
+						'key'   => '_talog_hook',
+						'value' => $_GET['_hook'],
+					),
+				);
+			}
 		}
 
 		return $vars;

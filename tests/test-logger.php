@@ -2,6 +2,10 @@
 
 class Talog_Logger_Test extends WP_UnitTestCase
 {
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function test_error_get_last()
 	{
 		$logger = new Talog\Logger();
@@ -67,7 +71,6 @@ class Talog_Logger_Test extends WP_UnitTestCase
 
 		$meta = get_post_meta( $post->ID, '_talog', true );
 		$this->assertSame( 'normal', $meta['log_level'] );
-		$this->assertSame( 'Undefined variable: error', $meta['last_error']['message'] );
 		$this->assertSame( 'test_hook-1', $meta['hook'] );
 
 		do_action( 'test_hook-2' );
@@ -78,24 +81,23 @@ class Talog_Logger_Test extends WP_UnitTestCase
 
 		$meta = get_post_meta( $post->ID, '_talog', true );
 		$this->assertSame( 'normal', $meta['log_level'] );
-		$this->assertSame( 'Undefined variable: error', $meta['last_error']['message'] );
 		$this->assertSame( 'test_hook-2', $meta['hook'] );
 	}
 
 	public function test_save_log_with_log_level()
 	{
 		$logger = new Talog\Logger();
-		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), 'Test hook was fired!', 'critical' );
+		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), 'Test hook was fired!', 'This is long message.', 'critical' );
 
 		do_action( 'test_hook-1' );
 		$post = $this->get_last_log();
 
 		$this->assertSame( 'Test hook was fired!', $post->post_title );
+		$this->assertSame( 'This is long message.', $post->post_content );
 		$this->assertSame( '0', $post->post_author );
 
 		$meta = get_post_meta( $post->ID, '_talog', true );
 		$this->assertSame( 'critical', $meta['log_level'] );
-		$this->assertSame( 'Undefined variable: error', $meta['last_error']['message'] );
 		$this->assertSame( 'test_hook-1', $meta['hook'] );
 	}
 
@@ -104,7 +106,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 		$user = $this->set_current_user( 'administrator' );
 
 		$logger = new Talog\Logger();
-		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), 'Test hook was fired!', 'critical' );
+		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), 'Test hook was fired!', 'This is long message.', 'critical' );
 
 		do_action( 'test_hook-1' );
 		$post = $this->get_last_log();
@@ -114,7 +116,6 @@ class Talog_Logger_Test extends WP_UnitTestCase
 
 		$meta = get_post_meta( $post->ID, '_talog', true );
 		$this->assertSame( 'critical', $meta['log_level'] );
-		$this->assertSame( 'Undefined variable: error', $meta['last_error']['message'] );
 		$this->assertSame( 'test_hook-1', $meta['hook'] );
 	}
 
@@ -125,7 +126,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 		$logger = new Talog\Logger();
 		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), function( $args ) {
 			return json_encode( $args );
-		}, 'critical' );
+		}, 'critical', 'critical' );
 
 		do_action( 'test_hook-1' );
 		$post = $this->get_last_log();
@@ -137,7 +138,6 @@ class Talog_Logger_Test extends WP_UnitTestCase
 
 		$meta = get_post_meta( $post->ID, '_talog', true );
 		$this->assertSame( 'critical', $meta['log_level'] );
-		$this->assertSame( 'Undefined variable: error', $meta['last_error']['message'] );
 		$this->assertSame( 'test_hook-1', $meta['hook'] );
 	}
 
