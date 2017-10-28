@@ -11,3 +11,13 @@
  *
  * @package         Talog
  */
+
+require_once dirname( __FILE__ ) . '/vendor/autoload.php';
+
+$post_type = new Talog\Post_Type();
+$post_type->register();
+
+if ( is_admin() ) {
+	$admin = new Talog\Admin();
+	$admin->register();
+}

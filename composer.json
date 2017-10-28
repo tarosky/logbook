@@ -1,0 +1,17 @@
+{
+    "name": "miyauchi/talog",
+    "authors": [
+        {
+            "name": "miya0001",
+            "email": "miya@wpist.me"
+        }
+    ],
+    "autoload": {
+      "psr-4": {
+          "Talog\\": "src/"
+      }
+  },
+    "require": {
+        "phpunit/phpunit": "5.7"
+    }
+}
