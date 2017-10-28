@@ -39,7 +39,7 @@ class Submenu_Page
 		} elseif ( empty( $this->post->post_author ) ) {
 			$author = 'anonymous';
 		} else {
-			$author = get_userdata( $this->post->post_author )->user_login;
+			$author = get_userdata( $this->post->post_author )->display_name;
 		}
 
 		return sprintf(

@@ -160,7 +160,7 @@ class Admin
 		} elseif ( '_user' === $column_name ) {
 			$post = get_post( $post_id );
 			if( $post->post_author ) {
-				echo esc_html( get_userdata( $post->post_author )->user_login );
+				echo esc_html( get_userdata( $post->post_author )->display_name );
 			} else {
 				echo '';
 			}
