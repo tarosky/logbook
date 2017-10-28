@@ -5,11 +5,10 @@ namespace Talog;
 class Logger
 {
 	const post_type = 'talog';
-	private $hooks;
 
 	public function __construct()
 	{
-
+		// Nothing to do for now.
 	}
 
 	/**
