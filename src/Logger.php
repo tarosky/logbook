@@ -42,7 +42,7 @@ class Logger
 	 *
 	 * @return int|\WP_Error
 	 */
-	public function save( $log, $message, $log_level = 'normal', $additional_args = array() )
+	public function save( $log, $message = '', $log_level = 'normal', $additional_args = array() )
 	{
 		if ( defined('WP_CLI') && WP_CLI ) {
 			$is_cli = true;
