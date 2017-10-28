@@ -59,7 +59,23 @@ class Default_Logger
 	public function updated_option_log( $args )
 	{
 		$key = $args['additional_args'][0];
-		return 'Option "' . $key . '" had been updated.';
+		$old = $args['additional_args'][1];
+		$new = $args['additional_args'][2];
+
+		if ( is_array( $old ) || is_array( $new )
+		            || is_object( $old ) || is_object( $new ) ) {
+			return sprintf(
+				'Option "%s" had been updated.',
+				$key
+			);
+		} else {
+			return sprintf(
+				'Option "%s" had been updated from "%s" to "%s".',
+				$key,
+				$old,
+				$new
+			);
+		}
 	}
 
 	public function updated_option_message( $args )
@@ -67,11 +83,14 @@ class Default_Logger
 		$old = $args['additional_args'][1];
 		$new = $args['additional_args'][2];
 
-		if ( is_array( $old ) || is_array( $new ) ) {
+		if ( is_array( $old ) || is_array( $new )
+				     || is_object( $old ) || is_object( $new ) ) {
 			$old = json_encode( $old, JSON_PRETTY_PRINT );
 			$new = json_encode( $new, JSON_PRETTY_PRINT );
+
+			return wp_text_diff( $old, $new );
 		}
 
-		return wp_text_diff( $old, $new );
+		return "";
 	}
 }

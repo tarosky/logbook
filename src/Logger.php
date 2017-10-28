@@ -44,14 +44,15 @@ class Logger
 	 */
 	public function save( $log, $message, $log_level = 'normal', $additional_args = array() )
 	{
-		$user = $this->get_user();
-		$last_error = $this->error_get_last();
-		$current_hook = $this->get_current_hook();
 		if ( defined('WP_CLI') && WP_CLI ) {
 			$is_cli = true;
 		} else {
 			$is_cli = false;
 		}
+
+		$user = $this->get_user();
+		$last_error = $this->error_get_last();
+		$current_hook = $this->get_current_hook();
 
 		if ( is_callable( $log ) ) {
 			$log = call_user_func( $log, array(
@@ -62,6 +63,10 @@ class Logger
 				'is_cli' => $is_cli,
 				'additional_args' => $additional_args,
 			) );
+		}
+
+		if ( empty( $log ) ) {
+			return 0;
 		}
 
 		if ( is_callable( $message ) ) {
