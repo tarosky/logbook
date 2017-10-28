@@ -31,7 +31,7 @@ class Logger
 	/**
 	 * Callback function to save log.
 	 *
-	 * @param string $log       The log message.
+	 * @param string|callable $log The log message or callback function that returns the log.
 	 * @param string $log_level The log level.
 	 *
 	 * @return int|\WP_Error
@@ -39,6 +39,16 @@ class Logger
 	public function save( $log, $log_level = 'normal' )
 	{
 		$user = $this->get_user();
+		$last_error = $this->error_get_last();
+		$current_hook = $this->get_current_hook();
+
+		if ( is_callable( $log ) ) {
+			$log = call_user_func( $log, array( array(
+				'log_level' => $log_level,
+				'last_error' => $last_error,
+				'current_hook' => $current_hook,
+			) ) );
+		}
 
 		$post_id = wp_insert_post( array(
 			'post_type' => self::post_type,
@@ -48,8 +58,8 @@ class Logger
 		) );
 
 		update_post_meta( $post_id, "_log_level", $log_level );
-		update_post_meta( $post_id, "_last_error", $this->error_get_last() );
-		update_post_meta( $post_id, "_hook", $this->get_current_hook() );
+		update_post_meta( $post_id, "_last_error", $last_error );
+		update_post_meta( $post_id, "_hook", $current_hook );
 
 		return $post_id;
 	}

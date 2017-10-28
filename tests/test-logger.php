@@ -118,6 +118,29 @@ class Talog_Logger_Test extends WP_UnitTestCase
 		$this->assertSame( 'test_hook-1', get_post_meta( $post->ID, '_hook', true ) );
 	}
 
+	public function test_save_log_with_callback_function()
+	{
+		$user = $this->set_current_user( 'administrator' );
+
+		$logger = new Talog\Logger();
+		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), function( $args ) {
+			return json_encode( $args[0] );
+		}, 'critical' );
+
+		do_action( 'test_hook-1' );
+		$post = $this->get_last_log();
+
+		$this->assertArrayHasKey( 'log_level', json_decode( $post->post_title, true ) );
+		$this->assertArrayHasKey( 'last_error', json_decode( $post->post_title, true ) );
+		$this->assertArrayHasKey( 'current_hook', json_decode( $post->post_title, true ) );
+		$this->assertSame( $user->ID, intval( $post->post_author ) );
+		$this->assertSame( 'critical', get_post_meta( $post->ID, '_log_level', true ) );
+		// The last_error is introduced by test_error_get_last().
+		$last_error = get_post_meta( $post->ID, '_last_error', true );
+		$this->assertSame( 'Undefined variable: error', $last_error['message'] );
+		$this->assertSame( 'test_hook-1', get_post_meta( $post->ID, '_hook', true ) );
+	}
+
 	/**
 	 * Get the last post from the talog post-type.
 	 *
