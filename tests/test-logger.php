@@ -118,6 +118,11 @@ class Talog_Logger_Test extends WP_UnitTestCase
 		$this->assertSame( 'test_hook-1', get_post_meta( $post->ID, '_hook', true ) );
 	}
 
+	/**
+	 * Get the last post from the talog post-type.
+	 *
+	 * @return mixed An WP_Post object.
+	 */
 	private function get_last_log()
 	{
 		$posts = get_posts( array(
