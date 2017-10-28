@@ -14,12 +14,12 @@ class Talog_Default_Logger_Test extends WP_UnitTestCase
 		$this->assertRegExp( "/#{$post->ID}/", $last_log->post_title );
 		$this->assertRegExp( "/\"{$post->post_title}\"/", $last_log->post_title );
 		$meta = get_post_meta( $last_log->ID, '_talog', true );
-		$this->assertSame( 'normal', $meta['log_level'] );
+		$this->assertSame( 'info', $meta['log_level'] );
 		$this->assertSame( null, $meta['last_error'] );
 		$this->assertSame( 'publish_post', $meta['hook'] );
 		$this->assertSame( false, $meta['is_cli'] );
 		$this->assertSame( 'publish_post', get_post_meta( $last_log->ID, '_talog_hook', true ) );
-		$this->assertSame( 'normal', get_post_meta( $last_log->ID, '_talog_log_level', true ) );
+		$this->assertSame( 'info', get_post_meta( $last_log->ID, '_talog_log_level', true ) );
 	}
 
 	/**
@@ -40,7 +40,7 @@ class Talog_Default_Logger_Test extends WP_UnitTestCase
 		$this->assertRegExp( "/#{$post->ID}/", $last_log->post_title );
 		$this->assertRegExp( "/\"{$post->post_title}\"/", $last_log->post_title );
 		$meta = get_post_meta( $last_log->ID, '_talog', true );
-		$this->assertSame( 'normal', $meta['log_level'] );
+		$this->assertSame( 'info', $meta['log_level'] );
 		$this->assertSame( null, $meta['last_error'] );
 		$this->assertSame( 'publish_post', $meta['hook'] );
 		$this->assertSame( true, $meta['is_cli'] );

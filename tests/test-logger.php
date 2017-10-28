@@ -70,7 +70,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 		$this->assertSame( '0', $post->post_author );
 
 		$meta = get_post_meta( $post->ID, '_talog', true );
-		$this->assertSame( 'normal', $meta['log_level'] );
+		$this->assertSame( 'info', $meta['log_level'] );
 		$this->assertSame( 'test_hook-1', $meta['hook'] );
 
 		do_action( 'test_hook-2' );
@@ -80,7 +80,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 		$this->assertSame( '0', $post->post_author );
 
 		$meta = get_post_meta( $post->ID, '_talog', true );
-		$this->assertSame( 'normal', $meta['log_level'] );
+		$this->assertSame( 'info', $meta['log_level'] );
 		$this->assertSame( 'test_hook-2', $meta['hook'] );
 	}
 
