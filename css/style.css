@@ -1,4 +1,15 @@
-.column-_log_level
+.column-_log_level,
+.column-_user
 {
 	width: 10%;
+}
+
+.column-_date
+{
+	width: 15%;
+}
+
+.post-type-talog .alignleft.actions.bulkactions
+{
+	display: none;
 }

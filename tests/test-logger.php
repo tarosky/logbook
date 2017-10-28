@@ -64,22 +64,22 @@ class Talog_Logger_Test extends WP_UnitTestCase
 
 		$this->assertSame( 'Test hook was fired!', $post->post_title );
 		$this->assertSame( '0', $post->post_author );
-		$this->assertSame( 'normal', get_post_meta( $post->ID, '_log_level', true ) );
-		// The last_error is introduced by test_error_get_last().
-		$last_error = get_post_meta( $post->ID, '_last_error', true );
-		$this->assertSame( 'Undefined variable: error', $last_error['message'] );
-		$this->assertSame( 'test_hook-1', get_post_meta( $post->ID, '_hook', true ) );
+
+		$meta = get_post_meta( $post->ID, '_talog', true );
+		$this->assertSame( 'normal', $meta['log_level'] );
+		$this->assertSame( 'Undefined variable: error', $meta['last_error']['message'] );
+		$this->assertSame( 'test_hook-1', $meta['hook'] );
 
 		do_action( 'test_hook-2' );
 		$post = $this->get_last_log();
 
 		$this->assertSame( 'Test hook was fired!', $post->post_title );
 		$this->assertSame( '0', $post->post_author );
-		$this->assertSame( 'normal', get_post_meta( $post->ID, '_log_level', true ) );
-		// The last_error is introduced by test_error_get_last().
-		$last_error = get_post_meta( $post->ID, '_last_error', true );
-		$this->assertSame( 'Undefined variable: error', $last_error['message'] );
-		$this->assertSame( 'test_hook-2', get_post_meta( $post->ID, '_hook', true ) );
+
+		$meta = get_post_meta( $post->ID, '_talog', true );
+		$this->assertSame( 'normal', $meta['log_level'] );
+		$this->assertSame( 'Undefined variable: error', $meta['last_error']['message'] );
+		$this->assertSame( 'test_hook-2', $meta['hook'] );
 	}
 
 	public function test_save_log_with_log_level()
@@ -92,11 +92,11 @@ class Talog_Logger_Test extends WP_UnitTestCase
 
 		$this->assertSame( 'Test hook was fired!', $post->post_title );
 		$this->assertSame( '0', $post->post_author );
-		$this->assertSame( 'critical', get_post_meta( $post->ID, '_log_level', true ) );
-		// The last_error is introduced by test_error_get_last().
-		$last_error = get_post_meta( $post->ID, '_last_error', true );
-		$this->assertSame( 'Undefined variable: error', $last_error['message'] );
-		$this->assertSame( 'test_hook-1', get_post_meta( $post->ID, '_hook', true ) );
+
+		$meta = get_post_meta( $post->ID, '_talog', true );
+		$this->assertSame( 'critical', $meta['log_level'] );
+		$this->assertSame( 'Undefined variable: error', $meta['last_error']['message'] );
+		$this->assertSame( 'test_hook-1', $meta['hook'] );
 	}
 
 	public function test_save_log_with_the_current_user()
@@ -111,11 +111,11 @@ class Talog_Logger_Test extends WP_UnitTestCase
 
 		$this->assertSame( 'Test hook was fired!', $post->post_title );
 		$this->assertSame( $user->ID, intval( $post->post_author ) );
-		$this->assertSame( 'critical', get_post_meta( $post->ID, '_log_level', true ) );
-		// The last_error is introduced by test_error_get_last().
-		$last_error = get_post_meta( $post->ID, '_last_error', true );
-		$this->assertSame( 'Undefined variable: error', $last_error['message'] );
-		$this->assertSame( 'test_hook-1', get_post_meta( $post->ID, '_hook', true ) );
+
+		$meta = get_post_meta( $post->ID, '_talog', true );
+		$this->assertSame( 'critical', $meta['log_level'] );
+		$this->assertSame( 'Undefined variable: error', $meta['last_error']['message'] );
+		$this->assertSame( 'test_hook-1', $meta['hook'] );
 	}
 
 	public function test_save_log_with_callback_function()
@@ -124,7 +124,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 
 		$logger = new Talog\Logger();
 		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), function( $args ) {
-			return json_encode( $args[0] );
+			return json_encode( $args );
 		}, 'critical' );
 
 		do_action( 'test_hook-1' );
@@ -134,11 +134,11 @@ class Talog_Logger_Test extends WP_UnitTestCase
 		$this->assertArrayHasKey( 'last_error', json_decode( $post->post_title, true ) );
 		$this->assertArrayHasKey( 'current_hook', json_decode( $post->post_title, true ) );
 		$this->assertSame( $user->ID, intval( $post->post_author ) );
-		$this->assertSame( 'critical', get_post_meta( $post->ID, '_log_level', true ) );
-		// The last_error is introduced by test_error_get_last().
-		$last_error = get_post_meta( $post->ID, '_last_error', true );
-		$this->assertSame( 'Undefined variable: error', $last_error['message'] );
-		$this->assertSame( 'test_hook-1', get_post_meta( $post->ID, '_hook', true ) );
+
+		$meta = get_post_meta( $post->ID, '_talog', true );
+		$this->assertSame( 'critical', $meta['log_level'] );
+		$this->assertSame( 'Undefined variable: error', $meta['last_error']['message'] );
+		$this->assertSame( 'test_hook-1', $meta['hook'] );
 	}
 
 	/**
@@ -151,7 +151,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 		$posts = get_posts( array(
 			'post_type' => 'talog',
 			'order' => 'DESC',
-			'orderby' => 'date',
+			'orderby' => 'post_date_gmt',
 			'posts_per_page' => 1,
 		) );
 

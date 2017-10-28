@@ -1,10 +1,10 @@
 <?php
 /**
  * Plugin Name:     Talog
- * Plugin URI:      PLUGIN SITE HERE
- * Description:     PLUGIN DESCRIPTION HERE
- * Author:          YOUR NAME HERE
- * Author URI:      YOUR SITE HERE
+ * Plugin URI:      https://github.com/tarosky/talog
+ * Description:     A logging plugin.
+ * Author:          Takayuki Miyauchi
+ * Author URI:
  * Text Domain:     talog
  * Domain Path:     /languages
  * Version:         0.1.0
@@ -20,4 +20,12 @@ $post_type->register();
 if ( is_admin() ) {
 	$admin = new Talog\Admin();
 	$admin->register();
+}
+
+$logger = new Talog\Logger();
+
+$default_loggers = new Talog\Default_Logger();
+$loggers = $default_loggers->get_loggers();
+foreach ( $loggers as $log ) {
+	call_user_func_array( array( $logger, 'watch'), $log );
 }
