@@ -26,23 +26,28 @@ class Default_Logger
 				10,
 				1,
 			),
-			array(
-				array( 'updated_option' ),
-				array( $this, 'updated_option_log' ),
-				array( $this, 'updated_option_message' ),
-				'normal',
-				10,
-				3,
-			),
-			array(
-				array( 'shutdown' ),
-				array( $this, 'shutdown' ),
-				'',
-				'high',
-				10,
-				1,
-			),
 		);
+
+		if ( defined( 'WP_DEBUG') && WP_DEBUG ) {
+			$loggers = array_merge( $loggers, array(
+				array(
+					array( 'updated_option' ),
+					array( $this, 'updated_option_log' ),
+					array( $this, 'updated_option_message' ),
+					'normal',
+					10,
+					3,
+				),
+				array(
+					array( 'shutdown' ),
+					array( $this, 'shutdown' ),
+					'',
+					'high',
+					10,
+					1,
+				),
+			) );
+		}
 
 		return apply_filters( 'talog_default_loggers', $loggers );
 	}
