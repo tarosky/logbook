@@ -24,6 +24,22 @@ class Admin
 		add_filter( 'request', array( $this, 'request' ) );
 		add_filter( 'bulk_actions-edit-talog', '__return_empty_array' );
 		add_action( 'restrict_manage_posts', array( $this, 'restrict_manage_posts') );
+		add_action( 'admin_menu', array( $this, 'admin_menu') );
+	}
+
+	public function admin_menu()
+	{
+		add_submenu_page(
+			null,
+			'Hello',
+			null,
+			'manage_options',
+			'talog',
+			function() {
+				$page = new Submenu_Page();
+				$page->display();
+			}
+		);
 	}
 
 	public function restrict_manage_posts()
@@ -32,7 +48,7 @@ class Admin
 		echo '<option value="">Log level&nbsp;</option>';
 		$levels = $this->get_meta_values( '_talog_log_level', 'talog' );
 		foreach ( $levels as $level ) {
-			if ( $level === $_GET['_log_level'] ) {
+			if ( ! empty( $_GET['_log_level'] ) && $level === $_GET['_log_level'] ) {
 				$selected = 'selected';
 			} else {
 				$selected = '';
@@ -41,7 +57,7 @@ class Admin
 				'<option value="%1$s" %2$s>%3$s</option>',
 				esc_attr( $level ),
 				$selected,
-				esc_html( $level )
+				esc_html( ucfirst( $level ) )
 			);
 		}
 		echo '</select>';
@@ -50,7 +66,7 @@ class Admin
 		echo '<option value="">Action</option>';
 		$levels = $this->get_meta_values( '_talog_hook', 'talog' );
 		foreach ( $levels as $level ) {
-			if ( $level === $_GET['_hook'] ) {
+			if ( ! empty( $_GET['_hook'] ) && $level === $_GET['_hook'] ) {
 				$selected = 'selected';
 			} else {
 				$selected = '';
@@ -69,7 +85,7 @@ class Admin
 	{
 		$columns = array();
 
-		$columns['title'] = 'Log';
+		$columns['_title'] = 'Log';
 		$columns['_log_level'] = 'Level';
 		$columns['_user'] = 'User';
 		$columns['_date'] = 'Date';
@@ -81,7 +97,7 @@ class Admin
 	{
 		$columns = array();
 
-		$columns['title'] = 'Log';
+		$columns['_title'] = 'Log';
 		$columns['_log_level'] = 'Level';
 		$columns['_user'] = 'User';
 		$columns['_date'] = 'Date';
@@ -93,7 +109,9 @@ class Admin
 	{
 		if ( ! empty( $_GET['post_type'] ) ) {
 			if ( 'talog' === $_GET['post_type'] && array_key_exists( 'orderby', $vars ) ) {
-				if ( 'Date' == $vars['orderby'] ) {
+				if ( 'Log' == $vars['orderby'] ) {
+					$vars['orderby'] = 'post_title';
+				} elseif ( 'Date' == $vars['orderby'] ) {
 					$vars['orderby'] = 'post_date_gmt';
 				} elseif ( 'User' == $vars['orderby'] ) {
 					$vars['orderby'] = 'post_author';
@@ -127,7 +145,14 @@ class Admin
 
 	public function manage_custom_column( $column_name, $post_id )
 	{
-		if ( '_user' === $column_name ) {
+		if ( '_title' === $column_name ) {
+			$post = get_post( $post_id );
+			printf(
+				'<a class="row-title" href="%2$s"><strong>%1$s</strong></a>',
+				esc_html( $post->post_title ),
+				get_admin_url() . '/options.php?page=talog&log_id=' . intval( $post_id )
+			);
+		} elseif ( '_user' === $column_name ) {
 			$meta = get_post_meta( $post_id, '_talog', true );
 			$post = get_post( $post_id );
 			if ( ! $post->post_author && ! empty( $meta['is_cli'] ) ) {
@@ -140,7 +165,7 @@ class Admin
 		} elseif ( '_log_level' === $column_name ) {
 			$meta = get_post_meta( $post_id, '_talog', true );
 			if ( ! empty( $meta['log_level'] ) ) {
-				echo esc_html( $meta['log_level'] );
+				echo esc_html( ucfirst( $meta['log_level'] ) );
 			}
 		} elseif ( '_date' === $column_name ) {
 			$post = get_post( $post_id );

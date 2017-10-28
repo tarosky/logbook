@@ -34,6 +34,14 @@ class Default_Logger
 				10,
 				3,
 			),
+			array(
+				array( 'shutdown' ),
+				array( $this, 'shutdown' ),
+				'',
+				'high',
+				10,
+				1,
+			),
 		);
 
 		return apply_filters( 'talog_default_loggers', $loggers );
@@ -92,5 +100,14 @@ class Default_Logger
 		}
 
 		return "";
+	}
+
+	public function shutdown( $args )
+	{
+		if ( $args['last_error'] ) {
+			return $last_error = $args['last_error']['message'];
+		} else {
+			return null;
+		}
 	}
 }
