@@ -44,8 +44,8 @@ class Default_Logger
 			),
 			array(
 				array( 'shutdown' ),
-				array( $this, 'shutdown' ),
-				'',
+				array( $this, 'shutdown_log' ),
+				array( $this, 'shutdown_message' ),
 				Log_Level::get_level( 'debug' ),
 				10,
 				1,
@@ -145,12 +145,24 @@ class Default_Logger
 		return wp_text_diff( $old, $new );
 	}
 
-	public function shutdown( $args )
+	public function shutdown_log( $args )
 	{
 		if ( $args['last_error'] ) {
-			return $last_error = $args['last_error']['message'];
+			return $args['last_error']['message'];
 		} else {
 			return null;
 		}
+	}
+
+	public function shutdown_message( $args )
+	{
+		$message = '';
+
+		$message .= sprintf(
+			'<h2 class="title">$_SERVER</h2><div><pre>%s</pre></div>',
+			esc_html( json_encode( $_SERVER, JSON_PRETTY_PRINT ) )
+		);
+
+		return $message;
 	}
 }

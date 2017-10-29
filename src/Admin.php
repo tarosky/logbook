@@ -166,8 +166,10 @@ class Admin
 			}
 		} elseif ( '_log_level' === $column_name ) {
 			$meta = get_post_meta( $post_id, '_talog', true );
-			if ( ! empty( Log_Level::get_level( $meta['log_level'] ) ) ) {
+			if ( ! empty( $meta['log_level'] ) ) {
 				echo esc_html( ucfirst( Log_Level::get_level( $meta['log_level'] ) ) );
+			} else {
+				echo esc_html( ucfirst( Log_Level::get_level() ) );
 			}
 		} elseif ( '_date' === $column_name ) {
 			$post = get_post( $post_id );
