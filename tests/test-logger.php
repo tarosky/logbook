@@ -1,6 +1,8 @@
 <?php
 
-class Talog_Logger_Test extends WP_UnitTestCase
+namespace Talog;
+
+class Talog_Logger_Test extends \WP_UnitTestCase
 {
 	/**
 	 * @runInSeparateProcess
@@ -8,7 +10,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 	 */
 	public function test_error_get_last()
 	{
-		$logger = new Talog\Logger();
+		$logger = new Logger();
 		$method = new \ReflectionMethod( get_class( $logger ), 'error_get_last' );
 		$method->setAccessible( true );
 
@@ -22,7 +24,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 
 	public function test_get_user()
 	{
-		$logger = new Talog\Logger();
+		$logger = new Logger();
 		$method = new \ReflectionMethod( get_class( $logger ), 'get_user' );
 		$method->setAccessible( true );
 
@@ -41,7 +43,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 
 	public function test_get_current_hook()
 	{
-		$logger = new Talog\Logger();
+		$logger = new Logger();
 		$method = new \ReflectionMethod( get_class( $logger ), 'get_current_hook' );
 		$method->setAccessible( true );
 
@@ -60,7 +62,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 
 	public function test_save_log()
 	{
-		$logger = new Talog\Logger();
+		$logger = new Logger();
 		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), 'Test hook was fired!' );
 
 		do_action( 'test_hook-1' );
@@ -70,7 +72,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 		$this->assertSame( '0', $post->post_author );
 
 		$meta = get_post_meta( $post->ID, '_talog', true );
-		$this->assertSame( 'info', $meta['log_level'] );
+		$this->assertSame( Log_Level::DEFAULT_LEVEL, $meta['log_level'] );
 		$this->assertSame( 'test_hook-1', $meta['hook'] );
 
 		do_action( 'test_hook-2' );
@@ -80,14 +82,14 @@ class Talog_Logger_Test extends WP_UnitTestCase
 		$this->assertSame( '0', $post->post_author );
 
 		$meta = get_post_meta( $post->ID, '_talog', true );
-		$this->assertSame( 'info', $meta['log_level'] );
+		$this->assertSame( Log_Level::DEFAULT_LEVEL, $meta['log_level'] );
 		$this->assertSame( 'test_hook-2', $meta['hook'] );
 	}
 
 	public function test_save_log_with_log_level()
 	{
-		$logger = new Talog\Logger();
-		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), 'Test hook was fired!', 'This is long message.', 'warn' );
+		$logger = new Logger();
+		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), 'Test hook was fired!', 'This is long message.', Log_Level::WARN );
 
 		do_action( 'test_hook-1' );
 		$post = $this->get_last_log();
@@ -97,7 +99,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 		$this->assertSame( '0', $post->post_author );
 
 		$meta = get_post_meta( $post->ID, '_talog', true );
-		$this->assertSame( 'warn', $meta['log_level'] );
+		$this->assertSame( Log_Level::WARN, $meta['log_level'] );
 		$this->assertSame( 'test_hook-1', $meta['hook'] );
 	}
 
@@ -105,8 +107,8 @@ class Talog_Logger_Test extends WP_UnitTestCase
 	{
 		$user = $this->set_current_user( 'administrator' );
 
-		$logger = new Talog\Logger();
-		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), 'Test hook was fired!', 'This is long message.', 'warn' );
+		$logger = new Logger();
+		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), 'Test hook was fired!', 'This is long message.', Log_Level::WARN );
 
 		do_action( 'test_hook-1' );
 		$post = $this->get_last_log();
@@ -115,7 +117,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 		$this->assertSame( $user->ID, intval( $post->post_author ) );
 
 		$meta = get_post_meta( $post->ID, '_talog', true );
-		$this->assertSame( 'warn', $meta['log_level'] );
+		$this->assertSame( Log_Level::WARN, $meta['log_level'] );
 		$this->assertSame( 'test_hook-1', $meta['hook'] );
 	}
 
@@ -123,10 +125,10 @@ class Talog_Logger_Test extends WP_UnitTestCase
 	{
 		$user = $this->set_current_user( 'administrator' );
 
-		$logger = new Talog\Logger();
+		$logger = new Logger();
 		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), function( $args ) {
 			return json_encode( $args );
-		}, 'warn', 'warn' );
+		}, Log_Level::WARN, Log_Level::WARN );
 
 		do_action( 'test_hook-1' );
 		$post = $this->get_last_log();
@@ -137,7 +139,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 		$this->assertSame( $user->ID, intval( $post->post_author ) );
 
 		$meta = get_post_meta( $post->ID, '_talog', true );
-		$this->assertSame( 'warn', $meta['log_level'] );
+		$this->assertSame( Log_Level::WARN, $meta['log_level'] );
 		$this->assertSame( 'test_hook-1', $meta['hook'] );
 	}
 

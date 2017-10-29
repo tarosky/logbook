@@ -1,6 +1,8 @@
 <?php
 
-class Talog_Default_Logger_Test extends WP_UnitTestCase
+namespace Talog;
+
+class Talog_Default_Logger_Test extends \WP_UnitTestCase
 {
 	public function test_log_insert_post()
 	{
@@ -18,12 +20,12 @@ class Talog_Default_Logger_Test extends WP_UnitTestCase
 		$this->assertTrue( strpos( $last_log->post_content, $url ) > 0 );
 
 		$meta = get_post_meta( $last_log->ID, '_talog', true );
-		$this->assertSame( 'info', $meta['log_level'] );
+		$this->assertSame( Log_Level::DEFAULT_LEVEL, $meta['log_level'] );
 		$this->assertSame( null, $meta['last_error'] );
 		$this->assertSame( 'publish_post', $meta['hook'] );
 		$this->assertSame( false, $meta['is_cli'] );
 		$this->assertSame( 'publish_post', get_post_meta( $last_log->ID, '_talog_hook', true ) );
-		$this->assertSame( 'info', get_post_meta( $last_log->ID, '_talog_log_level', true ) );
+		$this->assertSame( Log_Level::DEFAULT_LEVEL, get_post_meta( $last_log->ID, '_talog_log_level', true ) );
 	}
 
 	/**
@@ -48,7 +50,7 @@ class Talog_Default_Logger_Test extends WP_UnitTestCase
 		$this->assertTrue( strpos( $last_log->post_content, $url ) > 0 );
 
 		$meta = get_post_meta( $last_log->ID, '_talog', true );
-		$this->assertSame( 'info', $meta['log_level'] );
+		$this->assertSame( Log_Level::DEFAULT_LEVEL, $meta['log_level'] );
 		$this->assertSame( null, $meta['last_error'] );
 		$this->assertSame( 'publish_post', $meta['hook'] );
 		$this->assertSame( true, $meta['is_cli'] );

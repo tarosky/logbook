@@ -14,7 +14,7 @@ class Default_Logger
 				array( 'publish_post', 'publish_page' ), // Hooks.
 				array( $this, 'publish_post_log' ),      // Callback function for log.
 				array( $this, 'publish_post_message' ),  // Callback function for long message.
-				Log_Level::get_level(),                                  // Log level.
+				Log_Level::DEFAULT_LEVEL,                                  // Log level.
 				10,                                      // Priority.
 				2,                                       // Number of accepted args.
 			),
@@ -22,7 +22,7 @@ class Default_Logger
 				array( 'post_updated' ),
 				array( $this, 'post_updated_log' ),
 				array( $this, 'post_updated_message' ),
-				Log_Level::get_level(),
+				Log_Level::DEFAULT_LEVEL,
 				10,
 				3,
 			),
@@ -30,7 +30,7 @@ class Default_Logger
 				array( 'activated_plugin', 'deactivated_plugin' ),
 				array( $this, 'activated_plugin' ),
 				'',
-				Log_Level::get_level(),
+				Log_Level::DEFAULT_LEVEL,
 				10,
 				1,
 			),
@@ -38,7 +38,7 @@ class Default_Logger
 				array( 'updated_option' ),
 				array( $this, 'updated_option_log' ),
 				array( $this, 'updated_option_message' ),
-				Log_Level::get_level( 'trace' ),
+				Log_Level::TRACE,
 				10,
 				3,
 			),
@@ -46,7 +46,7 @@ class Default_Logger
 				array( 'shutdown' ),
 				array( $this, 'shutdown_log' ),
 				array( $this, 'shutdown_message' ),
-				Log_Level::get_level( 'debug' ),
+				Log_Level::TRACE,
 				10,
 				1,
 			),
