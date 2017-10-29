@@ -1,10 +1,11 @@
 {
     "autoload": {
       "psr-4": {
-          "Talog\\": "src/"
+        "Talog\\": "src/"
       }
-  },
+    },
     "require": {
-        "miya/gh-auto-updater": "^1.0"
+      "php": ">=5.6",
+      "miya/gh-auto-updater": "^1.0"
     }
 }
