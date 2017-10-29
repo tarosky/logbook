@@ -3,5 +3,8 @@
       "psr-4": {
           "Talog\\": "src/"
       }
-  }
+  },
+    "require": {
+        "miya/gh-auto-updater": "^1.0"
+    }
 }

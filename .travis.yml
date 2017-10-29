@@ -1,40 +1,41 @@
 sudo: false
-
 language: php
-
 notifications:
   email:
     on_success: never
     on_failure: change
-
-branches:
-  only:
-    - master
-
 cache:
   directories:
-    - vendor
-    - $HOME/.composer/cache
-
+  - vendor
+  - "$HOME/.composer/cache"
 matrix:
   include:
-    - php: 7.1
-      env: WP_VERSION=latest
-    - php: 7.1
-      env: WP_VERSION=trunk
-    - php: 7.0
-      env: WP_VERSION=latest
-    - php: 7.0
-      env: WP_VERSION=trunk
-    - php: 5.6
-      env: WP_VERSION=latest
-    - php: 5.6
-      env: WP_VERSION=trunk
-
+  - php: 7.1
+    env: WP_VERSION=latest
+  - php: 7.1
+    env: WP_VERSION=trunk
+  - php: 7.0
+    env: WP_VERSION=latest
+  - php: 7.0
+    env: WP_VERSION=trunk
+  - php: 5.6
+    env: WP_VERSION=latest
+  - php: 5.6
+    env: WP_VERSION=trunk
 before_script:
-  - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
-  - composer install
-
+- bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+- composer install
 script:
-  - phpunit
-  - WP_MULTISITE=1 phpunit
+- phpunit
+- WP_MULTISITE=1 phpunit
+after_success:
+- sed -i -e "s/nightly/${TRAVIS_TAG}/" $(basename $TRAVIS_REPO_SLUG).php
+- curl https://raw.githubusercontent.com/miya0001/auto-build/master/auto-build.sh | bash
+deploy:
+  provider: releases
+  api_key:
+    secure: CyfEVbjCZw6R/nWMdwyEqdDPPyqWpEi2E9cLRFj8ITxvg4vYLfi3znyNK4tfwy039V2bkbfchM+4BHuAZkux0D001rlRerMRykTLK133HjFB9JGACb0NpICm86OQIcHWh/tTSZ3SH8EWOEW8gMpKvURr5/JMkKGY8O+RWV/Bvvu5LD5M4o8WPFyaql07Qhw1sQxQBn7jp0bzh3bItIPirb1KL4XXQEQu59lpjWFdemziEqnXx1/BeANyIV4oZ1uRtfggVZVcSfA919UBPwOYgltU1hjoadWmFyAQeWtmgW4t2pkx2HFdidJX9Kjty58OTRoLjqyjQehOeU3F6bmdnuhFnsjQxUwePwYO+jX8NTUISJknFzXbTAN6FBZl7JlRl0u1y7L0g0lYvQlel9suqXhH95OyO/RyAjFXUDinhsjxnrFj8XsMSL1GeaQ5SLfjuBq/AipRrtWEC1UOIZqFzARHT3XkwQHoiorrAHwTxwVZSuz031L6eZDt2SSXrbZiH2wRxv1EkZb3avxzr9LnU2iWNrHxCjIgYqKOk+6d4gOfqRA6xeA+o/gXvhAy5ZBAOPDVu8+Nuc+bJX8Q0aby95F+Z462WgHbR6MpOwxhT4PXq4sHqlNqvUfSrmj2vFLju686RRW3HZokVenYnv70CZ6F3+bltkL38YL/ycteUZY=
+  file: $(basename $TRAVIS_REPO_SLUG).zip
+  on:
+    tags: true
+    repo: tarosky/talog
