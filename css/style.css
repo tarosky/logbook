@@ -60,3 +60,16 @@
 {
 	background-color: #f5f5f5;
 }
+
+.talog-log-details .post-diff h2
+{
+	margin-top: 3em;
+	padding-bottom: 1em;
+	margin-bottom: 1em;
+	border-bottom: 1px solid #dedede;
+}
+
+.talog-log-details .post-diff > div:first-child .diff-title
+{
+	margin-top: 0;
+}

@@ -16,7 +16,7 @@ class Logger
 	/**
 	 * Registers the logger to the specific hooks.
 	 *
-	 * @param array $hooks      An array of hooks to save log.
+	 * @param string|array $hooks      An array of hooks to save log.
 	 * @param string|callable $log       The log message.
 	 * @param string|callable $message   The long message of the log.
 	 * @param string $log_level The Log level.
@@ -25,6 +25,10 @@ class Logger
 	 */
 	public function watch( $hooks, $log, $message = '', $log_level = 'info', $priority = 10, $accepted_args = 1 )
 	{
+		if ( ! is_array( $hooks ) ) {
+			$hooks = array( $hooks );
+		}
+
 		foreach ( $hooks as $hook ) {
 			add_action( $hook, function() use ( $log, $message, $log_level ) {
 				$this->save( $log, $message, $log_level, func_get_args() );

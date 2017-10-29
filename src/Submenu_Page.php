@@ -13,6 +13,12 @@ class Submenu_Page
 
 	public function display()
 	{
+		if ( ! empty( $this->meta['log_level'] )) {
+			$log_level = $this->meta['log_level'];
+		} else {
+			$log_level = 'info';
+		}
+
 		echo '<div class="wrap talog-log-details">';
 		printf(
 			'<p><a href="%s">Back to the list page.</a></p>',
@@ -21,7 +27,7 @@ class Submenu_Page
 
 		printf(
 			'<h1 class="log-title">[%s] %s</h1>',
-			esc_html( $this->meta['log_level'] ),
+			esc_html( $log_level ),
 			esc_html( $this->post->post_title )
 		);
 

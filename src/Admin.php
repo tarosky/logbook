@@ -33,7 +33,7 @@ class Admin
 			null,
 			'Hello',
 			null,
-			'manage_options',
+			'edit_pages',
 			'talog',
 			function() {
 				$page = new Submenu_Page();
