@@ -14,9 +14,9 @@ class Submenu_Page
 	public function display()
 	{
 		if ( ! empty( $this->meta['log_level'] )) {
-			$log_level = $this->meta['log_level'];
+			$log_level = Log_Level::get_level( $this->meta['log_level'] );
 		} else {
-			$log_level = 'info';
+			$log_level = Log_Level::get_level();
 		}
 
 		echo '<div class="wrap talog-log-details">';
@@ -27,7 +27,7 @@ class Submenu_Page
 
 		printf(
 			'<h1 class="log-title">[%s] %s</h1>',
-			esc_html( $log_level ),
+			esc_html( Log_Level::get_level( $log_level ) ),
 			esc_html( $this->post->post_title )
 		);
 

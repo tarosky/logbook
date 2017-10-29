@@ -23,8 +23,10 @@ class Logger
 	 * @param int    $priority  An int value passed to `add_action()`.
 	 * @param int    $accepted_args An int value passed to `add_action()`.
 	 */
-	public function watch( $hooks, $log, $message = '', $log_level = 'info', $priority = 10, $accepted_args = 1 )
+	public function watch( $hooks, $log, $message = '', $log_level = '', $priority = 10, $accepted_args = 1 )
 	{
+		$log_level = Log_Level::get_level( $log_level );
+
 		if ( ! is_array( $hooks ) ) {
 			$hooks = array( $hooks );
 		}
@@ -50,8 +52,10 @@ class Logger
 	 *
 	 * @return int|\WP_Error
 	 */
-	public function save( $log, $message = '', $log_level = 'info', $additional_args = array() )
+	public function save( $log, $message = '', $log_level = '', $additional_args = array() )
 	{
+		$log_level = Log_Level::get_level( $log_level );
+
 		if ( defined('WP_CLI') && WP_CLI ) {
 			$is_cli = true;
 		} else {

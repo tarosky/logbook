@@ -87,7 +87,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 	public function test_save_log_with_log_level()
 	{
 		$logger = new Talog\Logger();
-		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), 'Test hook was fired!', 'This is long message.', 'critical' );
+		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), 'Test hook was fired!', 'This is long message.', 'warn' );
 
 		do_action( 'test_hook-1' );
 		$post = $this->get_last_log();
@@ -97,7 +97,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 		$this->assertSame( '0', $post->post_author );
 
 		$meta = get_post_meta( $post->ID, '_talog', true );
-		$this->assertSame( 'critical', $meta['log_level'] );
+		$this->assertSame( 'warn', $meta['log_level'] );
 		$this->assertSame( 'test_hook-1', $meta['hook'] );
 	}
 
@@ -106,7 +106,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 		$user = $this->set_current_user( 'administrator' );
 
 		$logger = new Talog\Logger();
-		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), 'Test hook was fired!', 'This is long message.', 'critical' );
+		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), 'Test hook was fired!', 'This is long message.', 'warn' );
 
 		do_action( 'test_hook-1' );
 		$post = $this->get_last_log();
@@ -115,7 +115,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 		$this->assertSame( $user->ID, intval( $post->post_author ) );
 
 		$meta = get_post_meta( $post->ID, '_talog', true );
-		$this->assertSame( 'critical', $meta['log_level'] );
+		$this->assertSame( 'warn', $meta['log_level'] );
 		$this->assertSame( 'test_hook-1', $meta['hook'] );
 	}
 
@@ -126,7 +126,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 		$logger = new Talog\Logger();
 		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), function( $args ) {
 			return json_encode( $args );
-		}, 'critical', 'critical' );
+		}, 'warn', 'warn' );
 
 		do_action( 'test_hook-1' );
 		$post = $this->get_last_log();
@@ -137,7 +137,7 @@ class Talog_Logger_Test extends WP_UnitTestCase
 		$this->assertSame( $user->ID, intval( $post->post_author ) );
 
 		$meta = get_post_meta( $post->ID, '_talog', true );
-		$this->assertSame( 'critical', $meta['log_level'] );
+		$this->assertSame( 'warn', $meta['log_level'] );
 		$this->assertSame( 'test_hook-1', $meta['hook'] );
 	}
 

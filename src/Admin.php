@@ -55,7 +55,7 @@ class Admin
 			}
 			printf(
 				'<option value="%1$s" %2$s>%3$s</option>',
-				esc_attr( $level ),
+				esc_attr( Log_Level::get_level( $level ) ),
 				$selected,
 				esc_html( ucfirst( $level ) )
 			);
@@ -73,7 +73,7 @@ class Admin
 			}
 			printf(
 				'<option value="%1$s" %2$s>%3$s</option>',
-				esc_attr( $level ),
+				esc_attr( Log_Level::get_level( $level ) ),
 				$selected,
 				esc_html( $level )
 			);
@@ -166,8 +166,8 @@ class Admin
 			}
 		} elseif ( '_log_level' === $column_name ) {
 			$meta = get_post_meta( $post_id, '_talog', true );
-			if ( ! empty( $meta['log_level'] ) ) {
-				echo esc_html( ucfirst( $meta['log_level'] ) );
+			if ( ! empty( Log_Level::get_level( $meta['log_level'] ) ) ) {
+				echo esc_html( ucfirst( Log_Level::get_level( $meta['log_level'] ) ) );
 			}
 		} elseif ( '_date' === $column_name ) {
 			$post = get_post( $post_id );
