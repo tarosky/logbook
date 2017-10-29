@@ -35,14 +35,6 @@ class Default_Logger
 				1,
 			),
 			array(
-				array( 'updated_option' ),
-				array( $this, 'updated_option_log' ),
-				array( $this, 'updated_option_message' ),
-				Log_Level::TRACE,
-				10,
-				3,
-			),
-			array(
 				array( 'shutdown' ),
 				array( $this, 'shutdown_log' ),
 				'',
@@ -181,27 +173,6 @@ class Default_Logger
 		} else {
 			return 'Plugin "' . dirname( $plugin ) . '" had been deactivated.';
 		}
-	}
-
-	public function updated_option_log( $args )
-	{
-		$key = $args['additional_args'][0];
-
-		return sprintf(
-			'Option "%s" had been updated.',
-			$key
-		);
-	}
-
-	public function updated_option_message( $args )
-	{
-		$old = $args['additional_args'][1];
-		$new = $args['additional_args'][2];
-
-		$old = json_encode( $old, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE );
-		$new = json_encode( $new, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE );
-
-		return wp_text_diff( $old, $new );
 	}
 
 	public function shutdown_log( $args )
