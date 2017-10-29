@@ -24,8 +24,10 @@ class Talog_Default_Logger_Test extends \WP_UnitTestCase
 		$this->assertSame( null, $meta['last_error'] );
 		$this->assertSame( 'publish_post', $meta['hook'] );
 		$this->assertSame( false, $meta['is_cli'] );
-		$this->assertSame( 'publish_post', get_post_meta( $last_log->ID, '_talog_hook', true ) );
-		$this->assertSame( Log_Level::DEFAULT_LEVEL, get_post_meta( $last_log->ID, '_talog_log_level', true ) );
+		$this->assertSame( 'publish_post',
+			get_post_meta( $last_log->ID, '_talog_hook', true ) );
+		$this->assertSame( Log_Level::DEFAULT_LEVEL,
+			get_post_meta( $last_log->ID, '_talog_log_level', true ) );
 	}
 
 	/**
@@ -73,6 +75,35 @@ class Talog_Default_Logger_Test extends \WP_UnitTestCase
 		$this->assertSame( 'trace', $meta['log_level'] );
 		$this->assertSame( null, $meta['last_error'] );
 		$this->assertSame( 'updated_option', $meta['hook'] );
+		$this->assertSame( false, $meta['is_cli'] );
+	}
+
+	public function test_post_updated()
+	{
+		$post = $this->factory()->post->create_and_get( array(
+			'post_title' => 'Hello World!',
+			'post_content' => 'Welcome to the WordPress.',
+		) );
+
+		$post_id = wp_update_post( array(
+			'ID' => $post->ID,
+			'post_title' => 'こんにちは！',
+			'post_content' => 'WordPressへようこそ',
+		) );
+
+		$last_log = $this->get_last_log();
+
+		$this->assertSame( "0", $last_log->post_author );
+		$this->assertRegExp( '/"こんにちは！"/', $last_log->post_title );
+		$this->assertRegExp( '/こんにちは！/', $last_log->post_content );
+		$this->assertRegExp( '/WordPressへようこそ/', $last_log->post_content );
+		$this->assertRegExp( '/Hello World!/', $last_log->post_content );
+		$this->assertRegExp( '/Welcome to the WordPress./', $last_log->post_content );
+
+		$meta = get_post_meta( $last_log->ID, '_talog', true );
+		$this->assertSame( 'info', $meta['log_level'] );
+		$this->assertSame( null, $meta['last_error'] );
+		$this->assertSame( 'post_updated', $meta['hook'] );
 		$this->assertSame( false, $meta['is_cli'] );
 	}
 

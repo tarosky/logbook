@@ -198,8 +198,8 @@ class Default_Logger
 		$old = $args['additional_args'][1];
 		$new = $args['additional_args'][2];
 
-		$old = json_encode( $old, JSON_PRETTY_PRINT );
-		$new = json_encode( $new, JSON_PRETTY_PRINT );
+		$old = json_encode( $old, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE );
+		$new = json_encode( $new, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE );
 
 		return wp_text_diff( $old, $new );
 	}

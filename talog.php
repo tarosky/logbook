@@ -26,6 +26,7 @@ $logger = new Talog\Logger();
 
 $default_loggers = new Talog\Default_Logger();
 $loggers = $default_loggers->get_loggers();
+
 foreach ( $loggers as $log ) {
 	call_user_func_array( array( $logger, 'watch' ), $log );
 }
