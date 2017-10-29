@@ -33,6 +33,10 @@ class Logger
 
 		foreach ( $hooks as $hook ) {
 			add_action( $hook, function() use ( $log, $message, $log_level ) {
+				$log_levels = apply_filters( 'log_levels', Log_Level::get_all_levels() );
+				if ( ! in_array( $log_level, $log_levels ) ) {
+					return false;
+				}
 				$args = func_get_args();
 				if ( 'save_post' === current_filter() && 'talog' === get_post_type( $args[0] ) ) {
 					return false; // To prevent infinite loop.
