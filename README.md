@@ -10,7 +10,7 @@ Download: https://github.com/tarosky/talog/releases
 
 ### List of logs
 
-![](https://www.evernote.com/l/ABWdjXHdl8ZNO66M4YbuokIusGgM1Gc7UGoB/image.png)
+![](https://www.evernote.com/l/ABWwkNLfbklOh5YYM6k0boOjBenoOwM6GBYB/image.png)
 
 ### Detail screen of the log
 
