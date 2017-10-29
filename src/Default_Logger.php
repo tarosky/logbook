@@ -46,13 +46,42 @@ class Default_Logger
 				array( 'shutdown' ),
 				array( $this, 'shutdown_log' ),
 				array( $this, 'shutdown_message' ),
-				Log_Level::TRACE,
+				Log_Level::DEBUG,
 				10,
 				1,
+			),
+			array(
+				array( 'wp_login' ),
+				array( $this, 'wp_login_log' ),
+				array( $this, 'wp_login_message' ),
+				Log_Level::DEFAULT_LEVEL,
+				10,
+				2,
 			),
 		);
 
 		return apply_filters( 'talog_default_loggers', $loggers );
+	}
+
+	public function wp_login_log( $args )
+	{
+		list( $user_login, $user ) = $args['additional_args'];
+		return sprintf(
+			'User "%s" has logged in.',
+			esc_html( $user_login )
+		);
+	}
+
+	public function wp_login_message( $args )
+	{
+		$message = '';
+
+		$message .= sprintf(
+			'<h2 class="title">$_SERVER</h2><div><pre>%s</pre></div>',
+			esc_html( json_encode( $_SERVER, JSON_PRETTY_PRINT ) )
+		);
+
+		return $message;
 	}
 
 	public function post_updated_log( $args )
