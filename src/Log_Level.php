@@ -11,7 +11,7 @@ class Log_Level
 	const ERROR = 'error';
 	const FATAL = 'fatal';
 
-	const DEFAULT = self::INFO;
+	const DEFAULT = 'info';
 
 	public static function get_level( $level = null )
 	{
