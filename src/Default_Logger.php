@@ -45,7 +45,7 @@ class Default_Logger
 			array(
 				array( 'shutdown' ),
 				array( $this, 'shutdown_log' ),
-				array( $this, 'shutdown_message' ),
+				'',
 				Log_Level::DEBUG,
 				10,
 				1,
@@ -53,7 +53,7 @@ class Default_Logger
 			array(
 				array( 'wp_login' ),
 				array( $this, 'wp_login_log' ),
-				array( $this, 'wp_login_message' ),
+				'',
 				Log_Level::DEFAULT_LEVEL,
 				10,
 				2,
@@ -70,18 +70,6 @@ class Default_Logger
 			'User "%s" has logged in.',
 			esc_html( $user_login )
 		);
-	}
-
-	public function wp_login_message( $args )
-	{
-		$message = '';
-
-		$message .= sprintf(
-			'<h2 class="title">$_SERVER</h2><div><pre>%s</pre></div>',
-			esc_html( json_encode( $_SERVER, JSON_PRETTY_PRINT ) )
-		);
-
-		return $message;
 	}
 
 	public function post_updated_log( $args )
@@ -181,17 +169,5 @@ class Default_Logger
 		} else {
 			return null;
 		}
-	}
-
-	public function shutdown_message( $args )
-	{
-		$message = '';
-
-		$message .= sprintf(
-			'<h2 class="title">$_SERVER</h2><div><pre>%s</pre></div>',
-			esc_html( json_encode( $_SERVER, JSON_PRETTY_PRINT ) )
-		);
-
-		return $message;
 	}
 }

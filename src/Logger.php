@@ -31,6 +31,12 @@ class Logger
 
 		foreach ( $hooks as $hook ) {
 			add_action( $hook, function() use ( $log, $message, $log_level ) {
+				/**
+				 * Filters the log levels array to save logs.
+				 *
+				 * @param array $log_levels An array of the log levels.
+				 * @reurn array
+				 */
 				$log_levels = apply_filters( 'log_levels', Log_Level::get_all_levels() );
 				if ( ! in_array( $log_level, $log_levels ) ) {
 					return false;
@@ -117,6 +123,7 @@ class Logger
 			'last_error' => $last_error,
 			'hook' => $current_hook,
 			'is_cli' => $is_cli,
+			'server_vars' => $_SERVER,
 		) );
 
 		return $post_id;

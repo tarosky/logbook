@@ -34,6 +34,7 @@ class Submenu_Page
 		echo $this->meta_contents();
 		echo $this->get_the_content( $this->post->post_content, true );
 		echo $this->get_the_content( $this->last_error(), true );
+		echo $this->get_the_content( $this->server_vars(), true );
 
 		echo '</div><!-- .wrap -->';
 	}
@@ -80,6 +81,16 @@ class Submenu_Page
 			return sprintf(
 				$this->get_container(),
 				$content
+			);
+		}
+	}
+
+	public function server_vars()
+	{
+		if ( ! empty( $this->meta['server_vars'] ) ) {
+			return sprintf(
+				'<h2 class="title">$_SERVER</h2><div><pre>%s</pre></div>',
+				esc_html( json_encode( $this->meta['server_vars'], JSON_PRETTY_PRINT ) )
 			);
 		}
 	}
