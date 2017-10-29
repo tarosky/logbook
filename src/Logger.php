@@ -37,7 +37,7 @@ class Logger
 				 * @param array $log_levels An array of the log levels.
 				 * @reurn array
 				 */
-				$log_levels = apply_filters( 'log_levels', Log_Level::get_all_levels() );
+				$log_levels = apply_filters( 'talog_log_levels', Log_Level::get_all_levels() );
 				if ( ! in_array( $log_level, $log_levels ) ) {
 					return false;
 				}
@@ -125,6 +125,8 @@ class Logger
 			'is_cli' => $is_cli,
 			'server_vars' => $_SERVER,
 		) );
+
+		do_action( 'talog_after_save_log', $post_id );
 
 		return $post_id;
 	}
