@@ -191,7 +191,7 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 		$this->assertSame( 'Wow!!', $post->post_content );
 	}
 
-	public function test_logger_should_not_fired()
+	public function test_logger_should_not_fired_with_empty_log()
 	{
 		$logger = new Logger();
 		$logger->watch( array( 'custom_filter' ), function( $args ) {
@@ -204,6 +204,21 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 
 		$post = $this->get_last_log();
 
+		$this->assertSame( array(), $post ); // Log should be empty.
+	}
+
+	public function test_logger_should_not_fired_with_filter_hook()
+	{
+		$logger = new Logger();
+		$logger->watch( 'my_custom_hook', 'Hello', 'Wow!!', Log_Level::WARN );
+
+		add_filter( 'talog_log_levels', function( $args ) {
+			return array( Log_Level::INFO );
+		} );
+
+		do_action( 'my_custom_hook' );
+
+		$post = $this->get_last_log();
 		$this->assertSame( array(), $post ); // Log should be empty.
 	}
 
