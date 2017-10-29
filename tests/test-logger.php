@@ -141,6 +141,7 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 		$meta = get_post_meta( $post->ID, '_talog', true );
 		$this->assertSame( Log_Level::WARN, $meta['log_level'] );
 		$this->assertSame( 'test_hook-1', $meta['hook'] );
+		$this->assertArrayHasKey( 'REQUEST_URI', $meta['server_vars'] );
 	}
 
 	public function test_filter_should_be_as_expected()
