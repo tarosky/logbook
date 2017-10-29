@@ -30,7 +30,7 @@ class Logger
 		}
 
 		foreach ( $hooks as $hook ) {
-			add_action( $hook, function() use ( $log, $message, $log_level ) {
+			add_filter( $hook, function() use ( $log, $message, $log_level ) {
 				/**
 				 * Filters the log levels array to save logs.
 				 *
@@ -46,6 +46,8 @@ class Logger
 					return false; // To prevent infinite loop.
 				}
 				$this->save( $log, $message, $log_level, $args );
+
+				return $args[0];
 			}, $priority, $accepted_args );
 		}
 	}

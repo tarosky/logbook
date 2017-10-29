@@ -58,9 +58,51 @@ class Default_Logger
 				10,
 				2,
 			),
+			array(
+				array( 'wp_delete_file' ),
+				array( $this, 'wp_delete_file' ),
+				'',
+				Log_Level::DEFAULT_LEVEL,
+				10,
+				1,
+			),
+			array(
+				array( 'delete_post' ),
+				array( $this, 'delete_post' ),
+				'',
+				Log_Level::DEFAULT_LEVEL,
+				10,
+				1,
+			),
 		);
 
 		return apply_filters( 'talog_default_loggers', $loggers );
+	}
+
+	public function delete_post( $args )
+	{
+		list( $post_id ) = $args['additional_args'];
+
+		$post_title = get_post( $post_id )->post_title;
+		if ( empty( $post_title ) ) {
+			$post_title = '(empty)';
+		}
+
+		return sprintf(
+			'"%s" #%s has been deleted.',
+			esc_html( $post_title ),
+			esc_html( $post_id )
+		);
+	}
+
+	public function wp_delete_file( $args )
+	{
+		list( $file ) = $args['additional_args'];
+
+		return sprintf(
+			'File "%s" has been deleted.',
+			esc_html( str_replace( untrailingslashit( ABSPATH ), '', $file ) )
+		);
 	}
 
 	public function wp_login_log( $args )

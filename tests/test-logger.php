@@ -143,6 +143,41 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 		$this->assertSame( 'test_hook-1', $meta['hook'] );
 	}
 
+	public function test_filter_should_be_as_expected()
+	{
+		$logger = new Logger();
+		$logger->watch( array( 'custom_filter' ), function( $args ) {
+			return json_encode( $args );
+		}, 'Wow!!', Log_Level::WARN );
+
+		$custom_filter = apply_filters( 'custom_filter', 'hello' );
+
+		$this->assertSame( 'hello', $custom_filter );
+
+		$post = $this->get_last_log();
+
+		$this->assertArrayHasKey( 'log_level', json_decode( $post->post_title, true ) );
+		$this->assertArrayHasKey( 'last_error', json_decode( $post->post_title, true ) );
+		$this->assertArrayHasKey( 'current_hook', json_decode( $post->post_title, true ) );
+		$this->assertSame( 'Wow!!', $post->post_content );
+	}
+
+	public function test_logger_should_not_fired()
+	{
+		$logger = new Logger();
+		$logger->watch( array( 'custom_filter' ), function( $args ) {
+			return '';
+		}, 'Wow!!', Log_Level::WARN );
+
+		$custom_filter = apply_filters( 'custom_filter', 'hello' );
+
+		$this->assertSame( 'hello', $custom_filter );
+
+		$post = $this->get_last_log();
+
+		$this->assertSame( array(), $post ); // Log should be empty.
+	}
+
 	/**
 	 * Get the last post from the talog post-type.
 	 *
@@ -157,7 +192,12 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 			'posts_per_page' => 1,
 		) );
 
-		return $posts[0];
+		if ( ! empty( $posts ) ) {
+			return $posts[0];
+		} else {
+			return array();
+		}
+
 	}
 
 	/**
