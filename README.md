@@ -18,10 +18,6 @@ Updated post:
 
 ![](https://www.evernote.com/l/ABVgRrfpi_5MAar-zDO_Q9V18F3hkhspV18B/image.png)
 
-Updated option:
-
-![](https://www.evernote.com/l/ABWZcQm2Y6FOlKrR81txiTFF4KwksimPqc4B/image.png)
-
 Last error of PHP:
 
 ![](https://www.evernote.com/l/ABUj6csA8ElG3q5hwXiSHrYTRFtQ0lGyX0MB/image.png)
