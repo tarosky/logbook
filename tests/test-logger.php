@@ -89,7 +89,12 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 	public function test_save_log_with_log_level()
 	{
 		$logger = new Logger();
-		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), 'Test hook was fired!', 'This is long message.', Log_Level::WARN );
+		$logger->watch(
+			array( 'test_hook-1', 'test_hook-2' ),
+			'Test hook was fired!',
+			'This is long message.',
+			Log_Level::WARN
+		);
 
 		do_action( 'test_hook-1' );
 		$post = $this->get_last_log();
@@ -108,7 +113,12 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 		$user = $this->set_current_user( 'administrator' );
 
 		$logger = new Logger();
-		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), 'Test hook was fired!', 'This is long message.', Log_Level::WARN );
+		$logger->watch(
+			array( 'test_hook-1', 'test_hook-2' ),
+			'Test hook was fired!',
+			'This is long message.',
+			Log_Level::WARN
+		);
 
 		do_action( 'test_hook-1' );
 		$post = $this->get_last_log();

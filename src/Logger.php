@@ -25,22 +25,23 @@ class Logger
 	{
 		$log_level = Log_Level::get_level( $log_level );
 
+		/**
+		 * Filters the log levels array to save logs.
+		 *
+		 * @param array $log_levels An array of the log levels.
+		 * @reurn array
+		 */
+		$log_levels = apply_filters( 'talog_log_levels', Log_Level::get_all_levels() );
+		if ( ! in_array( $log_level, $log_levels ) ) {
+			return;
+		}
+
 		if ( ! is_array( $hooks ) ) {
 			$hooks = array( $hooks );
 		}
 
 		foreach ( $hooks as $hook ) {
 			add_filter( $hook, function() use ( $log, $message, $log_level ) {
-				/**
-				 * Filters the log levels array to save logs.
-				 *
-				 * @param array $log_levels An array of the log levels.
-				 * @reurn array
-				 */
-				$log_levels = apply_filters( 'talog_log_levels', Log_Level::get_all_levels() );
-				if ( ! in_array( $log_level, $log_levels ) ) {
-					return false;
-				}
 				$args = func_get_args();
 				if ( 'save_post' === current_filter() && 'talog' === get_post_type( $args[0] ) ) {
 					return false; // To prevent infinite loop.
