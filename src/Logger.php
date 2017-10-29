@@ -2,8 +2,6 @@
 
 namespace Talog;
 
-use function foo\func;
-
 class Logger
 {
 	const post_type = 'talog';
