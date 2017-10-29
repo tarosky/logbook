@@ -64,18 +64,18 @@ class Admin
 
 		echo '<select name="_hook">';
 		echo '<option value="">Action</option>';
-		$levels = $this->get_meta_values( '_talog_hook', 'talog' );
-		foreach ( $levels as $level ) {
-			if ( ! empty( $_GET['_hook'] ) && $level === $_GET['_hook'] ) {
+		$hooks = $this->get_meta_values( '_talog_hook', 'talog' );
+		foreach ( $hooks as $hook ) {
+			if ( ! empty( $_GET['_hook'] ) && $hook === $_GET['_hook'] ) {
 				$selected = 'selected';
 			} else {
 				$selected = '';
 			}
 			printf(
 				'<option value="%1$s" %2$s>%3$s</option>',
-				esc_attr( Log_Level::get_level( $level ) ),
+				esc_attr( $hook ),
 				$selected,
-				esc_html( $level )
+				esc_html( $hook )
 			);
 		}
 		echo '</select>';
