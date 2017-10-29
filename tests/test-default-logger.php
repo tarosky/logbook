@@ -13,6 +13,10 @@ class Talog_Default_Logger_Test extends WP_UnitTestCase
 		$this->assertSame( $user->ID, intval( $last_log->post_author ) );
 		$this->assertRegExp( "/#{$post->ID}/", $last_log->post_title );
 		$this->assertRegExp( "/\"{$post->post_title}\"/", $last_log->post_title );
+
+		$url = get_the_permalink( $post->ID );
+		$this->assertTrue( strpos( $last_log->post_content, $url ) > 0 );
+
 		$meta = get_post_meta( $last_log->ID, '_talog', true );
 		$this->assertSame( 'info', $meta['log_level'] );
 		$this->assertSame( null, $meta['last_error'] );
@@ -39,6 +43,10 @@ class Talog_Default_Logger_Test extends WP_UnitTestCase
 		$this->assertSame( $user->ID, intval( $last_log->post_author ) );
 		$this->assertRegExp( "/#{$post->ID}/", $last_log->post_title );
 		$this->assertRegExp( "/\"{$post->post_title}\"/", $last_log->post_title );
+
+		$url = get_the_permalink( $post->ID );
+		$this->assertTrue( strpos( $last_log->post_content, $url ) > 0 );
+
 		$meta = get_post_meta( $last_log->ID, '_talog', true );
 		$this->assertSame( 'info', $meta['log_level'] );
 		$this->assertSame( null, $meta['last_error'] );
@@ -46,23 +54,25 @@ class Talog_Default_Logger_Test extends WP_UnitTestCase
 		$this->assertSame( true, $meta['is_cli'] );
 	}
 
-//	public function test_log_updated_option()
-//	{
-//		$user = $this->set_current_user( 'editor' );
-//		$post = $this->factory()->post->create_and_get( array(
-//			'post_author' => $user->ID
-//		) );
-//		$last_log = $this->get_last_log();
-//
-//		$this->assertSame( $user->ID, intval( $last_log->post_author ) );
-//		$this->assertRegExp( "/#{$post->ID}/", $last_log->post_title );
-//		$this->assertRegExp( "/\"{$post->post_title}\"/", $last_log->post_title );
-//		$meta = get_post_meta( $last_log->ID, '_talog', true );
-//		$this->assertSame( 'normal', $meta['log_level'] );
-//		$this->assertSame( null, $meta['last_error'] );
-//		$this->assertSame( 'publish_post', $meta['hook'] );
-//		$this->assertSame( true, $meta['is_cli'] );
-//	}
+	public function test_log_updated_option()
+	{
+		update_option( 'debug', 'foo' );
+		update_option( 'debug', 'bar' );
+
+		$last_log = $this->get_last_log();
+
+		$this->assertSame( "0", $last_log->post_author );
+		$this->assertRegExp( '/"debug"/', $last_log->post_title );
+		$this->assertRegExp( "/foo/", $last_log->post_content );
+		$this->assertRegExp( "/bar/", $last_log->post_content );
+		$this->assertRegExp( "/<table/", $last_log->post_content );
+
+		$meta = get_post_meta( $last_log->ID, '_talog', true );
+		$this->assertSame( 'trace', $meta['log_level'] );
+		$this->assertSame( null, $meta['last_error'] );
+		$this->assertSame( 'updated_option', $meta['hook'] );
+		$this->assertSame( false, $meta['is_cli'] );
+	}
 
 	/**
 	 * Get the last post from the talog post-type.
