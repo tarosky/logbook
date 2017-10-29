@@ -81,7 +81,7 @@ class Talog_Default_Logger_Test extends \WP_UnitTestCase
 		$this->assertRegExp( '/Welcome to the WordPress./', $last_log->post_content );
 
 		$meta = get_post_meta( $last_log->ID, '_talog', true );
-		$this->assertSame( 'info', $meta['log_level'] );
+		$this->assertSame( Log_Level::DEFAULT_LEVEL, $meta['log_level'] );
 		$this->assertSame( null, $meta['last_error'] );
 		$this->assertSame( 'post_updated', $meta['hook'] );
 		$this->assertSame( false, $meta['is_cli'] );

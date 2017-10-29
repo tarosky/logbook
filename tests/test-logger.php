@@ -86,6 +86,24 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 		$this->assertSame( 'test_hook-2', $meta['hook'] );
 	}
 
+	public function test_save_log_simple()
+	{
+		$logger = new Logger();
+		$logger->watch( 'custom_hook', 'Test hook was fired!',
+			'Error message.', 'not-found' );
+		do_action( 'custom_hook' );
+
+		$post = $this->get_last_log();
+
+		$this->assertSame( 'Test hook was fired!', $post->post_title );
+		$this->assertSame( 'Error message.', $post->post_content );
+		$this->assertSame( '0', $post->post_author );
+
+		$meta = get_post_meta( $post->ID, '_talog', true );
+		$this->assertSame( Log_Level::DEFAULT_LEVEL, $meta['log_level'] );
+		$this->assertSame( 'custom_hook', $meta['hook'] );
+	}
+
 	public function test_save_log_with_log_level()
 	{
 		$logger = new Logger();
