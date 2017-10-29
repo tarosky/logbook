@@ -31,7 +31,11 @@ class Logger
 
 		foreach ( $hooks as $hook ) {
 			add_action( $hook, function() use ( $log, $message, $log_level ) {
-				$this->save( $log, $message, $log_level, func_get_args() );
+				$args = func_get_args();
+				if ( 'save_post' === current_filter() && 'talog' === get_post_type( $args[0] ) ) {
+					return false; // To prevent infinite loop.
+				}
+				$this->save( $log, $message, $log_level, $args );
 			}, $priority, $accepted_args );
 		}
 	}
