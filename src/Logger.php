@@ -12,7 +12,7 @@ class Logger
 	public function __construct()
 	{
 		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 11 );
-		add_action( 'shutdown', array( $this, 'shutdown' ), 11 );
+		register_shutdown_function( array( $this, 'shutdown' ) );
 	}
 
 	/**
@@ -151,24 +151,29 @@ class Logger
 	public function shutdown()
 	{
 		foreach ( $this->logs as $log_object ) {
-			$log = $log_object->get_log();
-			$post_id = wp_insert_post( array(
-				'post_type'    => self::post_type,
-				'post_title'   => $log->title,
-				'post_content' => $log->content,
-				'post_status'  => 'publish',
-				'post_author'  => $log->user
-			) );
-
-			// Followings will be used for `orderby` for query.
-			update_post_meta( $post_id, '_talog_log_level', $log->meta['log_level'] );
-			update_post_meta( $post_id, '_talog_hook', $log->meta['hook'] );
-
-			$log->meta['server_vars'] = $_SERVER;
-			update_post_meta( $post_id, '_talog', $log->meta );
+			self::save_log( $log_object );
 		}
 
 		do_action( 'talog_after_save_log', $this->logs );
+	}
+
+	protected static function save_log( $log_object )
+	{
+		$log = $log_object->get_log();
+		$post_id = wp_insert_post( array(
+			'post_type'    => self::post_type,
+			'post_title'   => $log->title,
+			'post_content' => $log->content,
+			'post_status'  => 'publish',
+			'post_author'  => $log->user
+		) );
+
+		// Followings will be used for `orderby` for query.
+		update_post_meta( $post_id, '_talog_log_level', $log->meta['log_level'] );
+		update_post_meta( $post_id, '_talog_hook', $log->meta['hook'] );
+
+		$log->meta['server_vars'] = $_SERVER;
+		update_post_meta( $post_id, '_talog', $log->meta );
 	}
 
 	protected static function get_current_hook()
