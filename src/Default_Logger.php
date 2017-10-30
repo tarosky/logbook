@@ -11,7 +11,7 @@ class Default_Logger
 		// Arrays that will be passed to `Talog\Logger\watch()`.
 		$loggers = array(
 			array(
-				'Post was published',                    // Label of the log.
+				'Post',                                  // Label of the log.
 				array( 'publish_post', 'publish_page' ), // Hooks.
 				array( $this, 'publish_post_log' ),      // Callback function for log.
 				array( $this, 'publish_post_message' ),  // Callback function for long message.
@@ -20,7 +20,7 @@ class Default_Logger
 				2,                                       // Number of accepted args.
 			),
 			array(
-				'Post was updated',
+				'Post',
 				array( 'post_updated' ),
 				array( $this, 'post_updated_log' ),
 				array( $this, 'post_updated_message' ),
@@ -29,7 +29,7 @@ class Default_Logger
 				3,
 			),
 			array(
-				'Plugin status was changed',
+				'Plugin',
 				array( 'activated_plugin', 'deactivated_plugin' ),
 				array( $this, 'activated_plugin' ),
 				null,
@@ -38,7 +38,7 @@ class Default_Logger
 				1,
 			),
 			array(
-				'User logged in',
+				'User',
 				array( 'wp_login' ),
 				array( $this, 'wp_login_log' ),
 				null,
@@ -47,7 +47,7 @@ class Default_Logger
 				2,
 			),
 			array(
-				'File was deleted',
+				'Media',
 				array( 'wp_delete_file' ),
 				array( $this, 'wp_delete_file' ),
 				null,
@@ -56,7 +56,7 @@ class Default_Logger
 				1,
 			),
 			array(
-				'Post was deleted',
+				'Post',
 				array( 'delete_post' ),
 				array( $this, 'delete_post' ),
 				null,
@@ -65,10 +65,10 @@ class Default_Logger
 				1,
 			),
 			array(
-				'Last error of PHP',
+				'Debug',
 				array( 'shutdown' ),
 				array( $this, 'shutdown_log' ),
-				null,
+				array( $this, 'shutdown_message' ),
 				Log_Level::DEBUG,
 				10,
 				1,
@@ -125,7 +125,7 @@ class Default_Logger
 		if ( json_encode( $post_after ) === json_encode( $post_before ) ) {
 			return '';
 		}
-		return 'Updated "' . $post_after->post_title . '" #' . $post_id . '.';
+		return esc_html( 'Updated "' . $post_after->post_title . '" #' . $post_id . '.' );
 	}
 
 	public function post_updated_message( $args )
@@ -159,7 +159,7 @@ class Default_Logger
 	{
 		$post_id = $args['additional_args'][0];
 		$post = $args['additional_args'][1];
-		return 'Published "' . $post->post_title . '" #' . $post_id . '.';
+		return esc_html( 'Published "' . $post->post_title . '" #' . $post_id . '.' );
 	}
 
 	public function publish_post_message( $args )
@@ -185,7 +185,24 @@ class Default_Logger
 	public function shutdown_log( $args )
 	{
 		if ( $args['last_error'] ) {
-			return $args['last_error']['message'];
+			return esc_html( $args['last_error']['message'] );
+		} else {
+			return null;
+		}
+	}
+
+	public function shutdown_message( $args )
+	{
+		if ( $args['last_error'] ) {
+			$err = $args['last_error'];
+			if ( is_readable( $err['file'] ) ) {
+				return sprintf(
+					'<div><pre data-line="%d">%s</pre></div>',
+					$err['line'],
+					esc_html( file_get_contents( $err['file'] ) )
+				);
+			}
+			return null;
 		} else {
 			return null;
 		}

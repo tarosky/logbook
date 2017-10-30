@@ -89,9 +89,18 @@ class Submenu_Page
 	public function server_vars()
 	{
 		if ( ! empty( $this->meta['server_vars'] ) ) {
+			$table = '';
+			foreach ( $this->meta['server_vars'] as $key => $value ) {
+				$table .= sprintf(
+					'<tr><td>%s</td><td>%s</td></tr>',
+					esc_html( str_replace( '%', '%%', $key ) ),
+					esc_html( str_replace( '%', '%%', $value ) )
+				);
+			}
 			return sprintf(
-				'<h2 class="title">$_SERVER</h2><div><pre>%s</pre></div>',
-				esc_html( json_encode( $this->meta['server_vars'], JSON_PRETTY_PRINT ) )
+				'<h2 class="title">$_SERVER</h2><table class="table-talog">%s%s</table>',
+				'<tr><th>Name</th><th>Value</th></tr>',
+				$table
 			);
 		}
 	}

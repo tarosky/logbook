@@ -41,7 +41,7 @@ class Admin
 	public function restrict_manage_posts()
 	{
 		echo '<select name="_label">';
-		echo '<option value="">All labels</option>';
+		echo '<option value="">All labels &nbsp;</option>';
 		$labels = $this->get_meta_values( '_talog_label', 'talog' );
 		foreach ( $labels as $label ) {
 			if ( ! empty( $_GET['_label'] ) && $label === $_GET['_label'] ) {
@@ -59,7 +59,7 @@ class Admin
 		echo '</select>';
 
 		echo '<select name="_log_level">';
-		echo '<option value="">All levels&nbsp;</option>';
+		echo '<option value="">All levels &nbsp;</option>';
 		$levels = $this->get_meta_values( '_talog_log_level', 'talog' );
 		foreach ( $levels as $level ) {
 			if ( ! empty( $_GET['_log_level'] ) && $level === $_GET['_log_level'] ) {
@@ -150,7 +150,7 @@ class Admin
 			}
 			printf(
 				'<a class="row-title" href="%2$s"><strong>%1$s</strong></a> ',
-				$post_title,
+				esc_html( $post_title ),
 				get_admin_url() . '/options.php?page=talog&log_id=' . intval( $post_id )
 			);
 		} elseif ( '_user' === $column_name ) {

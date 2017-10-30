@@ -54,11 +54,22 @@
 {
 	border: 1px solid #dedede;
 	padding: 15px !important;
+	word-break: break-all;
+}
+
+.talog-log-details .table-talog td:first-child
+{
+	word-break: normal;
 }
 
 .talog-log-details .table-talog th
 {
 	background-color: #f5f5f5;
+}
+
+.talog-log-details .table-talog tr:nth-child(odd)
+{
+	background-color: #fafafa;
 }
 
 .talog-log-details .post-diff .diff-title
