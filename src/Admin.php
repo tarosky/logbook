@@ -151,7 +151,7 @@ class Admin
 			printf(
 				'<a class="row-title" href="%2$s"><strong>%1$s</strong></a> ',
 				esc_html( $post_title ),
-				get_admin_url() . '/options.php?page=talog&log_id=' . intval( $post_id )
+				get_admin_url() . 'options.php?page=talog&log_id=' . intval( $post_id )
 			);
 		} elseif ( '_user' === $column_name ) {
 			$post = get_post( $post_id );
