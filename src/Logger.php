@@ -5,11 +5,14 @@ namespace Talog;
 class Logger
 {
 	const post_type = 'talog';
+
 	private $loggers = array();
+	private $logs = array();
 
 	public function __construct()
 	{
 		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 11 );
+		add_action( 'shutdown', array( $this, 'shutdown' ), 11 );
 	}
 
 	/**
@@ -30,6 +33,8 @@ class Logger
 
 	public function plugins_loaded()
 	{
+		$self = $this;
+
 		foreach ( $this->loggers as $logger ) {
 
 			list( $hooks, $log, $message, $log_level, $priority, $accepted_args ) = $logger;
@@ -51,7 +56,7 @@ class Logger
 			}
 
 			foreach ( $hooks as $hook ) {
-				add_filter( $hook, function () use ( $log, $message, $log_level ) {
+				add_filter( $hook, function () use ( $self, $log, $message, $log_level ) {
 					$args = func_get_args();
 
 					$return = null;
@@ -63,7 +68,7 @@ class Logger
 						return $return; // To prevent infinite loop.
 					}
 
-					self::save( $log, $message, $log_level, $args );
+					$self->get_log( $log, $message, $log_level, $args );
 
 					return $return;
 				}, $priority, $accepted_args );
@@ -81,7 +86,7 @@ class Logger
 	 *
 	 * @return int|\WP_Error
 	 */
-	public static function save( $log, $message = null, $log_level = null, $additional_args = array() )
+	public function get_log( $log, $message = null, $log_level = null, $additional_args = array() )
 	{
 		$log_level = Log_Level::get_level( $log_level );
 
@@ -129,29 +134,41 @@ class Logger
 			) );
 		}
 
-		$post_id = wp_insert_post( array(
-			'post_type' => self::post_type,
-			'post_title' => $log_text,
-			'post_content' => $message_text,
-			'post_status' => 'publish',
-			'post_author' => intval( $user_id )
-		) );
+		$log = new Log();
+		$log->set_title( $log_text );
+		$log->set_content( $message_text );
+		$log->set_user( intval( $user_id ) );
+		$log->set_log_level( $log_level );
+		$log->set_last_error( $last_error );
+		$log->set_current_hook( $current_hook );
+		$log->set_is_cli( $is_cli );
 
-		// Followings will be used for `orderby` for query.
-		update_post_meta( $post_id, '_talog_log_level', $log_level );
-		update_post_meta( $post_id, '_talog_hook', $current_hook );
+		$this->logs[] = $log;
 
-		update_post_meta( $post_id, '_talog', array(
-			'log_level' => $log_level,
-			'last_error' => $last_error,
-			'hook' => $current_hook,
-			'is_cli' => $is_cli,
-			'server_vars' => $_SERVER,
-		) );
+		do_action( 'talog_after_hook', $log );
+	}
 
-		do_action( 'talog_after_save_log', $post_id );
+	public function shutdown()
+	{
+		foreach ( $this->logs as $log_object ) {
+			$log = $log_object->get_log();
+			$post_id = wp_insert_post( array(
+				'post_type'    => self::post_type,
+				'post_title'   => $log->title,
+				'post_content' => $log->content,
+				'post_status'  => 'publish',
+				'post_author'  => $log->user
+			) );
 
-		return $post_id;
+			// Followings will be used for `orderby` for query.
+			update_post_meta( $post_id, '_talog_log_level', $log->meta['log_level'] );
+			update_post_meta( $post_id, '_talog_hook', $log->meta['hook'] );
+
+			$log->meta['server_vars'] = $_SERVER;
+			update_post_meta( $post_id, '_talog', $log->meta );
+		}
+
+		do_action( 'talog_after_save_log', $this->logs );
 	}
 
 	protected static function get_current_hook()
