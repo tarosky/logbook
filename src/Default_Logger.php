@@ -196,15 +196,48 @@ class Default_Logger
 		if ( $args['last_error'] ) {
 			$err = $args['last_error'];
 			if ( is_readable( $err['file'] ) ) {
-				return sprintf(
-					'<div><pre data-line="%d">%s</pre></div>',
-					$err['line'],
-					esc_html( file_get_contents( $err['file'] ) )
-				);
+				$content = self::get_a_part_of_file( $err['file'], $err['line'] );
+				if ( $content ) {
+					return sprintf(
+						'<h2>Source Code</h2><div class="code">%s</div>',
+						$content
+					);
+				}
 			}
 			return null;
 		} else {
 			return null;
+		}
+	}
+
+	protected static function get_a_part_of_file( $file_name, $line_number )
+	{
+		if ( is_readable( $file_name ) ) {
+			$file = file( $file_name );
+			$line = $line_number - 1;
+			$end = $line + 10;
+			$start = $line - 10;
+			if ( $start < 0 ) {
+				$start = 0;
+			}
+			$end = $end - $start;
+			$line = $line - $start;
+
+			$lines = array_slice( $file, $start, $end );
+
+			$html = '';
+			for ( $i = 0; $i < count( $lines ); $i++ ) {
+				$class = '';
+				if ( $i === $line ) {
+					$class = 'line';
+				}
+				$html .= sprintf(
+					'<pre class="%s">%s</pre>',
+					esc_attr( $class ),
+					esc_html( $lines[ $i ] )
+				);
+			}
+			return $html;
 		}
 	}
 }

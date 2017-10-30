@@ -94,7 +94,8 @@ class Submenu_Page
 				$table .= sprintf(
 					'<tr><td>%s</td><td>%s</td></tr>',
 					esc_html( str_replace( '%', '%%', $key ) ),
-					esc_html( str_replace( '%', '%%', $value ) )
+					esc_html( str_replace( '%', '%%',
+						json_encode( $value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE ) ) )
 				);
 			}
 			return sprintf(
