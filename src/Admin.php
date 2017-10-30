@@ -10,11 +10,7 @@ namespace Talog;
  */
 class Admin
 {
-	public function register() {
-		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
-	}
-
-	public function plugins_loaded()
+	public function register()
 	{
 		add_action( 'manage_talog_posts_custom_column', array( $this, 'manage_custom_column' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts') );

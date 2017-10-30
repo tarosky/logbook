@@ -8,11 +8,6 @@ class Post_Type
 
 	public function register()
 	{
-		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
-	}
-
-	public function plugins_loaded()
-	{
 		add_action( 'init', array( $this, 'init' ) );
 	}
 

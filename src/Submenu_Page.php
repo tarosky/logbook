@@ -5,6 +5,7 @@ namespace Talog;
 class Submenu_Page
 {
 	private $post;
+	private $meta;
 
 	public function __construct() {
 		$this->post = get_post( intval( $_GET['log_id'] ) );
