@@ -16,7 +16,7 @@ Use `Talog\watch()` to add your custom event.
 /**
  * Registers the logger to the specific hooks.
  *
- * @param string|array $hooks         An array of hooks to save log.
+ * @param string|array $hooks         An array of hooks to save the log.
  * @param callable     $log           The callback function to return log message.
  * @param callable     $message       The callback function to return long message of the log.
  * @param string       $log_level     The Log level like `Talog\Log_Level::INFO`. See `Talog\Log_Level`.
