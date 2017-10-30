@@ -50,7 +50,7 @@ function plugins_loaded() {
 	}
 }
 
-add_action( 'plugins_loaded', 'Talog\plugins_loaded', 9 );
+add_action( 'plugins_loaded', 'Talog\plugins_loaded' );
 
 /**
  * Registers the logger to the specific hooks.
