@@ -63,7 +63,9 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 	public function test_save_log()
 	{
 		$logger = new Logger();
-		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), 'Test hook was fired!' );
+		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), function() {
+			return 'Test hook was fired!';
+		} );
 
 		do_action( 'test_hook-1' );
 		$post = $this->get_last_log();
@@ -89,8 +91,16 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 	public function test_save_log_simple()
 	{
 		$logger = new Logger();
-		$logger->watch( 'custom_hook', 'Test hook was fired!',
-			'Error message.', 'not-found' );
+		$logger->watch(
+			'custom_hook',
+			function() {
+				return 'Test hook was fired!';
+			},
+			function() {
+				return 'Error message.';
+			},
+			'not-found'
+		);
 		do_action( 'custom_hook' );
 
 		$post = $this->get_last_log();
@@ -104,26 +114,30 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 		$this->assertSame( 'custom_hook', $meta['hook'] );
 	}
 
-	public function test_save_log_with_log_level()
+	public function test_save_log_simple_with_log_level()
 	{
 		$logger = new Logger();
 		$logger->watch(
-			array( 'test_hook-1', 'test_hook-2' ),
-			'Test hook was fired!',
-			'This is long message.',
-			Log_Level::WARN
+			'custom_hook',
+			function() {
+				return 'Test hook was fired!';
+			},
+			function() {
+				return 'Error message.';
+			},
+			Log_Level::DEBUG
 		);
+		do_action( 'custom_hook' );
 
-		do_action( 'test_hook-1' );
 		$post = $this->get_last_log();
 
 		$this->assertSame( 'Test hook was fired!', $post->post_title );
-		$this->assertSame( 'This is long message.', $post->post_content );
+		$this->assertSame( 'Error message.', $post->post_content );
 		$this->assertSame( '0', $post->post_author );
 
 		$meta = get_post_meta( $post->ID, '_talog', true );
-		$this->assertSame( Log_Level::WARN, $meta['log_level'] );
-		$this->assertSame( 'test_hook-1', $meta['hook'] );
+		$this->assertSame( Log_Level::DEBUG, $meta['log_level'] );
+		$this->assertSame( 'custom_hook', $meta['hook'] );
 	}
 
 	public function test_save_log_with_the_current_user()
@@ -132,44 +146,26 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 
 		$logger = new Logger();
 		$logger->watch(
-			array( 'test_hook-1', 'test_hook-2' ),
-			'Test hook was fired!',
-			'This is long message.',
-			Log_Level::WARN
+			'custom_hook',
+			function() {
+				return 'Test hook was fired!';
+			},
+			function() {
+				return 'Error message.';
+			},
+			Log_Level::DEBUG
 		);
+		do_action( 'custom_hook' );
 
-		do_action( 'test_hook-1' );
 		$post = $this->get_last_log();
 
 		$this->assertSame( 'Test hook was fired!', $post->post_title );
-		$this->assertSame( $user->ID, intval( $post->post_author ) );
+		$this->assertSame( 'Error message.', $post->post_content );
+		$this->assertSame( "$user->ID", $post->post_author );
 
 		$meta = get_post_meta( $post->ID, '_talog', true );
-		$this->assertSame( Log_Level::WARN, $meta['log_level'] );
-		$this->assertSame( 'test_hook-1', $meta['hook'] );
-	}
-
-	public function test_save_log_with_callback_function()
-	{
-		$user = $this->set_current_user( 'administrator' );
-
-		$logger = new Logger();
-		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), function( $args ) {
-			return json_encode( $args );
-		}, Log_Level::WARN, Log_Level::WARN );
-
-		do_action( 'test_hook-1' );
-		$post = $this->get_last_log();
-
-		$this->assertArrayHasKey( 'log_level', json_decode( $post->post_title, true ) );
-		$this->assertArrayHasKey( 'last_error', json_decode( $post->post_title, true ) );
-		$this->assertArrayHasKey( 'current_hook', json_decode( $post->post_title, true ) );
-		$this->assertSame( $user->ID, intval( $post->post_author ) );
-
-		$meta = get_post_meta( $post->ID, '_talog', true );
-		$this->assertSame( Log_Level::WARN, $meta['log_level'] );
-		$this->assertSame( 'test_hook-1', $meta['hook'] );
-		$this->assertArrayHasKey( 'REQUEST_URI', $meta['server_vars'] );
+		$this->assertSame( Log_Level::DEBUG, $meta['log_level'] );
+		$this->assertSame( 'custom_hook', $meta['hook'] );
 	}
 
 	public function test_filter_should_be_as_expected()
@@ -177,7 +173,7 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 		$logger = new Logger();
 		$logger->watch( array( 'custom_filter' ), function( $args ) {
 			return json_encode( $args );
-		}, 'Wow!!', Log_Level::WARN );
+		} );
 
 		$custom_filter = apply_filters( 'custom_filter', 'hello' );
 
@@ -188,7 +184,6 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 		$this->assertArrayHasKey( 'log_level', json_decode( $post->post_title, true ) );
 		$this->assertArrayHasKey( 'last_error', json_decode( $post->post_title, true ) );
 		$this->assertArrayHasKey( 'current_hook', json_decode( $post->post_title, true ) );
-		$this->assertSame( 'Wow!!', $post->post_content );
 	}
 
 	public function test_logger_should_not_fired_with_empty_log()
@@ -196,7 +191,7 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 		$logger = new Logger();
 		$logger->watch( array( 'custom_filter' ), function( $args ) {
 			return '';
-		}, 'Wow!!', Log_Level::WARN );
+		} );
 
 		$custom_filter = apply_filters( 'custom_filter', 'hello' );
 
@@ -210,7 +205,9 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 	public function test_logger_should_not_fired_with_filter_hook()
 	{
 		$logger = new Logger();
-		$logger->watch( 'my_custom_hook', 'Hello', 'Wow!!', Log_Level::WARN );
+		$logger->watch( array( 'custom_filter' ), function( $args ) {
+			return '';
+		}, null, Log_Level::WARN );
 
 		add_filter( 'talog_log_levels', function( $args ) {
 			return array( Log_Level::INFO );

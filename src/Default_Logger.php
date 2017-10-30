@@ -29,7 +29,7 @@ class Default_Logger
 			array(
 				array( 'activated_plugin', 'deactivated_plugin' ),
 				array( $this, 'activated_plugin' ),
-				'',
+				null,
 				Log_Level::DEFAULT_LEVEL,
 				10,
 				1,
@@ -37,7 +37,7 @@ class Default_Logger
 			array(
 				array( 'shutdown' ),
 				array( $this, 'shutdown_log' ),
-				'',
+				null,
 				Log_Level::DEBUG,
 				10,
 				1,
@@ -45,7 +45,7 @@ class Default_Logger
 			array(
 				array( 'wp_login' ),
 				array( $this, 'wp_login_log' ),
-				'',
+				null,
 				Log_Level::DEFAULT_LEVEL,
 				10,
 				2,
@@ -53,7 +53,7 @@ class Default_Logger
 			array(
 				array( 'wp_delete_file' ),
 				array( $this, 'wp_delete_file' ),
-				'',
+				null,
 				Log_Level::DEFAULT_LEVEL,
 				10,
 				1,
@@ -61,7 +61,7 @@ class Default_Logger
 			array(
 				array( 'delete_post' ),
 				array( $this, 'delete_post' ),
-				'',
+				null,
 				Log_Level::DEFAULT_LEVEL,
 				10,
 				1,

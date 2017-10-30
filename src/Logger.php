@@ -15,13 +15,13 @@ class Logger
 	 * Registers the logger to the specific hooks.
 	 *
 	 * @param string|array $hooks      An array of hooks to save log.
-	 * @param string|callable $log       The log message.
-	 * @param string|callable $message   The long message of the log.
+	 * @param callable $log     The callback function to return log message.
+	 * @param callable $message The callback function to return long message of the log.
 	 * @param string $log_level The Log level.
 	 * @param int    $priority  An int value passed to `add_action()`.
 	 * @param int    $accepted_args An int value passed to `add_action()`.
 	 */
-	public function watch( $hooks, $log, $message = '', $log_level = '', $priority = 10, $accepted_args = 1 )
+	public function watch( $hooks, $log, $message = null, $log_level = null, $priority = 10, $accepted_args = 1 )
 	{
 		$log_level = Log_Level::get_level( $log_level );
 
@@ -59,14 +59,14 @@ class Logger
 	/**
 	 * Callback function to save log.
 	 *
-	 * @param string|callable $log The log message or callback function that returns the log.
-	 * @param string|callable $message   The long message of the log.
+	 * @param callable $log     The callback function to return log message.
+	 * @param callable $message The callback function to return long message of the log.
 	 * @param string $log_level The log level.
 	 * @param array $additional_args An array which is passed from the callback function of the hook.
 	 *
 	 * @return int|\WP_Error
 	 */
-	public function save( $log, $message = '', $log_level = '', $additional_args = array() )
+	public function save( $log, $message = null, $log_level = null, $additional_args = array() )
 	{
 		$log_level = Log_Level::get_level( $log_level );
 
@@ -86,8 +86,9 @@ class Logger
 		$last_error = $this->error_get_last();
 		$current_hook = $this->get_current_hook();
 
-		if ( is_callable( $log ) ) {
-			$log = call_user_func( $log, array(
+		$log_text = '';
+		if ( ! empty( $log ) && is_callable( $log ) ) {
+			$log_text = call_user_func( $log, array(
 				'log_level' => $log_level,
 				'last_error' => $last_error,
 				'current_hook' => $current_hook,
@@ -97,12 +98,13 @@ class Logger
 			) );
 		}
 
-		if ( empty( $log ) ) {
+		if ( empty( $log_text ) ) {
 			return 0;
 		}
 
-		if ( is_callable( $message ) ) {
-			$message = call_user_func( $message, array(
+		$message_text = '';
+		if ( ! empty( $message ) && is_callable( $message ) ) {
+			$message_text = call_user_func( $message, array(
 				'log_level' => $log_level,
 				'last_error' => $last_error,
 				'current_hook' => $current_hook,
@@ -114,8 +116,8 @@ class Logger
 
 		$post_id = wp_insert_post( array(
 			'post_type' => self::post_type,
-			'post_title' => $log,
-			'post_content' => $message,
+			'post_title' => $log_text,
+			'post_content' => $message_text,
 			'post_status' => 'publish',
 			'post_author' => intval( $user_id )
 		) );
