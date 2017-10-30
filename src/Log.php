@@ -30,6 +30,11 @@ class Log
 		$this->log->user = intval( $user );
 	}
 
+	public function set_label( $label )
+	{
+		$this->log->meta['label'] = $label;
+	}
+
 	public function set_log_level( $log_level )
 	{
 		$this->log->meta['log_level'] = Log_Level::get_level( $log_level );

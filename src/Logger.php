@@ -18,17 +18,18 @@ class Logger
 	/**
 	 * Registers the logger to the specific hooks.
 	 *
-	 * @param string|array $hooks      An array of hooks to save log.
-	 * @param callable $log     The callback function to return log message.
-	 * @param callable $message The callback function to return long message of the log.
-	 * @param string $log_level The Log level.
-	 * @param int    $priority  An int value passed to `add_action()`.
-	 * @param int    $accepted_args An int value passed to `add_action()`.
+	 * @param string       $label         The label of the log.
+	 * @param string|array $hooks         An array of hooks to save log.
+	 * @param callable     $log           The callback function to return log message.
+	 * @param callable     $message       The callback function to return long message of the log.
+	 * @param string       $log_level     The Log level.
+	 * @param int          $priority      An int value passed to `add_action()`.
+	 * @param int          $accepted_args An int value passed to `add_action()`.
 	 */
-	public function register( $hooks, $log, $message = null,
+	public function register( $label, $hooks, $log, $message = null,
 								$log_level = null, $priority = 10, $accepted_args = 1 )
 	{
-		$this->loggers[] = array( $hooks, $log, $message, $log_level, $priority, $accepted_args );
+		$this->loggers[] = array( $label, $hooks, $log, $message, $log_level, $priority, $accepted_args );
 	}
 
 	public function plugins_loaded()
@@ -37,7 +38,7 @@ class Logger
 
 		foreach ( $this->loggers as $logger ) {
 
-			list( $hooks, $log, $message, $log_level, $priority, $accepted_args ) = $logger;
+			list( $label, $hooks, $log, $message, $log_level, $priority, $accepted_args ) = $logger;
 
 			/**
 			 * Filters the log levels array to save logs.
@@ -56,7 +57,7 @@ class Logger
 			}
 
 			foreach ( $hooks as $hook ) {
-				add_filter( $hook, function () use ( $self, $log, $message, $log_level ) {
+				add_filter( $hook, function () use ( $self, $label, $log, $message, $log_level ) {
 					$args = func_get_args();
 
 					$return = null;
@@ -68,7 +69,7 @@ class Logger
 						return $return; // To prevent infinite loop.
 					}
 
-					$self->get_log( $log, $message, $log_level, $args );
+					$self->get_log( $label, $log, $message, $log_level, $args );
 
 					return $return;
 				}, $priority, $accepted_args );
@@ -79,6 +80,7 @@ class Logger
 	/**
 	 * Callback function to save log.
 	 *
+	 * @param string   $label   The label of the log
 	 * @param callable $log     The callback function to return log message.
 	 * @param callable $message The callback function to return long message of the log.
 	 * @param string $log_level The log level.
@@ -86,7 +88,7 @@ class Logger
 	 *
 	 * @return int|\WP_Error
 	 */
-	public function get_log( $log, $message = null, $log_level = null, $additional_args = array() )
+	public function get_log( $label, $log, $message = null, $log_level = null, $additional_args = array() )
 	{
 		$log_level = Log_Level::get_level( $log_level );
 
@@ -135,6 +137,7 @@ class Logger
 		}
 
 		$log = new Log();
+		$log->set_label( $label );
 		$log->set_title( $log_text );
 		$log->set_content( $message_text );
 		$log->set_user( intval( $user_id ) );
@@ -169,8 +172,8 @@ class Logger
 		) );
 
 		// Followings will be used for `orderby` for query.
+		update_post_meta( $post_id, '_talog_label', $log->meta['label'] );
 		update_post_meta( $post_id, '_talog_log_level', $log->meta['log_level'] );
-		update_post_meta( $post_id, '_talog_hook', $log->meta['hook'] );
 
 		$log->meta['server_vars'] = $_SERVER;
 		update_post_meta( $post_id, '_talog', $log->meta );

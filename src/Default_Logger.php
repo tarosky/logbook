@@ -11,14 +11,16 @@ class Default_Logger
 		// Arrays that will be passed to `Talog\Logger\watch()`.
 		$loggers = array(
 			array(
+				'Post was published',                    // Label of the log.
 				array( 'publish_post', 'publish_page' ), // Hooks.
 				array( $this, 'publish_post_log' ),      // Callback function for log.
 				array( $this, 'publish_post_message' ),  // Callback function for long message.
-				Log_Level::DEFAULT_LEVEL,                                  // Log level.
+				Log_Level::DEFAULT_LEVEL,                // Log level.
 				10,                                      // Priority.
 				2,                                       // Number of accepted args.
 			),
 			array(
+				'Post was updated',
 				array( 'post_updated' ),
 				array( $this, 'post_updated_log' ),
 				array( $this, 'post_updated_message' ),
@@ -27,6 +29,7 @@ class Default_Logger
 				3,
 			),
 			array(
+				'Plugin status was changed',
 				array( 'activated_plugin', 'deactivated_plugin' ),
 				array( $this, 'activated_plugin' ),
 				null,
@@ -35,14 +38,7 @@ class Default_Logger
 				1,
 			),
 			array(
-				array( 'shutdown' ),
-				array( $this, 'shutdown_log' ),
-				null,
-				Log_Level::DEBUG,
-				10,
-				1,
-			),
-			array(
+				'User logged in',
 				array( 'wp_login' ),
 				array( $this, 'wp_login_log' ),
 				null,
@@ -51,6 +47,7 @@ class Default_Logger
 				2,
 			),
 			array(
+				'File was deleted',
 				array( 'wp_delete_file' ),
 				array( $this, 'wp_delete_file' ),
 				null,
@@ -59,10 +56,20 @@ class Default_Logger
 				1,
 			),
 			array(
+				'Post was deleted',
 				array( 'delete_post' ),
 				array( $this, 'delete_post' ),
 				null,
 				Log_Level::DEFAULT_LEVEL,
+				10,
+				1,
+			),
+			array(
+				'Last error of PHP',
+				array( 'shutdown' ),
+				array( $this, 'shutdown_log' ),
+				null,
+				Log_Level::DEBUG,
 				10,
 				1,
 			),
@@ -92,7 +99,7 @@ class Default_Logger
 		list( $file ) = $args['additional_args'];
 
 		return sprintf(
-			'File "%s" has been deleted.',
+			'File "%s" was deleted.',
 			esc_html( str_replace( untrailingslashit( ABSPATH ), '', $file ) )
 		);
 	}
@@ -101,7 +108,7 @@ class Default_Logger
 	{
 		list( $user_login, $user ) = $args['additional_args'];
 		return sprintf(
-			'User "%s" has logged in.',
+			'User "%s" logged in.',
 			esc_html( $user_login )
 		);
 	}
@@ -169,9 +176,9 @@ class Default_Logger
 	{
 		$plugin = $args['additional_args'][0];
 		if ( 'activated_plugin' === $args['current_hook'] ) {
-			return 'Plugin "' . dirname( $plugin ) . '" had been activated.';
+			return 'Plugin "' . dirname( $plugin ) . '" was activated.';
 		} else {
-			return 'Plugin "' . dirname( $plugin ) . '" had been deactivated.';
+			return 'Plugin "' . dirname( $plugin ) . '" was deactivated.';
 		}
 	}
 

@@ -40,8 +40,26 @@ class Admin
 
 	public function restrict_manage_posts()
 	{
+		echo '<select name="_label">';
+		echo '<option value="">All labels</option>';
+		$labels = $this->get_meta_values( '_talog_label', 'talog' );
+		foreach ( $labels as $label ) {
+			if ( ! empty( $_GET['_label'] ) && $label === $_GET['_label'] ) {
+				$selected = 'selected';
+			} else {
+				$selected = '';
+			}
+			printf(
+				'<option value="%1$s" %2$s>%3$s</option>',
+				esc_attr( $label ),
+				$selected,
+				esc_html( $label )
+			);
+		}
+		echo '</select>';
+
 		echo '<select name="_log_level">';
-		echo '<option value="">Log level&nbsp;</option>';
+		echo '<option value="">All levels&nbsp;</option>';
 		$levels = $this->get_meta_values( '_talog_log_level', 'talog' );
 		foreach ( $levels as $level ) {
 			if ( ! empty( $_GET['_log_level'] ) && $level === $_GET['_log_level'] ) {
@@ -54,24 +72,6 @@ class Admin
 				esc_attr( Log_Level::get_level( $level ) ),
 				$selected,
 				esc_html( ucfirst( $level ) )
-			);
-		}
-		echo '</select>';
-
-		echo '<select name="_hook">';
-		echo '<option value="">Action</option>';
-		$hooks = $this->get_meta_values( '_talog_hook', 'talog' );
-		foreach ( $hooks as $hook ) {
-			if ( ! empty( $_GET['_hook'] ) && $hook === $_GET['_hook'] ) {
-				$selected = 'selected';
-			} else {
-				$selected = '';
-			}
-			printf(
-				'<option value="%1$s" %2$s>%3$s</option>',
-				esc_attr( $hook ),
-				$selected,
-				esc_html( $hook )
 			);
 		}
 		echo '</select>';
@@ -117,20 +117,20 @@ class Admin
 				}
 			}
 
+			if ( 'talog' === $_GET['post_type'] && ! empty( $_GET['_label'] ) ) {
+				$vars['meta_query'] = array(
+					array(
+						'key'   => '_talog_label',
+						'value' => $_GET['_label'],
+					),
+				);
+			}
+
 			if ( 'talog' === $_GET['post_type'] && ! empty( $_GET['_log_level'] ) ) {
 				$vars['meta_query'] = array(
 					array(
 						'key'   => '_talog_log_level',
 						'value' => $_GET['_log_level'],
-					),
-				);
-			}
-
-			if ( 'talog' === $_GET['post_type'] && ! empty( $_GET['_hook'] ) ) {
-				$vars['meta_query'] = array(
-					array(
-						'key'   => '_talog_hook',
-						'value' => $_GET['_hook'],
 					),
 				);
 			}
