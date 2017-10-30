@@ -10,48 +10,48 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 	 */
 	public function test_error_get_last()
 	{
-		$logger = new Logger();
-		$method = new \ReflectionMethod( get_class( $logger ), 'error_get_last' );
+		$class = new \ReflectionClass('Talog\Logger');
+		$method = $class->getMethod( 'error_get_last' );
 		$method->setAccessible( true );
 
-		$result = $method->invoke( $logger );
+		$result = $method->invokeArgs( null, array() );
 		$this->assertSame( null, $result );
 
 		echo @$error; // There is an error.
-		$result = $method->invoke( $logger );
+		$result = $method->invokeArgs( null, array() );
 		$this->assertSame( 'Undefined variable: error', $result['message'] );
 	}
 
 	public function test_get_user()
 	{
-		$logger = new Logger();
-		$method = new \ReflectionMethod( get_class( $logger ), 'get_user' );
+		$class = new \ReflectionClass('Talog\Logger');
+		$method = $class->getMethod( 'get_user' );
 		$method->setAccessible( true );
 
 		// anonymous user
-		$result = $method->invoke( $logger );
+		$result = $method->invokeArgs( null, array() );
 		$this->assertSame( 0, $result->ID );
 
 		$this->set_current_user( 'administrator' );
-		$result = $method->invoke( $logger );
+		$result = $method->invokeArgs( null, array() );
 		$this->assertSame( 'administrator', $result->roles[0] );
 
 		$this->set_current_user( 'subscriber' );
-		$result = $method->invoke( $logger );
+		$result = $method->invokeArgs( null, array() );
 		$this->assertSame( 'subscriber', $result->roles[0] );
 	}
 
 	public function test_get_current_hook()
 	{
-		$logger = new Logger();
-		$method = new \ReflectionMethod( get_class( $logger ), 'get_current_hook' );
+		$class = new \ReflectionClass('Talog\Logger');
+		$method = $class->getMethod( 'get_current_hook' );
 		$method->setAccessible( true );
 
-		$result = $method->invoke( $logger );
+		$result = $method->invokeArgs( null, array() );
 		$this->assertFalse( $result );
 
-		add_action( 'test_hook', function() use ( $logger, $method ) {
-			$result = $method->invoke( $logger );
+		add_action( 'test_hook', function() use ( $method ) {
+			$result = $method->invokeArgs( null, array() );
 			$this->assertSame( 'test_hook', $result );
 			$GLOBALS['worked'] = 'OK';
 		} );
@@ -62,11 +62,12 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 
 	public function test_save_log()
 	{
-		$logger = new Logger();
-		$logger->watch( array( 'test_hook-1', 'test_hook-2' ), function() {
+		$talog = new Logger();
+		$talog->register( array( 'test_hook-1', 'test_hook-2' ), function() {
 			return 'Test hook was fired!';
 		} );
 
+		do_action( "plugins_loaded" );
 		do_action( 'test_hook-1' );
 		$post = $this->get_last_log();
 
@@ -90,8 +91,8 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 
 	public function test_save_log_simple()
 	{
-		$logger = new Logger();
-		$logger->watch(
+		$talog = new Logger();
+		$talog->register(
 			'custom_hook',
 			function() {
 				return 'Test hook was fired!';
@@ -101,6 +102,8 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 			},
 			'not-found'
 		);
+
+		do_action( "plugins_loaded" );
 		do_action( 'custom_hook' );
 
 		$post = $this->get_last_log();
@@ -116,8 +119,8 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 
 	public function test_save_log_simple_with_log_level()
 	{
-		$logger = new Logger();
-		$logger->watch(
+		$talog = new Logger();
+		$talog->register(
 			'custom_hook',
 			function() {
 				return 'Test hook was fired!';
@@ -127,6 +130,8 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 			},
 			Log_Level::DEBUG
 		);
+
+		do_action( "plugins_loaded" );
 		do_action( 'custom_hook' );
 
 		$post = $this->get_last_log();
@@ -144,8 +149,8 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 	{
 		$user = $this->set_current_user( 'administrator' );
 
-		$logger = new Logger();
-		$logger->watch(
+		$talog = new Logger();
+		$talog->register(
 			'custom_hook',
 			function() {
 				return 'Test hook was fired!';
@@ -155,6 +160,8 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 			},
 			Log_Level::DEBUG
 		);
+
+		do_action( "plugins_loaded" );
 		do_action( 'custom_hook' );
 
 		$post = $this->get_last_log();
@@ -170,11 +177,12 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 
 	public function test_filter_should_be_as_expected()
 	{
-		$logger = new Logger();
-		$logger->watch( array( 'custom_filter' ), function( $args ) {
+		$talog = new Logger();
+		$talog->register( array( 'custom_filter' ), function( $args ) {
 			return json_encode( $args );
 		} );
 
+		do_action( "plugins_loaded" );
 		$custom_filter = apply_filters( 'custom_filter', 'hello' );
 
 		$this->assertSame( 'hello', $custom_filter );
@@ -188,11 +196,12 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 
 	public function test_logger_should_not_fired_with_empty_log()
 	{
-		$logger = new Logger();
-		$logger->watch( array( 'custom_filter' ), function( $args ) {
+		$talog = new Logger();
+		$talog->register( array( 'custom_filter' ), function( $args ) {
 			return '';
 		} );
 
+		do_action( "plugins_loaded" );
 		$custom_filter = apply_filters( 'custom_filter', 'hello' );
 
 		$this->assertSame( 'hello', $custom_filter );
@@ -204,8 +213,8 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 
 	public function test_logger_should_not_fired_with_filter_hook()
 	{
-		$logger = new Logger();
-		$logger->watch( array( 'custom_filter' ), function( $args ) {
+		$talog = new Logger();
+		$talog->register( array( 'custom_filter' ), function( $args ) {
 			return '';
 		}, null, Log_Level::WARN );
 
@@ -213,6 +222,7 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 			return array( Log_Level::INFO );
 		} );
 
+		do_action( "plugins_loaded" );
 		do_action( 'my_custom_hook' );
 
 		$post = $this->get_last_log();

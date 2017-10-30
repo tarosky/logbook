@@ -5,10 +5,11 @@ namespace Talog;
 class Logger
 {
 	const post_type = 'talog';
+	private $loggers = array();
 
 	public function __construct()
 	{
-		// Nothing to do for now.
+		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 11 );
 	}
 
 	/**
@@ -21,38 +22,52 @@ class Logger
 	 * @param int    $priority  An int value passed to `add_action()`.
 	 * @param int    $accepted_args An int value passed to `add_action()`.
 	 */
-	public function watch( $hooks, $log, $message = null, $log_level = null, $priority = 10, $accepted_args = 1 )
+	public function register( $hooks, $log, $message = null,
+								$log_level = null, $priority = 10, $accepted_args = 1 )
 	{
-		$log_level = Log_Level::get_level( $log_level );
+		$this->loggers[] = array( $hooks, $log, $message, $log_level, $priority, $accepted_args );
+	}
 
-		if ( ! is_array( $hooks ) ) {
-			$hooks = array( $hooks );
-		}
+	public function plugins_loaded()
+	{
+		foreach ( $this->loggers as $logger ) {
 
-		foreach ( $hooks as $hook ) {
-			add_filter( $hook, function() use ( $log, $message, $log_level ) {
-				/**
-				 * Filters the log levels array to save logs.
-				 *
-				 * @param array $log_levels An array of the log levels.
-				 * @reurn array
-				 */
-				$log_levels = apply_filters( 'talog_log_levels', Log_Level::get_all_levels() );
-				if ( ! in_array( $log_level, $log_levels ) ) {
-					return;
-				}
+			list( $hooks, $log, $message, $log_level, $priority, $accepted_args ) = $logger;
 
-				$args = func_get_args();
-				if ( 'save_post' === current_filter() && 'talog' === get_post_type( $args[0] ) ) {
-					return false; // To prevent infinite loop.
-				}
+			/**
+			 * Filters the log levels array to save logs.
+			 *
+			 * @param array $log_levels An array of the log levels.
+			 *
+			 * @reurn array
+			 */
+			$log_levels = apply_filters( 'talog_log_levels', Log_Level::get_all_levels() );
+			if ( ! in_array( Log_Level::get_level( $log_level ), $log_levels ) ) {
+				return;
+			}
 
-				$this->save( $log, $message, $log_level, $args );
+			if ( ! is_array( $hooks ) ) {
+				$hooks = array( $hooks );
+			}
 
-				if ( ! empty( $args[0] ) ) {
-					return $args[0];
-				}
-			}, $priority, $accepted_args );
+			foreach ( $hooks as $hook ) {
+				add_filter( $hook, function () use ( $log, $message, $log_level ) {
+					$args = func_get_args();
+
+					$return = null;
+					if ( ! empty( $args[0] ) ) {
+						$return = $args[0];
+					}
+
+					if ( 'save_post' === current_filter() && 'talog' === get_post_type( $args[0] ) ) {
+						return $return; // To prevent infinite loop.
+					}
+
+					self::save( $log, $message, $log_level, $args );
+
+					return $return;
+				}, $priority, $accepted_args );
+			}
 		}
 	}
 
@@ -66,7 +81,7 @@ class Logger
 	 *
 	 * @return int|\WP_Error
 	 */
-	public function save( $log, $message = null, $log_level = null, $additional_args = array() )
+	public static function save( $log, $message = null, $log_level = null, $additional_args = array() )
 	{
 		$log_level = Log_Level::get_level( $log_level );
 
@@ -76,15 +91,15 @@ class Logger
 			$is_cli = false;
 		}
 
-		$user = $this->get_user();
+		$user = self::get_user();
 		if ( empty( $user->ID ) ) {
 			$user_id = 0;
 		} else {
 			$user_id = $user->ID;
 		}
 
-		$last_error = $this->error_get_last();
-		$current_hook = $this->get_current_hook();
+		$last_error = self::error_get_last();
+		$current_hook = self::get_current_hook();
 
 		$log_text = '';
 		if ( ! empty( $log ) && is_callable( $log ) ) {
@@ -139,17 +154,17 @@ class Logger
 		return $post_id;
 	}
 
-	protected function get_current_hook()
+	protected static function get_current_hook()
 	{
 		return current_filter();
 	}
 
-	protected function get_user()
+	protected static function get_user()
 	{
 		return wp_get_current_user();
 	}
 
-	protected function error_get_last()
+	protected static function error_get_last()
 	{
 		return error_get_last();
 	}

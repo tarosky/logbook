@@ -85,10 +85,10 @@ class Admin
 	{
 		$columns = array();
 
+		$columns['_date'] = 'Date';
 		$columns['_title'] = 'Log';
 		$columns['_log_level'] = 'Level';
 		$columns['_user'] = 'User';
-		$columns['_date'] = 'Date';
 
 		return $columns;
 	}
@@ -97,10 +97,10 @@ class Admin
 	{
 		$columns = array();
 
+		$columns['_date'] = 'Date';
 		$columns['_title'] = 'Log';
 		$columns['_log_level'] = 'Level';
 		$columns['_user'] = 'User';
-		$columns['_date'] = 'Date';
 
 		return $columns;
 	}

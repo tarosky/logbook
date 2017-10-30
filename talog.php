@@ -12,32 +12,57 @@
  * @package         Talog
  */
 
+namespace Talog;
+use \Miya\WP as WP;
+
 require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 
-add_action( 'init', 'activate_autoupdate' );
+add_action( 'init', 'Talog\activate_auto_update' );
 
-function activate_autoupdate() {
+function activate_auto_update() {
 	$plugin_slug = plugin_basename( __FILE__ ); // e.g. `hello/hello.php`.
 	$gh_user = 'tarosky';                      // The user name of GitHub.
 	$gh_repo = 'talog';       // The repository name of your plugin.
 
 	// Activate automatic update.
-	new Miya\WP\GH_Auto_Updater( $plugin_slug, $gh_user, $gh_repo );
+	new WP\GH_Auto_Updater( $plugin_slug, $gh_user, $gh_repo );
 }
 
-$post_type = new Talog\Post_Type();
-$post_type->register();
+function plugins_loaded() {
+	// Creates an instance of logger.
+	$GLOBALS['talog'] = new Logger();
 
-if ( is_admin() ) {
-	$admin = new Talog\Admin();
-	$admin->register();
+	// Registers post type `talog`.
+	$post_type = new Post_Type();
+	$post_type->register();
+
+	// Registers admin panel.
+	if ( is_admin() ) {
+		$admin = new Admin();
+		$admin->register();
+	}
+
+	// Registers default loggers.
+	$default_loggers = new Default_Logger();
+	$loggers = $default_loggers->get_loggers();
+	foreach ( $loggers as $log ) {
+		call_user_func_array( 'Talog\watch', $log );
+	}
 }
 
-$logger = new Talog\Logger();
+add_action( 'plugins_loaded', 'Talog\plugins_loaded', 9 );
 
-$default_loggers = new Talog\Default_Logger();
-$loggers = $default_loggers->get_loggers();
-
-foreach ( $loggers as $log ) {
-	call_user_func_array( array( $logger, 'watch' ), $log );
+/**
+ * Registers the logger to the specific hooks.
+ *
+ * @param string|array $hooks      An array of hooks to save log.
+ * @param callable $log     The callback function to return log message.
+ * @param callable $message The callback function to return long message of the log.
+ * @param string $log_level The Log level.
+ * @param int    $priority  An int value passed to `add_action()`.
+ * @param int    $accepted_args An int value passed to `add_action()`.
+ */
+function watch( $hooks, $log, $message = null, $log_level = null,
+	$priority = 10, $accepted_args = 1 ) {
+	call_user_func_array( array( $GLOBALS['talog'], 'register' ), func_get_args() );
 }
