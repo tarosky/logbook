@@ -33,7 +33,10 @@ class Talog_Log_Test extends \WP_UnitTestCase
 		$this->assertTrue( $test_flag );
 	}
 
-
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function test_log_object_should_return_stdclass_with_some_option()
 	{
 		$user_id = $this->set_current_user( 'administrator' );

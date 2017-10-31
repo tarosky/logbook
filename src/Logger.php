@@ -17,10 +17,15 @@ class Logger
 
 	public function init_log( $logger_class )
 	{
-		$logger = new $logger_class();
-		if ( is_a( $logger, 'Talog\Logger\Logger' ) ) {
-			$this->loggers[] = $logger;
+		if ( class_exists( $logger_class ) ) {
+			$logger = new $logger_class();
+			if ( is_a( $logger, 'Talog\Logger\Logger' ) ) {
+				$this->loggers[] = $logger;
+				return $this->loggers;
+			}
 		}
+
+		return new \WP_Error( 'Incorrect `Talog\Logger\Logger` object' );
 	}
 
 	public function plugins_loaded()
@@ -100,13 +105,13 @@ class Logger
 	public function shutdown()
 	{
 		foreach ( $this->logs as $log_object ) {
-			self::save_log( $log_object );
+			$this->save_log( $log_object );
 		}
 
 		do_action( 'talog_after_save_log', $this->logs );
 	}
 
-	protected static function save_log( Log $log_object )
+	private function save_log( Log $log_object )
 	{
 		$log = $log_object->get_log();
 		$post_id = wp_insert_post( array(

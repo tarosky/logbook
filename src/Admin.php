@@ -42,7 +42,7 @@ class Admin
 	{
 		echo '<select name="_label">';
 		echo '<option value="">All labels &nbsp;</option>';
-		$labels = $this->get_meta_values( '_talog_label', 'talog' );
+		$labels = self::get_meta_values( '_talog_label' );
 		foreach ( $labels as $label ) {
 			if ( ! empty( $_GET['_label'] ) && $label === $_GET['_label'] ) {
 				$selected = 'selected';
@@ -60,7 +60,7 @@ class Admin
 
 		echo '<select name="_log_level">';
 		echo '<option value="">All levels &nbsp;</option>';
-		$levels = $this->get_meta_values( '_talog_log_level', 'talog' );
+		$levels = self::get_meta_values( '_talog_log_level' );
 		foreach ( $levels as $level ) {
 			if ( ! empty( $_GET['_log_level'] ) && $level === $_GET['_log_level'] ) {
 				$selected = 'selected';
@@ -181,20 +181,15 @@ class Admin
 		);
 	}
 
-	public function get_meta_values( $meta_key, $post_type = 'post' )
+	public static function get_meta_values( $meta_key, $post_type = 'talog' )
 	{
-		$posts = get_posts(
-			array(
-				'post_type' => $post_type,
-				'meta_key' => $meta_key,
-				'posts_per_page' => -1,
-			)
-		);
+		global $wpdb;
 
-		$meta_values = array();
-		foreach ( $posts as $post ) {
-			$meta_values[] = get_post_meta( $post->ID, $meta_key, true );
-		}
+		$sql = "SELECT pm.meta_value FROM {$wpdb->postmeta} pm 
+			LEFT JOIN {$wpdb->posts} p ON p.ID = pm.post_id 
+				WHERE pm.meta_key = '%s' AND p.post_type = '%s'";
+
+		$meta_values = $wpdb->get_col( $wpdb->prepare( $sql, $meta_key, $post_type ) );
 
 		$meta_values = array_unique( $meta_values );
 		sort( $meta_values );

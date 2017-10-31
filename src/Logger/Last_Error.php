@@ -1,17 +1,21 @@
 <?php
 
 namespace Talog\Logger;
-use Talog;
+use Talog\Log_Level;
 
 class Last_Error extends Logger
 {
 	protected $label = 'Debug';
 	protected $hooks = array( 'shutdown' );
-	protected $log_level = Talog\Log_Level::DEBUG;
+	protected $log_level = Log_Level::DEBUG;
 	protected $priority = 10;
 	protected $accepted_args = 1;
 
 	private $error = array();
+
+	public function __construct() {
+		parent::__construct();
+	}
 
 	public function get_log( $additional_args ) {
 		$this->error = $this->get_last_error();

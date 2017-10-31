@@ -6,30 +6,17 @@ class Log
 {
 	private $log;
 
-	public function __construct() {
+	public function __construct()
+	{
 		$this->log = new \stdClass;
-
-		if ( defined('WP_CLI') && WP_CLI ) {
-			$is_cli = true;
-		} else {
-			$is_cli = false;
-		}
-
-		$user = self::get_user();
-		if ( empty( $user->ID ) ) {
-			$user_id = 0;
-		} else {
-			$user_id = $user->ID;
-		}
-
 		$this->log->title = '';
 		$this->log->content = '';
-		$this->log->user = $user_id;
+		$this->log->user = self::get_user_id();
 		$this->log->meta = array(
 			'label' => 'General',
 			'log_level' => Log_Level::DEFAULT_LEVEL,
 			'hook' => self::get_current_hook(),
-			'is_cli' => $is_cli,
+			'is_cli' => self::is_cli(),
 		);
 	}
 
@@ -45,7 +32,9 @@ class Log
 
 	public function set_label( $label )
 	{
-		$this->log->meta['label'] = $label;
+		if ( ! empty( $label ) ) {
+			$this->log->meta['label'] = $label;
+		}
 	}
 
 	public function set_log_level( $log_level )
@@ -70,5 +59,24 @@ class Log
 	protected static function get_user()
 	{
 		return wp_get_current_user();
+	}
+
+	protected static function is_cli()
+	{
+		if ( defined('WP_CLI') && WP_CLI ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	protected function get_user_id()
+	{
+		$user = self::get_user();
+		if ( empty( $user->ID ) ) {
+			return 0;
+		} else {
+			return $user->ID;
+		}
 	}
 }

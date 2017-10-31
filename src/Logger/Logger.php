@@ -1,20 +1,27 @@
 <?php
 
 namespace Talog\Logger;
-use Talog;
+use Talog\Log_Level;
 
 abstract class Logger
 {
 	protected $label = '';
 	protected $hooks = array();
-	protected $log_level = Talog\Log_Level::DEFAULT_LEVEL;
+	protected $log_level = Log_Level::DEFAULT_LEVEL;
 	protected $priority = 10;
 	protected $accepted_args = 1;
 
 	/**
 	 * Logger constructor.
 	 */
-	public function __construct() {}
+	public function __construct() {
+		if ( empty( $this->label ) ) {
+			wp_die( '`Talog\Logger\Logger` requires the `$label` property.' );
+		}
+		if ( empty( $this->hooks ) || ! is_array( $this->hooks ) ) {
+			wp_die( '`Talog\Logger\Logger` requires the `$hooks` property.' );
+		}
+	}
 
 	/**
 	 * Returns the log text.
@@ -22,7 +29,7 @@ abstract class Logger
 	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
 	 * @return string A text contents for the log that will be escaped automatically.
 	 */
-	abstract function get_log( $additional_args );
+	abstract public function get_log( $additional_args );
 
 	/**
 	 * Returns the long message for the log.
@@ -30,7 +37,7 @@ abstract class Logger
 	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
 	 * @return string A HTML contents for the log. You should escape as you need.
 	 */
-	abstract function get_message( $additional_args );
+	abstract public function get_message( $additional_args );
 
 	/**
 	 * Returns the label text for the log.
@@ -59,7 +66,7 @@ abstract class Logger
 	 */
 	public function get_log_level()
 	{
-		return $this->log_level;
+		return Log_Level::get_level( $this->log_level );
 	}
 
 	/**
