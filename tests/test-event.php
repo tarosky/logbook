@@ -45,6 +45,10 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 		$this->assertSame( 'test_hook', $meta['hook'] );
 		$this->assertSame( false, $meta['is_cli'] );
 		$this->assertTrue( is_array( $meta['server_vars'] ) );
+		$_talog_label = get_post_meta( $last_log->ID, '_talog_label', true );
+		$this->assertSame( $meta['label'], $_talog_label );
+		$_talog_log_level = get_post_meta( $last_log->ID, '_talog_log_level', true );
+		$this->assertSame( $meta['log_level'], $_talog_log_level );
 	}
 
 	/**
@@ -88,6 +92,10 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 		$this->assertSame( 'test_hook', $meta['hook'] );
 		$this->assertSame( true, $meta['is_cli'] );
 		$this->assertTrue( is_array( $meta['server_vars'] ) );
+		$_talog_label = get_post_meta( $last_log->ID, '_talog_label', true );
+		$this->assertSame( $meta['label'], $_talog_label );
+		$_talog_log_level = get_post_meta( $last_log->ID, '_talog_log_level', true );
+		$this->assertSame( $meta['log_level'], $_talog_log_level );
 	}
 
 	/**

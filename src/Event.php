@@ -71,7 +71,7 @@ class Event
 	 * Callback function to save log.
 	 *
 	 * @param Logger $logger          Talog\Logger object.
-	 * @param array         $additional_args An array which is passed from the callback function of the hook.
+	 * @param array  $additional_args An array that is passed from WordPress hook.
 	 *
 	 * @return int|\WP_Error
 	 */
