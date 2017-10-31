@@ -34,7 +34,6 @@ class Submenu_Page
 
 		echo $this->meta_contents();
 		echo $this->get_the_content( $this->post->post_content, true );
-		echo $this->get_the_content( $this->last_error(), true );
 		echo $this->get_the_content( $this->server_vars(), true );
 
 		echo '</div><!-- .wrap -->';
@@ -55,22 +54,6 @@ class Submenu_Page
 			esc_html( $author ),
 			esc_html( get_date_from_gmt( $this->post->post_date_gmt, 'Y-m-d H:i:s' ) )
 		);
-	}
-
-	public function last_error()
-	{
-		if ( ! empty( $this->meta['last_error'] ) ) {
-			$cols = array();
-			foreach ( $this->meta['last_error'] as $key => $value ) {
-				$cols[] = sprintf(
-					'<tr><th>%s</th><td>%s</td></tr>',
-					esc_html( $key ),
-					esc_html( $value )
-				);
-			}
-
-			return '<h2>Last Error</h2><table class="table-talog">' . implode( "", $cols ) . '</table>';
-		}
 	}
 
 	public function get_the_content( $content, $allow_html = false )

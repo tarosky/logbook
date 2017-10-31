@@ -42,28 +42,23 @@ function plugins_loaded() {
 		$admin->register();
 	}
 
-	// Registers default loggers.
-	$default_loggers = new Default_Logger();
-	$loggers = $default_loggers->get_loggers();
-	foreach ( $loggers as $log ) {
-		call_user_func_array( 'Talog\watch', $log );
-	}
+	$GLOBALS['talog']->init_log( 'Talog\Logger\Last_Error' );
 }
 
 add_action( 'plugins_loaded', 'Talog\plugins_loaded' );
 
-/**
- * Registers the logger to the specific hooks.
- *
- * @param string       $label         The label of the log.
- * @param string|array $hooks         An array of hooks to save log.
- * @param callable     $log           The callback function to return log message.
- * @param callable     $message       The callback function to return long message of the log.
- * @param string       $log_level     The Log level like `Talog\Log_Level::INFO`. See `Talog\Log_Level`.
- * @param int          $priority      An int value passed to `add_action()`.
- * @param int          $accepted_args An int value passed to `add_action()`.
- */
-function watch( $label, $hooks, $log, $message = null, $log_level = null,
-									$priority = 10, $accepted_args = 1 ) {
-	call_user_func_array( array( $GLOBALS['talog'], 'register' ), func_get_args() );
-}
+///**
+// * Registers the logger to the specific hooks.
+// *
+// * @param string       $label         The label of the log.
+// * @param string|array $hooks         An array of hooks to save log.
+// * @param callable     $log           The callback function to return log message.
+// * @param callable     $message       The callback function to return long message of the log.
+// * @param string       $log_level     The Log level like `Talog\Log_Level::INFO`. See `Talog\Log_Level`.
+// * @param int          $priority      An int value passed to `add_action()`.
+// * @param int          $accepted_args An int value passed to `add_action()`.
+// */
+//function watch( $label, $hooks, $log, $message = null, $log_level = null,
+//									$priority = 10, $accepted_args = 1 ) {
+//	call_user_func_array( array( $GLOBALS['talog'], 'register' ), func_get_args() );
+//}
