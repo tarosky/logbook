@@ -30,7 +30,7 @@ function activate_auto_update() {
 
 function plugins_loaded() {
 	// Creates an instance of logger.
-	$GLOBALS['talog'] = new Logger();
+	$GLOBALS['talog'] = new Event();
 
 	// Registers post type `talog`.
 	$post_type = new Post_Type();
@@ -42,7 +42,10 @@ function plugins_loaded() {
 		$admin->register();
 	}
 
-	$loggers = apply_filters( 'talog_default_logs', array(
+	/**
+	 * Filters the array of default loggers.
+	 */
+	$loggers = apply_filters( 'talog_default_loggers', array(
 		'Talog\Logger\Last_Error',
 		'Talog\Logger\Post_Updated',
 		'Talog\Logger\Publish_Post',

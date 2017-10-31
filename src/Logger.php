@@ -2,131 +2,89 @@
 
 namespace Talog;
 
-class Logger
+abstract class Logger
 {
-	const post_type = 'talog';
+	protected $label = '';
+	protected $hooks = array();
+	protected $log_level = Log_Level::DEFAULT_LEVEL;
+	protected $priority = 10;
+	protected $accepted_args = 1;
 
-	private $loggers = array();
-	private $logs = array();
-
-	public function __construct()
-	{
-		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 11 );
-		add_action( 'shutdown', array( $this, 'shutdown' ), 11 );
-	}
-
-	public function init_log( $logger_class )
-	{
-		if ( class_exists( $logger_class ) ) {
-			$logger = new $logger_class();
-			if ( is_a( $logger, 'Talog\Logger\Logger' ) ) {
-				$this->loggers[] = $logger;
-				return $this->loggers;
-			}
+	/**
+	 * Logger constructor.
+	 */
+	public function __construct() {
+		if ( empty( $this->label ) ) {
+			wp_die( '`Talog\Logger\Logger` requires the `$label` property.' );
 		}
-
-		return new \WP_Error( 'Incorrect `Talog\Logger\Logger` object' );
-	}
-
-	public function plugins_loaded()
-	{
-		$self = $this;
-
-		foreach ( $this->loggers as $logger ) {
-			/**
-			 * Filters the log levels array to save logs.
-			 *
-			 * @param array $log_levels An array of the log levels.
-			 *
-			 * @reurn array
-			 */
-			$log_levels = apply_filters( 'talog_log_levels', Log_Level::get_all_levels() );
-
-			if ( ! in_array( Log_Level::get_level( $logger->get_log_level() ), $log_levels ) ) {
-				return;
-			}
-
-			foreach ( $logger->get_hooks() as $hook ) {
-				add_filter( $hook, function () use ( $self, $logger ) {
-					$args = func_get_args();
-
-					$return = null;
-					if ( ! empty( $args[0] ) ) {
-						$return = $args[0];
-					}
-
-					if ( 'save_post' === current_filter() && 'talog' === get_post_type( $args[0] ) ) {
-						return $return; // To prevent infinite loop.
-					}
-
-					$self->get_log( $logger, $args );
-
-					return $return;
-				}, $logger->get_priority(), $logger->get_accepted_args() );
-			}
+		if ( empty( $this->hooks ) || ! is_array( $this->hooks ) ) {
+			wp_die( '`Talog\Logger\Logger` requires the `$hooks` property.' );
 		}
 	}
 
 	/**
-	 * Callback function to save log.
+	 * Returns the log text.
 	 *
-	 * @param Logger\Logger $logger          Talog\Logger\Logger object.
-	 * @param array         $additional_args An array which is passed from the callback function of the hook.
-	 *
-	 * @return int|\WP_Error
+	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
+	 * @return string A text contents for the log that will be escaped automatically.
 	 */
-	public function get_log( Logger\Logger $logger, $additional_args = array() )
+	abstract public function get_log( $additional_args );
+
+	/**
+	 * Returns the long message for the log.
+	 *
+	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
+	 * @return string A HTML contents for the log. You should escape as you need.
+	 */
+	abstract public function get_message( $additional_args );
+
+	/**
+	 * Returns the label text for the log.
+	 *
+	 * @return string The label text for the log.
+	 */
+	public function get_label()
 	{
-		$log_text = call_user_func_array(
-			array( $logger, 'get_log' ),
-			array( $additional_args )
-		);
-
-		if ( empty( $log_text ) ) {
-			return 0;
-		}
-
-		$message_text = call_user_func_array(
-			array( $logger, 'get_message' ),
-			array( $additional_args )
-		);
-
-		$log = new Log();
-		$log->set_label( $logger->get_label() );
-		$log->set_title( $log_text );
-		$log->set_content( $message_text );
-		$log->set_log_level( Log_Level::get_level( $logger->get_log_level() ) );
-
-		$this->logs[] = $log;
-
-		do_action( 'talog_after_hook', $log );
+		return $this->label;
 	}
 
-	public function shutdown()
+	/**
+	 * Returns the WordPress's action hook or filter hook.
+	 *
+	 * @return array The hook that will fire callback.
+	 */
+	public function get_hooks()
 	{
-		foreach ( $this->logs as $log_object ) {
-			$this->save_log( $log_object );
-		}
-
-		do_action( 'talog_after_save_log', $this->logs );
+		return $this->hooks;
 	}
 
-	private function save_log( Log $log_object )
+	/**
+	 * Returns the value of `Talog\Log_Level`.
+	 *
+	 * @return string Log level that come from `Talog\Log_Level` class.
+	 */
+	public function get_log_level()
 	{
-		$log = $log_object->get_log();
-		$post_id = wp_insert_post( array(
-			'post_type'    => self::post_type,
-			'post_title'   => $log->title,
-			'post_content' => $log->content,
-			'post_status'  => 'publish',
-			'post_author'  => $log->user
-		) );
+		return Log_Level::get_level( $this->log_level );
+	}
 
-		// Followings will be used for `orderby` for query.
-		update_post_meta( $post_id, '_talog_label', $log->meta['label'] );
-		update_post_meta( $post_id, '_talog_log_level', $log->meta['log_level'] );
+	/**
+	 * Returns integer that will be used for `$priority` of the `add_filter()`.
+	 *
+	 * @return int Integer that will passed to the `add_filter()`.
+	 */
+	public function get_priority()
+	{
+		return $this->priority;
+	}
 
-		$log->meta['server_vars'] = $_SERVER;
-		update_post_meta( $post_id, '_talog', $log->meta );
+	/**
+	 * Returns integer that will be used for `$accepted_args` of the `add_filter()`.
+	 *
+	 * @return int Integer that will passed to the `add_filter()`.
+	 */
+	public function get_accepted_args()
+	{
+		return $this->accepted_args;
 	}
 }

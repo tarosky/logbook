@@ -4,7 +4,7 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 {
 	public function test_logger_class()
 	{
-		$logger = new \Talog\Logger();
+		$logger = new \Talog\Event();
 		$result = $logger->init_log( 'hello' );
 		$this->assertTrue( is_a( $result, 'WP_Error' ) );
 	}
@@ -17,11 +17,11 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 		$GLOBALS['test-message'] = false;
 		$user_id = $this->set_current_user( 'editor' );
 
-		$logger = new \Talog\Logger();
+		$logger = new \Talog\Event();
 		$result = $logger->init_log( 'Test_Log' );
 
 		$this->assertTrue( is_array( $result ) );
-		$this->assertTrue( is_a( $result[0], 'Talog\Logger\Logger' ) );
+		$this->assertTrue( is_a( $result[0], 'Talog\Logger' ) );
 
 		do_action( 'plugins_loaded' );
 		$this->assertFalse( $GLOBALS['test-log'] );
@@ -60,11 +60,11 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 		$GLOBALS['test-message'] = false;
 		$user_id = $this->set_current_user( 'editor' );
 
-		$logger = new \Talog\Logger();
+		$logger = new \Talog\Event();
 		$result = $logger->init_log( 'Test_Log' );
 
 		$this->assertTrue( is_array( $result ) );
-		$this->assertTrue( is_a( $result[0], 'Talog\Logger\Logger' ) );
+		$this->assertTrue( is_a( $result[0], 'Talog\Logger' ) );
 
 		do_action( 'plugins_loaded' );
 		$this->assertFalse( $GLOBALS['test-log'] );

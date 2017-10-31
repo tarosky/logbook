@@ -2,6 +2,7 @@
 
 namespace Talog\Logger;
 use Talog\Log_Level;
+use \Talog\Logger;
 
 class Publish_Post extends Logger
 {

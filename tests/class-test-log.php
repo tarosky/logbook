@@ -1,14 +1,12 @@
 <?php
 
-class Test_Log extends Talog\Logger\Logger
+class Test_Log extends Talog\Logger
 {
 	protected $label = 'Test';
 	protected $hooks = array( 'test_hook' );
 	protected $log_level = Talog\Log_Level::DEBUG;
 	protected $priority = 10;
 	protected $accepted_args = 2;
-
-	private $error = array();
 
 	public function get_log( $additional_args ) {
 		$GLOBALS['test-log'] = $additional_args;
