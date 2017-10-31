@@ -65,6 +65,6 @@ class Post_Updated extends Logger
 			$date = '<h2>Date</h2>' . $date;
 		}
 
-		return '<div class="post-diff">' . $title . $content . $status . $date . '</div>';
+		return $title . $content . $status . $date;
 	}
 }

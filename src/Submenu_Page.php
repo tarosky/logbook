@@ -78,8 +78,7 @@ class Submenu_Page
 				$table .= sprintf(
 					'<tr><td>%s</td><td>%s</td></tr>',
 					esc_html( str_replace( '%', '%%', $key ) ),
-					esc_html( str_replace( '%', '%%',
-						json_encode( $value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE ) ) )
+					esc_html( str_replace( '%', '%%', $this->json_encode( $value ) ) )
 				);
 			}
 			return sprintf(
@@ -93,5 +92,10 @@ class Submenu_Page
 	public function get_container()
 	{
 		return '<div class="postbox-container">%s</div><!-- .postbox-container -->' . "\n";
+	}
+
+	private function json_encode( $var )
+	{
+		return json_encode( $var, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
 	}
 }
