@@ -1,9 +1,16 @@
 <?php
 /**
  * Exmaple class for `Talog\Logger`.
+ *
+ * To register this class use `Talog\init_log()` like following.
+ * ```
+ * add_action( 'plugins_loaded', function() {
+ *     Talog\init_log( 'My_Name_Space\Example' );
+ * } );
+ * ```
  */
 
-namespace Talog\Logger;
+namespace My_Name_Space;
 use Talog\Log_Level;
 use Talog\Logger;
 
