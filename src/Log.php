@@ -17,6 +17,7 @@ class Log
 			'log_level' => Log_Level::DEFAULT_LEVEL,
 			'hook' => self::get_current_hook(),
 			'is_cli' => self::is_cli(),
+			'server_vars' => $_SERVER,
 		);
 	}
 

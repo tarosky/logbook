@@ -126,7 +126,6 @@ class Event
 		update_post_meta( $post_id, '_talog_label', $log->meta['label'] );
 		update_post_meta( $post_id, '_talog_log_level', $log->meta['log_level'] );
 
-		$log->meta['server_vars'] = $_SERVER;
 		update_post_meta( $post_id, '_talog', $log->meta );
 	}
 }
