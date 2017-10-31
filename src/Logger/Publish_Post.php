@@ -21,7 +21,7 @@ class Publish_Post extends Logger
 	public function get_log( $additional_args )
 	{
 		list( $post_id, $post ) = $additional_args;
-		return esc_html( 'Published "' . $post->post_title . '" #' . $post_id . '.' );
+		return esc_html( '"' . $post->post_title . '" #' . $post_id . ' was published.' );
 	}
 
 	/**
