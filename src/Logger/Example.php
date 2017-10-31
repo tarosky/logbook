@@ -7,7 +7,7 @@ namespace Talog\Logger;
 use Talog\Log_Level;
 use Talog\Logger;
 
-class Publish_Post extends Logger
+class Example extends Logger
 {
 	protected $label = 'Example';
 	protected $hooks = array( 'example_hook' );
