@@ -32,9 +32,9 @@ class Post_Updated extends Logger
 		}
 
 		if ( 'trash' === $post_after->post_status ) {
-			return '"' . $post_after->post_title . '" #' . $post_id . ' was moved to trash.';
+			return '#' . $post_id . ' "' . $post_after->post_title . '" was moved to trash.';
 		} else {
-			return '"' . $post_after->post_title . '" #' . $post_id . ' was updated.';
+			return '#' . $post_id . ' "' . $post_after->post_title . '" was updated.';
 		}
 	}
 
