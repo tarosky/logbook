@@ -10,22 +10,16 @@ Download: https://github.com/tarosky/talog/releases
 
 ### Add your custom log events
 
-Use `Talog\watch()` to add your custom event.
+1. Create a class that extends the `Talog\Logger` class.
+2. Load the class by `Talog\init_log()` like following.
 
 ```
-/**
- * Registers the logger to the specific hooks.
- *
- * @param string       $label         The label of the log.
- * @param string|array $hooks         An array of hooks to save log.
- * @param callable     $log           The callback function to return log message.
- * @param callable     $message       The callback function to return long message of the log.
- * @param string       $log_level     The Log level like `Talog\Log_Level::INFO`. See `Talog\Log_Level`.
- * @param int          $priority      An int value passed to `add_action()`.
- * @param int          $accepted_args An int value passed to `add_action()`.
- */
-Talog\watch( $label, $hooks, $log, $message = null, $log_level = null, $priority = 10, $accepted_args = 1 );
+add_action( 'plugins_loaded', function() {
+	Talog\init_log( 'Your_Class' );
+} );
 ```
+
+[The example class is here.](https://github.com/tarosky/talog/blob/master/example/Example.php)
 
 ## Screenshot
 
