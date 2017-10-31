@@ -69,7 +69,10 @@ add_action( 'plugins_loaded', 'Talog\plugins_loaded' );
  */
 function init_log( $logger_class ) {
 	if ( class_exists( $logger_class ) ) {
-		$GLOBALS['talog']->init_log( $logger_class );
+		$result = $GLOBALS['talog']->init_log( $logger_class );
+		if ( is_wp_error( $result ) ) {
+			wp_die( 'Incorrect `Talog\Logger` object.' );
+		}
 	} else {
 		wp_die( '`' . $logger_class . '` not found.' );
 	}
