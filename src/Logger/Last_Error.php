@@ -2,7 +2,7 @@
 
 namespace Talog\Logger;
 use Talog\Log_Level;
-use \Talog\Logger;
+use Talog\Logger;
 
 class Last_Error extends Logger
 {
