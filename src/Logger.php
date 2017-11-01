@@ -118,8 +118,8 @@ abstract class Logger
 			foreach ( $array as $key => $value ) {
 				$cols[] = sprintf(
 					'<tr><th style="white-space: nowrap;">%s</th><td>%s</td></tr>',
-					esc_html( $key ),
-					self::kses( $value )
+					esc_html( trim( $key ) ),
+					self::kses( trim( $value ) )
 				);
 			}
 
