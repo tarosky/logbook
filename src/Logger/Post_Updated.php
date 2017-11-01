@@ -21,6 +21,10 @@ class Post_Updated extends Logger
 	 */
 	public function log( Log $log, $additional_args )
 	{
+		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+			return;
+		}
+
 		list( $post_id, $post_after, $post_before ) = $additional_args;
 
 		// Followings are always changed.
