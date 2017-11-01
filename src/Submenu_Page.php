@@ -2,7 +2,7 @@
 
 namespace Talog;
 
-class Submenu_Page
+final class Submenu_Page
 {
 	private $post;
 	private $meta;

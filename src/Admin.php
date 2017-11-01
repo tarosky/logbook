@@ -8,7 +8,7 @@ namespace Talog;
  *
  * @package Talog
  */
-class Admin
+final class Admin
 {
 	public function register()
 	{

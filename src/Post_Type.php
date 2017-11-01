@@ -2,7 +2,7 @@
 
 namespace Talog;
 
-class Post_Type
+final class Post_Type
 {
 	const post_type = 'talog';
 
