@@ -22,7 +22,6 @@ class Last_Error extends Logger
 	public function log( Log $log, $additional_args ) {
 		$error = error_get_last();
 		if ( $error ) {
-			var_dump($error);
 			$log->set_title( $error['message'] );
 			$log->update_meta( 'error', $error );
 			$log->update_meta( 'error-file', self::get_a_part_of_file( $error ) );
@@ -63,7 +62,8 @@ class Last_Error extends Logger
 				);
 			}
 
-			return '<h2>Last Error</h2><table class="table-talog">' . implode( "", $cols ) . '</table>';
+			return '<h2>Last Error</h2><table class="table-talog">'
+			            . implode( "", $cols ) . '</table>';
 		}
 	}
 
