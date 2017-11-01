@@ -25,18 +25,10 @@ abstract class Logger
 	/**
 	 * Returns the log text.
 	 *
+	 * @param Log    $log             An instance of `Talog\Log`.
 	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
-	 * @return string A text contents for the log that will be escaped automatically.
 	 */
-	abstract public function get_log( $additional_args );
-
-	/**
-	 * Returns the long message for the log.
-	 *
-	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
-	 * @return string A HTML contents for the log. You should escape as you need.
-	 */
-	abstract public function get_message( $additional_args );
+	abstract public function get_log( Log $log, $additional_args );
 
 	/**
 	 * Returns the label text for the log.

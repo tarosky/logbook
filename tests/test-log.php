@@ -27,6 +27,11 @@ class Talog_Log_Test extends \WP_UnitTestCase
 			$this->assertSame( \Talog\Log_Level::DEFAULT_LEVEL, $log->meta['log_level'] );
 			$this->assertSame( 'test_hook', $log->meta['hook'] );
 			$this->assertSame( false, $log->meta['is_cli'] );
+
+			$log_object->update_meta( 'foo', 'bar' );
+			$this->assertSame( 'bar', $log_object->get_log()->meta['foo'] );
+			$log_object->delete_meta( 'foo' );
+			$this->assertTrue( empty( $log_object->get_log()->meta['foo'] ) );
 		} );
 
 		do_action( 'test_hook' );

@@ -3,6 +3,7 @@
 namespace Talog\Logger;
 use Talog\Log_Level;
 use Talog\Logger;
+use Talog\Log;
 
 class Activated_Plugin extends Logger
 {
@@ -15,28 +16,19 @@ class Activated_Plugin extends Logger
 	/**
 	 * Returns the log text.
 	 *
+	 * @param Log    $log             An instance of `Talog\Log`.
 	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
-	 * @return string A text contents for the log that will be escaped automatically.
 	 */
-	public function get_log( $additional_args )
+	public function get_log( Log $log, $additional_args )
 	{
 		list( $plugin ) = $additional_args;
 
 		if ( 'activated_plugin' === current_filter() ) {
-			return 'Plugin "' . $plugin . '" was activated.';
+			$title = 'Plugin "' . $plugin . '" was activated.';
 		} else {
-			return 'Plugin "' . $plugin . '" was deactivated.';
+			$title = 'Plugin "' . $plugin . '" was deactivated.';
 		}
-	}
 
-	/**
-	 * Returns the long message for the log.
-	 *
-	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
-	 * @return string A HTML contents for the log. You should escape as you need.
-	 */
-	public function get_message( $additional_args )
-	{
-		return "";
+		$log->set_title( $title );
 	}
 }

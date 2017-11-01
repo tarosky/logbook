@@ -77,25 +77,18 @@ class Event
 	 */
 	public function get_log( Logger $logger, $additional_args = array() )
 	{
-		$log_text = call_user_func_array(
-			array( $logger, 'get_log' ),
-			array( $additional_args )
-		);
-
-		if ( empty( $log_text ) ) {
-			return 0;
-		}
-
-		$message_text = call_user_func_array(
-			array( $logger, 'get_message' ),
-			array( $additional_args )
-		);
-
 		$log = new Log();
 		$log->set_label( $logger->get_label() );
-		$log->set_title( $log_text );
-		$log->set_content( $message_text );
-		$log->set_log_level( Log_Level::get_level( $logger->get_log_level() ) );
+		$log->set_log_level( $logger->get_log_level() );
+
+		call_user_func_array(
+			array( $logger, 'get_log' ),
+			array( $log, $additional_args )
+		);
+
+		if ( ! is_a( $log, 'Talog\Log' ) || ! $log->is_log() ) {
+			return 0;
+		}
 
 		$this->logs[] = $log;
 

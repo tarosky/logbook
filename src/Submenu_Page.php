@@ -33,7 +33,8 @@ class Submenu_Page
 		);
 
 		echo $this->meta_contents();
-		echo $this->get_the_content( $this->post->post_content, true );
+		$post = apply_filters( 'talog_the_content', $this->post, $this->meta );
+		echo $this->get_the_content( $post->post_content, true );
 		echo $this->get_the_content( $this->server_vars(), true );
 
 		echo '</div><!-- .wrap -->';

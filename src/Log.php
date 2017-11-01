@@ -43,12 +43,31 @@ class Log
 		$this->log->meta['log_level'] = Log_Level::get_level( $log_level );
 	}
 
+	public function update_meta( $key, $value )
+	{
+		$this->log->meta[ $key ] = $value;
+	}
+
+	public function delete_meta( $key )
+	{
+		unset( $this->log->meta[ $key ] );
+	}
+
 	public function get_log()
 	{
 		if ( empty( $this->log->title ) || empty( $this->log->meta['hook'] ) ) {
 			return new \WP_Error( 'Incorrect log object' );
 		} else {
 			return $this->log;
+		}
+	}
+
+	public function is_log()
+	{
+		if ( empty( $this->log->title ) || empty( $this->log->meta['hook'] ) ) {
+			return false;
+		} else {
+			return true;
 		}
 	}
 

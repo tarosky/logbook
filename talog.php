@@ -46,13 +46,13 @@ function plugins_loaded() {
 	 * Filters the array of default loggers.
 	 */
 	$loggers = apply_filters( 'talog_default_loggers', array(
-		'Talog\Logger\Last_Error',
-		'Talog\Logger\Post_Updated',
-		'Talog\Logger\Publish_Post',
+//		'Talog\Logger\Last_Error',
+//		'Talog\Logger\Post_Updated',
+//		'Talog\Logger\Publish_Post',
 		'Talog\Logger\Activated_Plugin',
-		'Talog\Logger\WP_Delete_File',
-		'Talog\Logger\Delete_Post',
-		'Talog\Logger\WP_Login',
+//		'Talog\Logger\WP_Delete_File',
+//		'Talog\Logger\Delete_Post',
+//		'Talog\Logger\WP_Login',
 	) );
 
 	foreach ( $loggers as $logger ) {
