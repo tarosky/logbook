@@ -9,6 +9,9 @@ final class Submenu_Page
 
 	public function __construct() {
 		$this->post = get_post( intval( $_GET['log_id'] ) );
+		if ( 'talog' !== $this->post->post_type ) {
+			wp_die( 'Not found.' );
+		}
 		$this->meta = get_post_meta( $this->post->ID, '_talog', true );
 	}
 
