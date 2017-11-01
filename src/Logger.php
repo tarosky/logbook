@@ -106,4 +106,43 @@ abstract class Logger
 	{
 		return 'talog_content_' . str_replace( '\\', '_', strtolower( get_class( $this ) ) );
 	}
+
+	/**
+	 * @param array $array
+	 * @return string The HTML table.
+	 */
+	public function get_table( $array )
+	{
+		if ( ! empty( $array ) ) {
+			$cols = array();
+			foreach ( $array as $key => $value ) {
+				$cols[] = sprintf(
+					'<tr><th style="white-space: nowrap;">%s</th><td>%s</td></tr>',
+					esc_html( $key ),
+					self::kses( $value )
+				);
+			}
+
+			return '<table class="table-talog">'
+			       . implode( "", $cols ) . '</table>';
+		}
+	}
+
+	private static function kses( $html )
+	{
+		$allowed_html = array(
+			"a" => array(
+				"href" => array(),
+				"title" => array(),
+			),
+			'br' => array(),
+			'em' => array(),
+			'strong' => array(),
+			'pre' => array(),
+		);
+
+		$allowed_protocols = array( 'http', 'https' );
+
+		return wp_kses( $html, $allowed_html, $allowed_protocols );
+	}
 }

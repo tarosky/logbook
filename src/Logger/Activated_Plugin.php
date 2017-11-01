@@ -1,4 +1,7 @@
 <?php
+/**
+ * Save log for activate/deactivate plugin.
+ */
 
 namespace Talog\Logger;
 use Talog\Log_Level;
@@ -30,6 +33,10 @@ class Activated_Plugin extends Logger
 		}
 
 		$log->set_title( $title );
+
+		$path = trailingslashit( WP_PLUGIN_DIR ) . $plugin;
+		$plugin_data = get_plugin_data( $path );
+		$log->update_meta( 'plugin_data', $plugin_data );
 	}
 
 	/**
@@ -38,5 +45,10 @@ class Activated_Plugin extends Logger
 	 * @param \WP_Post $post     The post object.
 	 * @param array   $post_meta The post meta of the `$post`.
 	 */
-	public function admin( \WP_Post $post, $post_meta ) {}
+	public function admin( \WP_Post $post, $post_meta )
+	{
+		$table = '<h2>Plugin Data</h2>';
+		$table .= $this->get_table( $post_meta['plugin_data'] );
+		$post->post_content = $table;
+	}
 }

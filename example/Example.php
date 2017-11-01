@@ -1,4 +1,7 @@
 <?php
+/**
+ * This class is an example for custom logger class.
+ */
 
 namespace My_Name_Space;
 use Talog\Log;
@@ -21,7 +24,12 @@ class Example extends Logger
 	 */
 	public function log( Log $log, $additional_args )
 	{
+		// title will be listed in table on the admin.
 		$log->set_title( 'This is a log.' );
+
+		// If you need a metadata use `update_meta()`.
+		// It will be saved to the database.
+		$log->update_meta( 'key', 'value' );
 	}
 
 	/**
@@ -33,6 +41,12 @@ class Example extends Logger
 	 */
 	public function admin( \WP_Post $post, $post_meta )
 	{
+		// post_content will be displayed on admin.
 		$post->post_content = 'This is a content of the log.';
+
+		// We can use metadata like following.
+		if ( 'value' === $post_meta['key'] ) {
+			$post->post_content = 'Hey!!';
+		}
 	}
 }

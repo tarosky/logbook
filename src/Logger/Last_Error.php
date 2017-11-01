@@ -44,27 +44,11 @@ class Last_Error extends Logger
 		}
 
 		if ( $post_meta['error'] ) {
-			$content .= $this->get_error_table( $post_meta['error'] );
+			$post_meta['error']['message'] = '<pre>' . $post_meta['error']['message'] . '</pre>';
+			$content .= '<h2>Last Error</h2>' . $this->get_table( $post_meta['error'] );
 		}
 
 		$post->post_content = $content;
-	}
-
-	public function get_error_table( $error )
-	{
-		if ( ! empty( $error ) ) {
-			$cols = array();
-			foreach ( $error as $key => $value ) {
-				$cols[] = sprintf(
-					'<tr><th style="white-space: nowrap;">%s</th><td>%s</td></tr>',
-					esc_html( $key ),
-					'<pre>' . esc_html( $value ) . '</pre>'
-				);
-			}
-
-			return '<h2>Last Error</h2><table class="table-talog">'
-			            . implode( "", $cols ) . '</table>';
-		}
 	}
 
 	public static function get_a_part_of_file( $error )

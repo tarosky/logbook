@@ -20,7 +20,8 @@ class Test_Log extends Talog\Logger
 		$log->update_meta( 'name', 'Taro' );
 	}
 
-	public function admin( \WP_Post $content, $post_meta ) {
-		// TODO: Implement get_the_content() method.
+	public function admin( \WP_Post $post, $post_meta ) {
+		// TODO: Need unit tests for this.
+		$post->post_content = 'hello world';
 	}
 }
