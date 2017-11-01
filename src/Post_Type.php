@@ -20,7 +20,7 @@ final class Post_Type
 			'public'            => false,
 			'show_ui'           => true,
 			'menu_icon'         => 'dashicons-list-view',
-			'show_in_rest'      => true,
+			'show_in_rest'      => false,
 			'rest_base'         => 'log',
 			'rest_controller_class' => 'WP_REST_Posts_Controller',
 			'capability_type'   => 'page',
