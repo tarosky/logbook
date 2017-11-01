@@ -83,7 +83,7 @@ class Last_Error extends Logger
 				$html .= sprintf(
 					'<pre class="%s">%s</pre>' . "\n",
 					esc_attr( $class ),
-					esc_html( trim( $lines[ $i ] ) )
+					esc_html( rtrim( $lines[ $i ] ) )
 				);
 			}
 			return $html;
