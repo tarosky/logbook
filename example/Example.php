@@ -1,46 +1,38 @@
 <?php
-/**
- * Exmaple class for `Talog\Logger`.
- *
- * To register this class use `Talog\init_log()` like following.
- * ```
- * add_action( 'plugins_loaded', function() {
- *     Talog\init_log( 'My_Name_Space\Example' );
- * } );
- * ```
- */
 
 namespace My_Name_Space;
+use Talog\Log;
 use Talog\Log_Level;
 use Talog\Logger;
 
 class Example extends Logger
 {
-	protected $label = 'Example';
-	protected $hooks = array( 'example_hook' );
+	protected $label = 'Post';
+	protected $hooks = array( 'publish_post' );
 	protected $log_level = Log_Level::DEFAULT_LEVEL;
 	protected $priority = 10;
 	protected $accepted_args = 1;
 
 	/**
-	 * Returns the log text.
+	 * Set the properties to the `Talog\Log` object for the log.
 	 *
+	 * @param Log    $log             An instance of `Talog\Log`.
 	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
-	 * @return string A text contents for the log that will be escaped automatically.
 	 */
-	public function get_log( $additional_args )
+	public function log( Log $log, $additional_args )
 	{
-		return "";
+		$log->set_title( 'This is a log.' );
 	}
 
 	/**
-	 * Returns the long message for the log.
+	 * Set the properties to `\WP_Post` for the admin.
 	 *
-	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
-	 * @return string A HTML contents for the log. You should escape as you need.
+	 * @param \WP_Post $post     The post object.
+	 * @param array   $post_meta The post meta of the `$post`.
+	 * @return \WP_Post The `\WP_Post` object.
 	 */
-	public function get_message( $additional_args )
+	public function admin( \WP_Post $post, $post_meta )
 	{
-		return "";
+		$post->post_content = 'This is a content of the log.';
 	}
 }
