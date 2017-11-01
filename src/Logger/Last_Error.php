@@ -56,9 +56,9 @@ class Last_Error extends Logger
 			$cols = array();
 			foreach ( $error as $key => $value ) {
 				$cols[] = sprintf(
-					'<tr><th>%s</th><td>%s</td></tr>',
+					'<tr><th style="white-space: nowrap;">%s</th><td>%s</td></tr>',
 					esc_html( $key ),
-					esc_html( $value )
+					'<pre>' . esc_html( $value ) . '</pre>'
 				);
 			}
 
