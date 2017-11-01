@@ -14,6 +14,11 @@ class Submenu_Page
 
 	public function display()
 	{
+		$post = $this->post;
+		if ( ! empty( $this->meta['filter'] ) ) {
+			do_action( $this->meta['filter'], $post, $this->meta );
+		}
+
 		if ( ! empty( $this->meta['log_level'] )) {
 			$log_level = Log_Level::get_level( $this->meta['log_level'] );
 		} else {
@@ -29,11 +34,10 @@ class Submenu_Page
 		printf(
 			'<h1 class="log-title">[%s] %s</h1>',
 			esc_html( Log_Level::get_level( $log_level ) ),
-			esc_html( $this->post->post_title )
+			esc_html( $post->post_title )
 		);
 
 		echo $this->meta_contents();
-		$post = apply_filters( 'talog_the_content', $this->post, $this->meta );
 		echo $this->get_the_content( $post->post_content, true );
 		echo $this->get_the_content( $this->server_vars(), true );
 

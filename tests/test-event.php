@@ -43,6 +43,7 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 		$this->assertSame( false, $meta['is_cli'] );
 		$this->assertTrue( is_array( $meta['server_vars'] ) );
 		$this->assertSame( 'Taro', $meta['name'] );
+		$this->assertSame( 'talog_content_hello_test_log', $meta['filter'] );
 
 		$_talog_label = get_post_meta( $last_log->ID, '_talog_label', true );
 		$this->assertSame( $meta['label'], $_talog_label );

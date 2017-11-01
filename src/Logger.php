@@ -23,12 +23,20 @@ abstract class Logger
 	}
 
 	/**
-	 * Returns the log text.
+	 * Set the properties to the `Talog\Log` object for the log.
 	 *
 	 * @param Log    $log             An instance of `Talog\Log`.
 	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
 	 */
-	abstract public function get_log( Log $log, $additional_args );
+	abstract public function log( Log $log, $additional_args );
+
+	/**
+	 * Set the properties to `\WP_Post` for the admin.
+	 *
+	 * @param \WP_Post $post     The post object.
+	 * @param array   $post_meta The post meta of the `$post`.
+	 */
+	abstract public function admin( \WP_Post $post, $post_meta );
 
 	/**
 	 * Returns the label text for the log.
@@ -78,5 +86,24 @@ abstract class Logger
 	public function get_accepted_args()
 	{
 		return $this->accepted_args;
+	}
+
+	/**
+	 *  Registers the callback function for the admin page.
+	 */
+	public function add_filter()
+	{
+		$hook = $this->get_hook_name();
+		add_action( $hook, array( $this, 'admin' ), 10, 2 );
+	}
+
+	/**
+	 * Returns the hook name.
+	 *
+	 * @return string The name of the hook.
+	 */
+	public function get_hook_name()
+	{
+		return 'talog_content_' . str_replace( '\\', '_', strtolower( get_class( $this ) ) );
 	}
 }

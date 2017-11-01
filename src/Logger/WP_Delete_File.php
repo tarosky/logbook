@@ -1,6 +1,7 @@
 <?php
 
 namespace Talog\Logger;
+use Talog\Log;
 use Talog\Log_Level;
 use Talog\Logger;
 
@@ -13,28 +14,28 @@ class WP_Delete_File extends Logger
 	protected $accepted_args = 1;
 
 	/**
-	 * Returns the log text.
+	 * Set the properties to the `Talog\Log` object for the log.
 	 *
+	 * @param Log    $log             An instance of `Talog\Log`.
 	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
-	 * @return string A text contents for the log that will be escaped automatically.
 	 */
-	public function get_log( $additional_args )
+	public function log( Log $log, $additional_args )
 	{
 		list( $file ) = $additional_args;
-		return sprintf(
+		$title = sprintf(
 			'File "%s" was deleted.',
 			esc_html( str_replace( untrailingslashit( ABSPATH ), '', $file ) )
 		);
+
+		$log->set_title( $title );
 	}
 
 	/**
-	 * Returns the long message for the log.
+	 * Set the properties to `\WP_Post` for the admin.
 	 *
-	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
-	 * @return string A HTML contents for the log. You should escape as you need.
+	 * @param \WP_Post $post     The post object.
+	 * @param array   $post_meta The post meta of the `$post`.
+	 * @return \WP_Post The `\WP_Post` object.
 	 */
-	public function get_message( $additional_args )
-	{
-		return "";
-	}
+	public function admin( \WP_Post $post, $post_meta ) {}
 }

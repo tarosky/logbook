@@ -1,6 +1,7 @@
 <?php
 
 namespace Talog\Logger;
+use Talog\Log;
 use Talog\Log_Level;
 use Talog\Logger;
 
@@ -13,12 +14,12 @@ class Post_Updated extends Logger
 	protected $accepted_args = 3;
 
 	/**
-	 * Returns the log text.
+	 * Set the properties to the `Talog\Log` object for the log.
 	 *
+	 * @param Log    $log             An instance of `Talog\Log`.
 	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
-	 * @return string A text contents for the log that will be escaped automatically.
 	 */
-	public function get_log( $additional_args )
+	public function log( Log $log, $additional_args )
 	{
 		list( $post_id, $post_after, $post_before ) = $additional_args;
 
@@ -27,27 +28,30 @@ class Post_Updated extends Logger
 			$post_before->post_modified_gmt, $post_before->post_modified );
 
 		// Don't save log when it has no changes.
-		if ( json_encode( $post_after ) === json_encode( $post_before ) ) {
-			return '';
-		}
+		if ( json_encode( $post_after ) !== json_encode( $post_before ) ) {
+			if ( 'trash' === $post_after->post_status ) {
+				$title = '#' . $post_id . ' "' . $post_after->post_title . '" was moved to trash.';
+			} else {
+				$title = '#' . $post_id . ' "' . $post_after->post_title . '" was updated.';
+			}
 
-		if ( 'trash' === $post_after->post_status ) {
-			return '#' . $post_id . ' "' . $post_after->post_title . '" was moved to trash.';
-		} else {
-			return '#' . $post_id . ' "' . $post_after->post_title . '" was updated.';
+			$log->set_title( $title );
+			$log->update_meta( 'post_before', $post_before );
+			$log->update_meta( 'post_after', $post_after );
 		}
 	}
 
 	/**
-	 * Returns the long message for the log.
+	 * Set the properties to `\WP_Post` for the admin.
 	 *
-	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
-	 * @return string A HTML contents for the log. You should escape as you need.
+	 * @param \WP_Post $post     The post object.
+	 * @param array   $post_meta The post meta of the `$post`.
+	 * @return \WP_Post The `\WP_Post` object.
 	 */
-	public function get_message( $additional_args )
+	public function admin( \WP_Post $post, $post_meta )
 	{
-		$post_after = $additional_args[1];
-		$post_before = $additional_args[2];
+		$post_after = $post_meta['post_after'];
+		$post_before = $post_meta['post_before'];
 
 		$title = wp_text_diff( $post_before->post_title, $post_after->post_title );
 		if ( $title ) {
@@ -69,6 +73,6 @@ class Post_Updated extends Logger
 			$date = '<h2>Date</h2>' . $date;
 		}
 
-		return $title . $content . $status . $date;
+		$post->post_content = $title . $content . $status . $date;
 	}
 }

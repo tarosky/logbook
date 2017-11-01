@@ -1,6 +1,7 @@
 <?php
 
 namespace Talog\Logger;
+use Talog\Log;
 use Talog\Log_Level;
 use Talog\Logger;
 
@@ -13,29 +14,35 @@ class Publish_Post extends Logger
 	protected $accepted_args = 2;
 
 	/**
-	 * Returns the log text.
+	 * Set the properties to the `Talog\Log` object for the log.
 	 *
+	 * @param Log    $log             An instance of `Talog\Log`.
 	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
-	 * @return string A text contents for the log that will be escaped automatically.
 	 */
-	public function get_log( $additional_args )
+	public function log( Log $log, $additional_args )
 	{
 		list( $post_id, $post ) = $additional_args;
-		return '#' . $post_id . ' "' . $post->post_title . '" was published.';
+		$title = '#' . $post_id . ' "' . $post->post_title . '" was published.';
+		$log->set_title( $title );
+		$log->update_meta( 'post_title', $post->post_title );
+		$log->update_meta( 'post_id', $post_id );
 	}
 
 	/**
-	 * Returns the long message for the log.
+	 * Set the properties to `\WP_Post` for the admin.
 	 *
-	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
-	 * @return string A HTML contents for the log. You should escape as you need.
+	 * @param \WP_Post $post     The post object.
+	 * @param array   $post_meta The post meta of the `$post`.
+	 * @return \WP_Post The `\WP_Post` object.
 	 */
-	public function get_message( $additional_args )
+	public function admin( \WP_Post $post, $post_meta )
 	{
-		list( $post_id ) = $additional_args;
-		return sprintf(
-			'<p><strong>URL:</strong> <a href="%1$s">%1$s</a></p>',
-			esc_url( get_the_permalink( $post_id ) )
+		$content = sprintf(
+			'<p><strong>URL:</strong> <a href="%s">%s</a></p>',
+			esc_url( get_the_permalink( $post_meta['post_id'] ) ),
+			esc_html( $post_meta['post_title'] )
 		);
+
+		$post->post_content = $content;
 	}
 }

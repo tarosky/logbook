@@ -14,12 +14,12 @@ class Activated_Plugin extends Logger
 	protected $accepted_args = 1;
 
 	/**
-	 * Returns the log text.
+	 * Set the properties to the `Talog\Log` object for the log.
 	 *
 	 * @param Log    $log             An instance of `Talog\Log`.
 	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
 	 */
-	public function get_log( Log $log, $additional_args )
+	public function log( Log $log, $additional_args )
 	{
 		list( $plugin ) = $additional_args;
 
@@ -31,4 +31,12 @@ class Activated_Plugin extends Logger
 
 		$log->set_title( $title );
 	}
+
+	/**
+	 * Set the properties to `\WP_Post` for the admin.
+	 *
+	 * @param \WP_Post $post     The post object.
+	 * @param array   $post_meta The post meta of the `$post`.
+	 */
+	public function admin( \WP_Post $post, $post_meta ) {}
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace Talog\Logger;
+use Talog\Log;
 use Talog\Log_Level;
 use Talog\Logger;
 
@@ -12,55 +13,49 @@ class Last_Error extends Logger
 	protected $priority = 10;
 	protected $accepted_args = 1;
 
-	private $error = array();
-
-	public function __construct() {
-		parent::__construct();
-	}
-
-	public function get_log( $additional_args ) {
-		$this->error = $this->get_last_error();
-		if ( $this->error ) {
-			return esc_html( $this->error['message'] );
-		} else {
-			return null;
-		}
-	}
-
-	public function get_message( $additional_args ) {
-		if ( $this->error ) {
-			$err = $this->error;
-			$html = $this->last_error();
-			if ( is_readable( $err['file'] ) ) {
-				$content = self::get_a_part_of_file( $err['file'], $err['line'] );
-				if ( $content ) {
-					$html .= sprintf(
-						'<h2>Source Code</h2><div class="code">%s</div>',
-						$content
-					);
-				}
-			}
-			return  $html;
-		} else {
-			return null;
+	/**
+	 * Set the properties to the `Talog\Log` object for the log.
+	 *
+	 * @param Log    $log             An instance of `Talog\Log`.
+	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
+	 */
+	public function log( Log $log, $additional_args ) {
+		$error = error_get_last();
+		if ( $error ) {
+			var_dump($error);
+			$log->set_title( $error['message'] );
+			$log->update_meta( 'error', $error );
+			$log->update_meta( 'error-file', self::get_a_part_of_file( $error ) );
 		}
 	}
 
 	/**
-	 * Returns the last error of PHP.
+	 * Set the properties to `\WP_Post` for the admin.
 	 *
-	 * @return array An array of the result of `error_get_last()`.
+	 * @param \WP_Post $post     The post object.
+	 * @param array   $post_meta The post meta of the `$post`.
+	 * @return \WP_Post The `\WP_Post` object.
 	 */
-	private function get_last_error()
-	{
-		return error_get_last();
+	public function admin( \WP_Post $post, $post_meta ) {
+		$content = '';
+
+		if ( $post_meta['error-file'] ) {
+			$content .= '<h2>Code</h2>';
+			$content .= '<div class="code">' . $post_meta['error-file'] . '</div>';
+		}
+
+		if ( $post_meta['error'] ) {
+			$content .= $this->get_error_table( $post_meta['error'] );
+		}
+
+		$post->post_content = $content;
 	}
 
-	private function last_error()
+	public function get_error_table( $error )
 	{
-		if ( ! empty( $this->error ) ) {
+		if ( ! empty( $error ) ) {
 			$cols = array();
-			foreach ( $this->error as $key => $value ) {
+			foreach ( $error as $key => $value ) {
 				$cols[] = sprintf(
 					'<tr><th>%s</th><td>%s</td></tr>',
 					esc_html( $key ),
@@ -72,13 +67,21 @@ class Last_Error extends Logger
 		}
 	}
 
-	private static function get_a_part_of_file( $file_name, $line_number )
+	public static function get_a_part_of_file( $error )
 	{
+		if ( empty( $error ) ) {
+			return '';
+		}
+
+		$file_name = $error['file'];
+		$line_number = $error['line'];
+		$length = 15;
+
 		if ( is_readable( $file_name ) ) {
 			$file = file( $file_name );
 			$line = $line_number - 1;
-			$end = $line + 10;
-			$start = $line - 10;
+			$end = $line + $length + 1;
+			$start = $line - $length;
 			if ( $start < 0 ) {
 				$start = 0;
 			}
@@ -94,9 +97,9 @@ class Last_Error extends Logger
 					$class = 'line';
 				}
 				$html .= sprintf(
-					'<pre class="%s">%s</pre>',
+					'<pre class="%s">%s</pre>' . "\n",
 					esc_attr( $class ),
-					esc_html( $lines[ $i ] )
+					esc_html( trim( $lines[ $i ] ) )
 				);
 			}
 			return $html;
