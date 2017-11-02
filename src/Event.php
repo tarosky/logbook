@@ -19,7 +19,6 @@ class Event
 	{
 		if ( class_exists( $logger_class ) ) {
 			$logger = new $logger_class();
-			$logger->add_filter();
 			if ( is_a( $logger, 'Talog\Logger' ) ) {
 				$this->loggers[] = $logger;
 				return $this->loggers;
@@ -69,11 +68,15 @@ class Event
 		$log = new Log();
 		$log->set_label( $logger->get_label() );
 		$log->set_log_level( $logger->get_log_level() );
-		$log->update_meta( 'filter', $logger->get_hook_name() );
+
+		call_user_func_array(
+			array( $logger, 'set_log' ),
+			array( $log )
+		);
 
 		call_user_func_array(
 			array( $logger, 'log' ),
-			array( $log, $additional_args )
+			array( $additional_args )
 		);
 
 		if ( ! is_a( $log, 'Talog\Log' ) || ! $log->is_log() ) {

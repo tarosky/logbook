@@ -2,8 +2,20 @@
 
 namespace Talog;
 
+/**
+ * Class Logger
+ * @package Talog
+ *
+ * @property \Talog\Log $log
+ * @property string $label
+ * @property array $hook
+ * @property string $log_level
+ * @property int $priority
+ * @property int $accepted_args
+ */
 abstract class Logger
 {
+	protected $log;
 	protected $label = '';
 	protected $hooks = array();
 	protected $log_level = '\Talog\Level\Default_Level';
@@ -25,18 +37,49 @@ abstract class Logger
 	/**
 	 * Set the properties to the `Talog\Log` object for the log.
 	 *
-	 * @param Log    $log             An instance of `Talog\Log`.
 	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
 	 */
-	abstract public function log( Log $log, $additional_args );
+	abstract public function log( $additional_args );
 
 	/**
-	 * Set the properties to `\WP_Post` for the admin.
-	 *
-	 * @param \WP_Post $post     The post object.
-	 * @param array   $post_meta The post meta of the `$post`.
+	 * @param string $title A title of the log.
 	 */
-	abstract public function admin( \WP_Post $post, $post_meta );
+	public function set_title( $title )
+	{
+		$this->log->set_title( $title );
+	}
+
+	/**
+	 * @param string $title    The title for the log detail.
+	 * @param string $content  The HTML content.
+	 */
+	public function add_content( $title, $content )
+	{
+		$this->log->add_content( $title, $content );
+	}
+
+	/**
+	 * @param string $log_level
+	 */
+	public function set_log_level( $log_level )
+	{
+		if ( class_exists( $log_level ) ) {
+			$level_object = new $log_level();
+			if ( is_a( $level_object, '\Talog\Level' ) ) {
+				$this->log->set_log_level( $level_object->get_level() );
+			}
+		}
+	}
+
+	/**
+	 * Set `\Talog\Log` to the `$this->log`.
+	 *
+	 * @param Log    $log             An instance of `Talog\Log`.
+	 */
+	public function set_log( Log $log )
+	{
+		$this->log = $log;
+	}
 
 	/**
 	 * Returns the label text for the log.
@@ -103,25 +146,6 @@ abstract class Logger
 	public function get_accepted_args()
 	{
 		return $this->accepted_args;
-	}
-
-	/**
-	 *  Registers the callback function for the admin page.
-	 */
-	public function add_filter()
-	{
-		$hook = $this->get_hook_name();
-		add_action( $hook, array( $this, 'admin' ), 10, 2 );
-	}
-
-	/**
-	 * Returns the hook name.
-	 *
-	 * @return string The name of the hook.
-	 */
-	public function get_hook_name()
-	{
-		return 'talog_content_' . str_replace( '\\', '_', strtolower( get_class( $this ) ) );
 	}
 
 	/**

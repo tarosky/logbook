@@ -18,9 +18,6 @@ final class Submenu_Page
 	public function display()
 	{
 		$post = $this->post;
-		if ( ! empty( $this->meta['filter'] ) ) {
-			do_action( $this->meta['filter'], $post, $this->meta );
-		}
 
 		if ( ! empty( $this->meta['log_level'] )) {
 			$log_level = self::get_level_name( $this->meta['log_level'] );
@@ -44,24 +41,23 @@ final class Submenu_Page
 		echo $this->meta_contents();
 
 		if ( ! empty( $post->post_content ) ) {
-			add_meta_box(
-				'main-content',
-				'Log',
-				function ( $post ) {
-					echo $post->post_content;
-				},
-				'talog',
-				'normal'
-			);
+			$contents = json_decode( urldecode( $post->post_content ), true );
+			if ( is_array( $contents ) ) {
+				for ( $i = 0; $i < count( $contents ); $i++ ) {
+					$title = $contents[ $i ]['title'];
+					$content = $contents[ $i ]['content'];
+					add_meta_box(
+						'talog-content-' . $i,
+						$title,
+						function () use ( $content ) {
+							echo $content;
+						},
+						'talog',
+						'normal'
+					);
+				}
+			}
 		}
-
-		add_meta_box(
-			'server-vars',
-			'Server',
-			array( $this, 'server_vars' ),
-			'talog',
-			'normal'
-		);
 
 		echo '<div class="metabox-holder">';
 		do_meta_boxes( 'talog', 'normal', $post );
@@ -97,25 +93,6 @@ final class Submenu_Page
 			return sprintf(
 				$this->get_container(),
 				$content
-			);
-		}
-	}
-
-	public function server_vars()
-	{
-		if ( ! empty( $this->meta['server_vars'] ) ) {
-			$table = '';
-			foreach ( $this->meta['server_vars'] as $key => $value ) {
-				$table .= sprintf(
-					'<tr><td>%s</td><td>%s</td></tr>',
-					esc_html( str_replace( '%', '%%', $key ) ),
-					esc_html( str_replace( '%', '%%', $this->json_encode( $value ) ) )
-				);
-			}
-			echo sprintf(
-				'<table class="table-talog">%s%s</table>',
-				'<tr><th>Name</th><th>Value</th></tr>',
-				$table
 			);
 		}
 	}

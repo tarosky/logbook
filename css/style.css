@@ -18,6 +18,16 @@
 	display: none;
 }
 
+.post-type-talog .wp-cli
+{
+	font-size: 8px;
+	background-color: #555555;
+	color: #ffffff;
+	border-radius: 4px;
+	padding: 4px;
+	margin-left: 5px;
+}
+
 .talog-log-details .log-title
 {
 	background-color: #ffffff;
@@ -110,7 +120,11 @@
 	background-color: #eeee88;
 }
 
-.talog-log-details #main-content .hndle,
+.talog-log-details .hndle
+{
+	cursor: auto !important;
+}
+
 .talog-log-details .handlediv
 {
 	display: none !important;

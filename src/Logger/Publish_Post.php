@@ -18,7 +18,7 @@ class Publish_Post extends Logger
 	 * @param Log    $log             An instance of `Talog\Log`.
 	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
 	 */
-	public function log( Log $log, $additional_args )
+	public function log( $additional_args )
 	{
 		list( $post_id, $post ) = $additional_args;
 		$title = '#' . $post_id . ' "' . $post->post_title . '" was published.';

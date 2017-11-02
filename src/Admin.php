@@ -146,14 +146,14 @@ final class Admin {
 			$meta       = get_post_meta( $post_id, '_talog', true );
 			$post       = get_post( $post_id );
 			$post_title = $post->post_title;
-			if ( ! empty( $meta['is_cli'] ) ) {
-				$post_title = '[WP-CLI] ' . $post_title;
-			}
 			printf(
 				'<a class="row-title" href="%2$s"><strong>%1$s</strong></a> ',
 				esc_html( $post_title ),
 				get_admin_url() . 'options.php?page=talog&log_id=' . intval( $post_id )
 			);
+			if ( ! empty( $meta['is_cli'] ) ) {
+				echo '<sup class="wp-cli">WP-CLI</sup>';
+			}
 		} elseif ( '_user' === $column_name ) {
 			$post = get_post( $post_id );
 			if ( $post->post_author ) {

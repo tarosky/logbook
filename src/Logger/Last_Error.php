@@ -15,46 +15,32 @@ class Last_Error extends Logger
 	/**
 	 * Set the properties to the `Talog\Log` object for the log.
 	 *
-	 * @param Log    $log             An instance of `Talog\Log`.
 	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
 	 */
-	public function log( Log $log, $additional_args ) {
+	public function log( $additional_args ) {
 		$error = error_get_last();
 		if ( $error ) {
 			$lines = explode( "\n", $error['message'] );
-			$log->set_title( $lines[0] );
-			$log->update_meta( 'error', $error );
-			$log->update_meta( 'error-file', self::get_a_part_of_file( $error ) );
+			$this->set_title( $lines[0] );
+
+			$title = 'Code';
+			$content = self::get_a_part_of_file( $error );
+			if ( $content ) {
+				$this->add_content( $title, '<div class="code">' . $content . '</div>' );
+			}
+
+			$title = 'Summary';
+			$content = $this->get_table( $error );
+			if ( $content ) {
+				$this->add_content( $title, $content );
+			}
 
 			if ( in_array( intval( $error['type'] ), array( 1, 4, 16, 64, 4096 ) ) ) {
-				$log->set_log_level( 'error' );
+				$this->set_log_level( '\Talog\Level\Error' );
 			} elseif ( in_array( intval( $error['type'] ), array( 8, 1024, 8192, 16384 ) ) ) {
-				$log->set_log_level( 'trace' );
+				$this->set_log_level( '\Talog\Level\Trace' );
 			}
 		}
-	}
-
-	/**
-	 * Set the properties to `\WP_Post` for the admin.
-	 *
-	 * @param \WP_Post $post     The post object.
-	 * @param array   $post_meta The post meta of the `$post`.
-	 * @return \WP_Post The `\WP_Post` object.
-	 */
-	public function admin( \WP_Post $post, $post_meta ) {
-		$content = '';
-
-		if ( $post_meta['error-file'] ) {
-			$content .= '<h2>Code</h2>';
-			$content .= '<div class="code">' . $post_meta['error-file'] . '</div>';
-		}
-
-		if ( $post_meta['error'] ) {
-			$post_meta['error']['message'] = '<pre>' . $post_meta['error']['message'] . '</pre>';
-			$content .= '<h2>Last Error</h2>' . $this->get_table( $post_meta['error'] );
-		}
-
-		$post->post_content = $content;
 	}
 
 	public static function get_a_part_of_file( $error )

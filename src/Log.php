@@ -17,18 +17,39 @@ class Log
 			'log_level' => null,
 			'hook' => self::get_current_hook(),
 			'is_cli' => self::is_cli(),
-			'server_vars' => $_SERVER,
 		);
 	}
 
+	/**
+	 * @param string $title The log.
+	 */
 	public function set_title( $title )
 	{
 		$this->log->title = $title;
 	}
 
-	public function set_content( $content )
+	/**
+	 * @param string $title   The title of the content.
+	 * @param string $content The content.
+	 */
+	public function add_content( $title, $content )
 	{
-		$this->log->content = $content;
+		if ( empty( $title ) || empty( $content ) ) {
+			return;
+		}
+		if ( $this->log->content ) {
+			$contents = json_decode( urldecode( $this->log->content ) );
+		} else {
+			$contents = array();
+		}
+		$contents[] = array(
+			'title' => $title,
+			'content' => $content,
+		);
+
+		$content =  json_encode( $contents, JSON_HEX_APOS | JSON_HEX_QUOT );
+		// To prevent escaping by WordPress
+		$this->log->content = urlencode( $content );
 	}
 
 	public function set_label( $label )
