@@ -24,6 +24,23 @@ class WP_Login extends Logger
 			esc_html( $user_login )
 		);
 
+		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
+			$remote_addr = $_SERVER['REMOTE_ADDR'];
+		} else {
+			$remote_addr = '';
+		}
+		if ( ! empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
+			$user_agent = $_SERVER['HTTP_USER_AGENT'];
+		} else {
+			$user_agent = '';
+		}
+
+		$content = $this->get_table( array(
+			'Remote Address' => $remote_addr,
+			'User Agent' => $user_agent
+		) );
+
 		$this->set_title( $title );
+		$this->add_content( 'Environment Variables', $content );
 	}
 }
