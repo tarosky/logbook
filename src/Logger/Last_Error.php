@@ -25,6 +25,12 @@ class Last_Error extends Logger
 			$log->set_title( $lines[0] );
 			$log->update_meta( 'error', $error );
 			$log->update_meta( 'error-file', self::get_a_part_of_file( $error ) );
+
+			if ( in_array( intval( $error['type'] ), array( 1, 4, 16, 64, 4096 ) ) ) {
+				$log->set_log_level( 'error' );
+			} elseif ( in_array( intval( $error['type'] ), array( 8, 1024, 8192, 16384 ) ) ) {
+				$log->set_log_level( 'trace' );
+			}
 		}
 	}
 

@@ -118,3 +118,44 @@
 .talog-log-details pre.line {
 	background-color: #eeee88;
 }
+
+.talog-log-details .log-level
+{
+	margin-right: 5px;
+}
+
+.log-level.fatal
+{
+	color: #ff0000;
+	font-weight: bolder;
+}
+
+.log-level.error
+{
+	color: #ff0000;
+	font-weight: bold;
+}
+
+.log-level.warn
+{
+	color: #ff7700;
+	font-weight: bold;
+}
+
+.log-level.info
+{
+	color: #006fff;
+	font-weight: bold;
+}
+
+.log-level.debug
+{
+	color: #999999;
+	font-weight: normal;
+}
+
+.log-level.trace
+{
+	color: #bbbbbb;
+	font-weight: normal;
+}
