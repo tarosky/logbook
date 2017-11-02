@@ -42,8 +42,28 @@ final class Submenu_Page
 		);
 
 		echo $this->meta_contents();
-		echo $this->get_the_content( $post->post_content, true );
-		echo $this->get_the_content( $this->server_vars(), true );
+
+		add_meta_box(
+			'main-content',
+			'Log',
+			function( $post ) {
+				echo $post->post_content;
+			},
+			'talog',
+			'normal'
+		);
+
+		add_meta_box(
+			'server-vars',
+			'Server',
+			array( $this, 'server_vars' ),
+			'talog',
+			'normal'
+		);
+
+		echo '<div class="metabox-holder">';
+		do_meta_boxes( 'talog', 'normal', $post );
+		echo '</div>';
 
 		echo '</div><!-- .wrap -->';
 	}
@@ -90,8 +110,8 @@ final class Submenu_Page
 					esc_html( str_replace( '%', '%%', $this->json_encode( $value ) ) )
 				);
 			}
-			return sprintf(
-				'<h2 class="title">$_SERVER</h2><table class="table-talog">%s%s</table>',
+			echo sprintf(
+				'<table class="table-talog">%s%s</table>',
 				'<tr><th>Name</th><th>Value</th></tr>',
 				$table
 			);
@@ -100,7 +120,7 @@ final class Submenu_Page
 
 	public function get_container()
 	{
-		return '<div class="postbox-container">%s</div><!-- .postbox-container -->' . "\n";
+		return '<div class="apostbox-container">%s</div><!-- .postbox-container -->';
 	}
 
 	private function json_encode( $var )

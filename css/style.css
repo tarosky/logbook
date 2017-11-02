@@ -26,18 +26,7 @@
 	border-radius: 3px;
 }
 
-.talog-log-details .postbox-container
-{
-	background-color: #ffffff;
-	margin-top: 1em;
-	padding: 30px;
-	border: 1px solid #dedede;
-	border-radius: 3px;
-	width: 100%;
-	box-sizing: border-box;
-}
-
-.talog-log-details .postbox-container h2
+.talog-log-details #main-content h2
 {
 	margin-top: 0;
 	padding-top: 0;
@@ -72,20 +61,22 @@
 	background-color: #fafafa;
 }
 
-.talog-log-details .postbox-container > h2
+.talog-log-details .inside
 {
-	margin-top: 3em;
-	padding-bottom: 1em;
-	margin-bottom: 1em;
+	padding-bottom: 0;
+}
+
+.talog-log-details #main-content .inside > h2
+{
+	margin-top: 2em;
+	padding-bottom: 5px;
+	margin-bottom: 10px;
 	border-bottom: 1px solid #dedede;
 }
 
-.talog-log-details .postbox-container > h2:first-child
+.talog-log-details #main-content .inside > h2:first-child
 {
 	margin-top: 0;
-	padding-bottom: 1em;
-	margin-bottom: 1em;
-	border-bottom: 1px solid #dedede;
 }
 
 .talog-log-details div.code
@@ -117,6 +108,12 @@
 
 .talog-log-details pre.line {
 	background-color: #eeee88;
+}
+
+.talog-log-details #main-content .hndle,
+.talog-log-details .handlediv
+{
+	display: none !important;
 }
 
 .talog-log-details .log-level

@@ -36,12 +36,10 @@ class Publish_Post extends Logger
 	 */
 	public function admin( \WP_Post $post, $post_meta )
 	{
-		$content = sprintf(
-			'<p><strong>URL:</strong> <a href="%s">%s</a></p>',
-			esc_url( get_the_permalink( $post_meta['post_id'] ) ),
-			esc_html( $post_meta['post_title'] )
-		);
-
-		$post->post_content = $content;
+		$post->post_content = $this->get_table( array(
+			'ID' => esc_html( $post_meta['post_id'] ),
+			'Title' => esc_html( $post_meta['post_title'] ),
+			'URL' => esc_url( get_the_permalink( $post_meta['post_id'] ) )
+		) );
 	}
 }
