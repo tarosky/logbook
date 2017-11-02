@@ -60,7 +60,7 @@ final class Submenu_Page
 		}
 
 		echo '<div class="metabox-holder">';
-		do_meta_boxes( 'talog', 'normal', $post );
+		do_meta_boxes( 'talog', 'normal', null );
 		echo '</div>';
 
 		echo '</div><!-- .wrap -->';
