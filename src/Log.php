@@ -14,7 +14,7 @@ class Log
 		$this->log->user = self::get_user_id();
 		$this->log->meta = array(
 			'label' => 'General',
-			'log_level' => Log_Level::DEFAULT_LEVEL,
+			'log_level' => null,
 			'hook' => self::get_current_hook(),
 			'is_cli' => self::is_cli(),
 			'server_vars' => $_SERVER,
@@ -38,9 +38,25 @@ class Log
 		}
 	}
 
-	public function set_log_level( $log_level )
+	public function set_log_level( $level = null )
 	{
-		$this->log->meta['log_level'] = Log_Level::get_level( $log_level );
+		$level_name  = '';
+		if ( $level ) {
+			$level_class = '\\Talog\\Level\\' . ucfirst( $level );
+			if ( class_exists( $level_class ) ) {
+				$level_object = new $level_class();
+				if ( is_a( $level_object, 'Talog\Level' ) ) {
+					$level_name = $level_object->get_level();
+				}
+			}
+		}
+
+		if ( ! $level_name ) {
+			$obj = new Level\Default_Level();
+			$level_name = $obj->get_level();
+		}
+
+		$this->log->meta['log_level'] = $level_name;
 	}
 
 	public function update_meta( $key, $value )

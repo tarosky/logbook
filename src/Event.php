@@ -34,18 +34,6 @@ class Event
 		$self = $this;
 
 		foreach ( $this->loggers as $logger ) {
-			/**
-			 * Filters the log levels array to save logs.
-			 *
-			 * @param array $log_levels An array of the log levels.
-			 *
-			 * @reurn array
-			 */
-			$log_levels = apply_filters( 'talog_log_levels', Log_Level::get_all_levels() );
-
-			if ( ! in_array( Log_Level::get_level( $logger->get_log_level() ), $log_levels ) ) {
-				return;
-			}
 
 			foreach ( $logger->get_hooks() as $hook ) {
 				add_filter( $hook, function () use ( $self, $logger ) {

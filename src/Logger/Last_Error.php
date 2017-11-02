@@ -2,14 +2,13 @@
 
 namespace Talog\Logger;
 use Talog\Log;
-use Talog\Log_Level;
 use Talog\Logger;
 
 class Last_Error extends Logger
 {
 	protected $label = 'Debug';
 	protected $hooks = array( 'shutdown' );
-	protected $log_level = Log_Level::DEBUG;
+	protected $log_level = '\Talog\Level\Debug';
 	protected $priority = 10;
 	protected $accepted_args = 1;
 

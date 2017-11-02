@@ -4,7 +4,6 @@
  */
 
 namespace Talog\Logger;
-use Talog\Log_Level;
 use Talog\Logger;
 use Talog\Log;
 
@@ -12,7 +11,7 @@ class Activated_Plugin extends Logger
 {
 	protected $label = 'Plugin';
 	protected $hooks = array( 'activated_plugin', 'deactivated_plugin' );
-	protected $log_level = Log_Level::DEFAULT_LEVEL;
+	protected $log_level = '\Talog\Level\Default_Level';
 	protected $priority = 10;
 	protected $accepted_args = 1;
 

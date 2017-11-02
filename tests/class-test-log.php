@@ -7,7 +7,7 @@ class Test_Log extends Talog\Logger
 {
 	protected $label = 'Test';
 	protected $hooks = array( 'test_hook' );
-	protected $log_level = Talog\Log_Level::DEBUG;
+	protected $log_level = '\Talog\Level\Debug';
 	protected $priority = 10;
 	protected $accepted_args = 2;
 

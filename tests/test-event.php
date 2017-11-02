@@ -1,6 +1,6 @@
 <?php
 
-class Talog_Logger_Test extends \WP_UnitTestCase
+class Talog_Event_Test extends \WP_UnitTestCase
 {
 	public function test_logger_class()
 	{
@@ -21,6 +21,7 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 
 		$this->assertTrue( is_array( $result ) );
 		$this->assertTrue( is_a( $result[0], 'Talog\Logger' ) );
+		$this->assertSame( 'debug', $result[0]->get_log_level() );
 
 		do_action( 'plugins_loaded' );
 		$this->assertFalse( $GLOBALS['test-log'] );
@@ -37,7 +38,7 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 
 		$meta = get_post_meta( $last_log->ID, '_talog', true );
 		$this->assertSame( 'Test', $meta['label'] );
-		$this->assertSame( \Talog\Log_Level::DEBUG, $meta['log_level'] );
+		$this->assertSame( 'debug', $meta['log_level'] );
 		$this->assertSame( 'Test', $meta['label'] );
 		$this->assertSame( 'test_hook', $meta['hook'] );
 		$this->assertSame( false, $meta['is_cli'] );
@@ -84,7 +85,7 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 
 		$meta = get_post_meta( $last_log->ID, '_talog', true );
 		$this->assertSame( 'Test', $meta['label'] );
-		$this->assertSame( \Talog\Log_Level::DEBUG, $meta['log_level'] );
+		$this->assertSame( 'debug', $meta['log_level'] );
 		$this->assertSame( 'Test', $meta['label'] );
 		$this->assertSame( 'test_hook', $meta['hook'] );
 		$this->assertSame( true, $meta['is_cli'] );

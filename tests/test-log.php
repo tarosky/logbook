@@ -24,7 +24,7 @@ class Talog_Log_Test extends \WP_UnitTestCase
 			$this->assertSame( '', $log->content );
 			$this->assertSame( 0, $log->user );
 			$this->assertSame( 'General', $log->meta['label'] );
-			$this->assertSame( \Talog\Log_Level::DEFAULT_LEVEL, $log->meta['log_level'] );
+			$this->assertSame( null, $log->meta['log_level'] );
 			$this->assertSame( 'test_hook', $log->meta['hook'] );
 			$this->assertSame( false, $log->meta['is_cli'] );
 
@@ -64,7 +64,7 @@ class Talog_Log_Test extends \WP_UnitTestCase
 			$this->assertSame( 'hello', $log->content );
 			$this->assertSame( $user_id, $log->user );
 			$this->assertSame( 'Post', $log->meta['label'] );
-			$this->assertSame( \Talog\Log_Level::DEBUG, $log->meta['log_level'] );
+			$this->assertSame( 'debug', $log->meta['log_level'] );
 			$this->assertSame( 'test_hook', $log->meta['hook'] );
 			$this->assertSame( true, $log->meta['is_cli'] );
 		} );

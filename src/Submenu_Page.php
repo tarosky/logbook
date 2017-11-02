@@ -23,9 +23,9 @@ final class Submenu_Page
 		}
 
 		if ( ! empty( $this->meta['log_level'] )) {
-			$log_level = Log_Level::get_level( $this->meta['log_level'] );
+			$log_level = self::get_level_name( $this->meta['log_level'] );
 		} else {
-			$log_level = Log_Level::get_level();
+			$log_level = self::get_level_name();
 		}
 
 		echo '<div class="wrap talog-log-details">';
@@ -36,7 +36,7 @@ final class Submenu_Page
 
 		printf(
 			'<h1 class="log-title">[%s] %s</h1>',
-			esc_html( Log_Level::get_level( $log_level ) ),
+			esc_html( $log_level ),
 			esc_html( $post->post_title )
 		);
 
@@ -105,5 +105,25 @@ final class Submenu_Page
 	private function json_encode( $var )
 	{
 		return json_encode( $var, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
+	}
+
+	protected function get_level_name( $level = null ) {
+		$level_name  = '';
+		if ( $level ) {
+			$level_class = '\\Talog\\Level\\' . ucfirst( $level );
+			if ( class_exists( $level_class ) ) {
+				$level_object = new $level_class();
+				if ( is_a( $level_object, 'Talog\Level' ) ) {
+					$level_name = $level_object->get_level();
+				}
+			}
+		}
+
+		if ( ! $level_name ) {
+			$obj = new Level\Default_Level();
+			$level_name = $obj->get_level();
+		}
+
+		return $level_name;
 	}
 }

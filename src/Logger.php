@@ -6,7 +6,7 @@ abstract class Logger
 {
 	protected $label = '';
 	protected $hooks = array();
-	protected $log_level = Log_Level::DEFAULT_LEVEL;
+	protected $log_level = '\Talog\Level\Default_Level';
 	protected $priority = 10;
 	protected $accepted_args = 1;
 
@@ -59,13 +59,30 @@ abstract class Logger
 	}
 
 	/**
-	 * Returns the value of `Talog\Log_Level`.
+	 * Returns the value of `Talog\Level`.
 	 *
-	 * @return string Log level that come from `Talog\Log_Level` class.
+	 * @return string Log level that come from `Talog\Level` class.
 	 */
 	public function get_log_level()
 	{
-		return Log_Level::get_level( $this->log_level );
+		$level = $this->log_level;
+
+		$level_name  = '';
+		if ( $level ) {
+			if ( class_exists( $level ) ) {
+				$level_object = new $level();
+				if ( is_a( $level_object, 'Talog\Level' ) ) {
+					$level_name = $level_object->get_level();
+				}
+			}
+		}
+
+		if ( ! $level_name ) {
+			$obj = new Level\Default_Level();
+			$level_name = $obj->get_level();
+		}
+
+		return $level_name;
 	}
 
 	/**

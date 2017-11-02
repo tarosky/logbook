@@ -2,14 +2,13 @@
 
 namespace Talog\Logger;
 use Talog\Log;
-use Talog\Log_Level;
 use Talog\Logger;
 
 class Publish_Post extends Logger
 {
 	protected $label = 'Post';
 	protected $hooks = array( 'publish_post', 'publish_page' );
-	protected $log_level = Log_Level::DEFAULT_LEVEL;
+	protected $log_level = '\Talog\Level\Default_Level';
 	protected $priority = 10;
 	protected $accepted_args = 2;
 

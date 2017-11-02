@@ -2,6 +2,7 @@
 
 namespace Talog;
 
+// TODO: Each level should be separated/extended class.
 class Log_Level
 {
 	const TRACE = 'trace';
