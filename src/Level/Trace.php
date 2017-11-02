@@ -9,5 +9,4 @@ use Talog\Level;
 class Trace extends Level
 {
 	protected $level = 'trace';
-	protected $class = 'trace';
 }

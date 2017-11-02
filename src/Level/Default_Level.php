@@ -9,5 +9,4 @@ use Talog\Level;
 class Default_Level extends Level
 {
 	protected $level = 'info';
-	protected $class = 'default';
 }

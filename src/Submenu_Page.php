@@ -35,8 +35,9 @@ final class Submenu_Page
 		);
 
 		printf(
-			'<h1 class="log-title">[%s] %s</h1>',
-			esc_html( $log_level ),
+			'<h1 class="log-title"><span class="%s log-level">[%s]</span> %s</h1>',
+			esc_attr( $log_level ),
+			esc_html( ucfirst( $log_level ) ),
 			esc_html( $post->post_title )
 		);
 

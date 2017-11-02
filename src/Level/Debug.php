@@ -9,5 +9,4 @@ use Talog\Level;
 class Debug extends Level
 {
 	protected $level = 'debug';
-	protected $class = 'debug';
 }

@@ -9,5 +9,4 @@ use Talog\Level;
 class Error extends Level
 {
 	protected $level = 'error';
-	protected $class = 'error';
 }

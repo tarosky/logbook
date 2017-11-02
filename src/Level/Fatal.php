@@ -9,5 +9,4 @@ use Talog\Level;
 class Fatal extends Level
 {
 	protected $level = 'fatal';
-	protected $class = 'fatal';
 }

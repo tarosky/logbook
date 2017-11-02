@@ -57,6 +57,12 @@ final class Admin {
 		echo '<select name="_log_level">';
 		echo '<option value="">All levels &nbsp;</option>';
 		$levels = self::get_meta_values( '_talog_log_level' );
+		for ( $i = 0; $i < count( $levels ); $i++ ) {
+			$levels[ $i ] = self::get_level_name( $levels[ $i ] );
+
+		}
+		$levels = array_unique( $levels );
+		sort( $levels );
 		foreach ( $levels as $level ) {
 			$level = self::get_level_name( $level );
 			if ( ! empty( $_GET['_log_level'] ) && $level === $_GET['_log_level'] ) {
@@ -157,9 +163,17 @@ final class Admin {
 		} elseif ( '_log_level' === $column_name ) {
 			$meta = get_post_meta( $post_id, '_talog', true );
 			if ( ! empty( $meta['log_level'] ) ) {
-				echo esc_html( ucfirst( self::get_level_name( $meta['log_level'] ) ) );
+				printf(
+					'<span class="%s log-level">%s</span>',
+					esc_attr( self::get_level_name( $meta['log_level'] ) ),
+					esc_html( ucfirst( self::get_level_name( $meta['log_level'] ) ) )
+				);
 			} else {
-				echo esc_html( ucfirst( self::get_level_name() ) );
+				printf(
+					'<span class="%s log-level">%s</span>',
+					esc_attr( self::get_level_name() ),
+					esc_html( ucfirst( self::get_level_name() ) )
+				);
 			}
 		} elseif ( '_date' === $column_name ) {
 			$post = get_post( $post_id );
