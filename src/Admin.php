@@ -56,13 +56,14 @@ final class Admin {
 
 		echo '<select name="_log_level">';
 		echo '<option value="">All levels &nbsp;</option>';
-		$levels = self::get_meta_values( '_talog_log_level' );
-		for ( $i = 0; $i < count( $levels ); $i++ ) {
-			$levels[ $i ] = self::get_level_name( $levels[ $i ] );
-
-		}
-		$levels = array_unique( $levels );
-		sort( $levels );
+		$levels = array(
+			'fatal',
+			'error',
+			'warn',
+			'info',
+			'debug',
+			'trace',
+		);
 		foreach ( $levels as $level ) {
 			$level = self::get_level_name( $level );
 			if ( ! empty( $_GET['_log_level'] ) && $level === $_GET['_log_level'] ) {

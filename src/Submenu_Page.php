@@ -8,8 +8,8 @@ final class Submenu_Page
 	private $meta;
 
 	public function __construct() {
-		$this->post = get_post( intval( $_GET['log_id'] ) );
-		if ( 'talog' !== $this->post->post_type ) {
+		$this->post = get_post( $_GET['log_id'] );
+		if ( empty( $this->post ) || 'talog' !== $this->post->post_type ) {
 			wp_die( 'Not found.' );
 		}
 		$this->meta = get_post_meta( $this->post->ID, '_talog', true );
@@ -43,15 +43,17 @@ final class Submenu_Page
 
 		echo $this->meta_contents();
 
-		add_meta_box(
-			'main-content',
-			'Log',
-			function( $post ) {
-				echo $post->post_content;
-			},
-			'talog',
-			'normal'
-		);
+		if ( ! empty( $post->post_content ) ) {
+			add_meta_box(
+				'main-content',
+				'Log',
+				function ( $post ) {
+					echo $post->post_content;
+				},
+				'talog',
+				'normal'
+			);
+		}
 
 		add_meta_box(
 			'server-vars',
