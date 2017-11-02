@@ -21,7 +21,8 @@ class Last_Error extends Logger
 	public function log( Log $log, $additional_args ) {
 		$error = error_get_last();
 		if ( $error ) {
-			$log->set_title( $error['message'] );
+			$lines = explode( "\n", $error['message'] );
+			$log->set_title( $lines[0] );
 			$log->update_meta( 'error', $error );
 			$log->update_meta( 'error-file', self::get_a_part_of_file( $error ) );
 		}

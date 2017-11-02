@@ -105,6 +105,16 @@
 	padding: 2px 20px;
 }
 
+.talog-log-details table pre {
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	margin: 0;
+	padding: 0;
+}
+
 .talog-log-details pre.line {
 	background-color: #eeee88;
 }
