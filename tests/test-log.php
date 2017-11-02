@@ -56,7 +56,7 @@ class Talog_Log_Test extends \WP_UnitTestCase
 			$log_object->set_title( 'this is log' );
 			$log_object->set_content( 'hello' );
 			$log_object->set_label( 'Post' );
-			$log_object->set_log_level( \Talog\Log_Level::DEBUG );
+			$log_object->set_log_level( 'debug' );
 			$log = $log_object->get_log();
 
 			$this->assertTrue( is_a( $log, 'stdClass' ) );
