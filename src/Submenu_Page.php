@@ -84,29 +84,6 @@ final class Submenu_Page
 		);
 	}
 
-	public function get_the_content( $content, $allow_html = false )
-	{
-		if ( $content ) {
-			if ( ! $allow_html ) {
-				$content = esc_html( $content );
-			}
-			return sprintf(
-				$this->get_container(),
-				$content
-			);
-		}
-	}
-
-	public function get_container()
-	{
-		return '<div class="apostbox-container">%s</div><!-- .postbox-container -->';
-	}
-
-	private function json_encode( $var )
-	{
-		return json_encode( $var, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
-	}
-
 	protected function get_level_name( $level = null ) {
 		$level_name  = '';
 		if ( $level ) {
