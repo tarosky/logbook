@@ -1,7 +1,6 @@
 <?php
 
 namespace Talog\Logger;
-use Talog\Log;
 use Talog\Logger;
 
 class Post_Updated extends Logger
@@ -15,10 +14,9 @@ class Post_Updated extends Logger
 	/**
 	 * Set the properties to the `Talog\Log` object for the log.
 	 *
-	 * @param Log    $log             An instance of `Talog\Log`.
 	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
 	 */
-	public function log( Log $log, $additional_args )
+	public function log( $additional_args )
 	{
 		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
 			return;
@@ -38,44 +36,32 @@ class Post_Updated extends Logger
 				$title = '#' . $post_id . ' "' . $post_after->post_title . '" was updated.';
 			}
 
-			$log->set_title( $title );
-			$log->update_meta( 'post_before', $post_before );
-			$log->update_meta( 'post_after', $post_after );
+			$this->set_title( $title );
+
+			$content = wp_text_diff( $post_before->post_title, $post_after->post_title );
+			if ( $content ) {
+				$this->add_content( 'Title', $content );
+			}
+
+			$content = wp_text_diff( $post_before->post_title, $post_after->post_content );
+			if ( $content ) {
+				$this->add_content( 'Contents', $content );
+			}
+
+			$content = wp_text_diff( $post_before->post_title, $post_after->post_status );
+			if ( $content ) {
+				$this->add_content( 'Status', $content );
+			}
+
+			$content = wp_text_diff( $post_before->post_title, $post_after->post_date );
+			if ( $content ) {
+				$this->add_content( 'Date', $content );
+			}
+
+			$this->add_content( 'URL', sprintf(
+				'<a href="%1$s">%1$s</a>',
+				esc_url( get_permalink( $post_id ) )
+			) );
 		}
-	}
-
-	/**
-	 * Set the properties to `\WP_Post` for the admin.
-	 *
-	 * @param \WP_Post $post     The post object.
-	 * @param array   $post_meta The post meta of the `$post`.
-	 * @return \WP_Post The `\WP_Post` object.
-	 */
-	public function admin( \WP_Post $post, $post_meta )
-	{
-		$post_after = $post_meta['post_after'];
-		$post_before = $post_meta['post_before'];
-
-		$title = wp_text_diff( $post_before->post_title, $post_after->post_title );
-		if ( $title ) {
-			$title = '<h2>Title</h2>' . $title;
-		}
-
-		$content = wp_text_diff( $post_before->post_content, $post_after->post_content );
-		if ( $content ) {
-			$content = '<h2>Contents</h2>' . $content;
-		}
-
-		$status = wp_text_diff( $post_before->post_status, $post_after->post_status );
-		if ( $status ) {
-			$status = '<h2>Status</h2>' . $status;
-		}
-
-		$date = wp_text_diff( $post_before->post_date, $post_after->post_date );
-		if ( $date ) {
-			$date = '<h2>Date</h2>' . $date;
-		}
-
-		$post->post_content = $title . $content . $status . $date;
 	}
 }

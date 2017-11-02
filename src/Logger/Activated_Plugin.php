@@ -5,7 +5,6 @@
 
 namespace Talog\Logger;
 use Talog\Logger;
-use Talog\Log;
 
 class Activated_Plugin extends Logger
 {

@@ -49,7 +49,7 @@ function plugins_loaded() {
 		'Talog\Logger\Activated_Plugin',
 		'Talog\Logger\Delete_Post',
 		'Talog\Logger\Last_Error',
-//		'Talog\Logger\Post_Updated',
+		'Talog\Logger\Post_Updated',
 //		'Talog\Logger\Publish_Post',
 //		'Talog\Logger\WP_Delete_File',
 //		'Talog\Logger\WP_Login',

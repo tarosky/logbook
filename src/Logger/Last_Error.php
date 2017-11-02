@@ -1,7 +1,6 @@
 <?php
 
 namespace Talog\Logger;
-use Talog\Log;
 use Talog\Logger;
 
 class Last_Error extends Logger
