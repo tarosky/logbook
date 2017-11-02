@@ -35,7 +35,6 @@ class Delete_Post extends Logger
 			esc_html( $post->post_title )
 		);
 
-		$this->set_title( $title );
 		$post_url = get_permalink( $post_id );
 		$content = $this->get_table( array(
 			'Post Type' => $post->post_type,
@@ -46,6 +45,8 @@ class Delete_Post extends Logger
 				esc_url( $post_url )
 			),
 		) );
+
+		$this->set_title( $title );
 		$this->add_content( 'Summary', $content );
 	}
 }

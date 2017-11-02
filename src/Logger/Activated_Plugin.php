@@ -29,11 +29,10 @@ class Activated_Plugin extends Logger
 			$title = 'Plugin "' . $plugin . '" was deactivated.';
 		}
 
-		$this->set_title( $title );
-
 		$path = trailingslashit( WP_PLUGIN_DIR ) . $plugin;
 		$table = $this->get_table( get_plugin_data( $path ) );
 
+		$this->set_title( $title );
 		$this->add_content( 'Plugin Data', $table );
 	}
 }
