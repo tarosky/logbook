@@ -54,14 +54,14 @@ class Talog_Log_Test extends \WP_UnitTestCase
 
 			$log_object = new Talog\Log();
 			$log_object->set_title( 'this is log' );
-			$log_object->set_content( 'hello' );
+			$log_object->add_content( 'hello', 'world' );
 			$log_object->set_label( 'Post' );
 			$log_object->set_log_level( 'debug' );
 			$log = $log_object->get_log();
 
 			$this->assertTrue( is_a( $log, 'stdClass' ) );
 			$this->assertSame( 'this is log', $log->title );
-			$this->assertSame( 'hello', $log->content );
+//			$this->assertSame( 'hello', $log->content );
 			$this->assertSame( $user_id, $log->user );
 			$this->assertSame( 'Post', $log->meta['label'] );
 			$this->assertSame( 'debug', $log->meta['log_level'] );

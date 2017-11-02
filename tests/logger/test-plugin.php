@@ -9,7 +9,8 @@ class Talog_Plugin_Test extends \WP_UnitTestCase
 		$GLOBALS['wp_current_filter'] = array( 'activated_plugin' ); // Force `test` hook.
 
 		$log = new Talog\Log();
-		$obj->log( $log, array( 'hello.php' ) );
+		$obj->set_log( $log );
+		$obj->log( array( 'hello.php' ) );
 
 		$res = $log->get_log();
 		//var_dump( $res );

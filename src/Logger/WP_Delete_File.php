@@ -25,5 +25,6 @@ class WP_Delete_File extends Logger
 		);
 
 		$this->set_title( $title );
+		// TODO: We need something content.
 	}
 }
