@@ -47,7 +47,7 @@ class Event
 						return $return; // To prevent infinite loop.
 					}
 
-					$self->get_log( $logger, $args );
+					$self->watch( $logger, $args );
 
 					return $return;
 				}, $logger->get_priority(), $logger->get_accepted_args() );
@@ -60,10 +60,8 @@ class Event
 	 *
 	 * @param Logger $logger          Talog\Logger object.
 	 * @param array  $additional_args An array that is passed from WordPress hook.
-	 *
-	 * @return int|\WP_Error
 	 */
-	public function get_log( Logger $logger, $additional_args = array() )
+	public function watch( Logger $logger, $additional_args = array() )
 	{
 		$log = new Log();
 
@@ -78,7 +76,7 @@ class Event
 		);
 
 		if ( ! is_a( $log, 'Talog\Log' ) || ! $log->is_log() ) {
-			return 0;
+			return;
 		}
 
 		$this->logs[] = $log;

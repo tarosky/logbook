@@ -29,7 +29,9 @@ class WP_Login extends Logger
 			'HTTP_USER_AGENT'
 		) );
 
-		$this->set_title( $title );
-		$this->add_content( 'Environment Variables', $content );
+		if ( $content ) {
+			$this->set_title( $title );
+			$this->add_content( 'Environment Variables', $content );
+		}
 	}
 }
