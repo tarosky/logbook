@@ -30,7 +30,7 @@ final class Admin {
 			'edit_pages',
 			'talog',
 			function () {
-				$page = new Submenu_Page();
+				$page = new Admin\Log_Page();
 				$page->display();
 			}
 		);

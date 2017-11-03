@@ -1,8 +1,9 @@
 <?php
 
-namespace Talog;
+namespace Talog\Admin;
+use Talog\Level;
 
-final class Submenu_Page
+final class Log_Page
 {
 	private $post;
 	private $meta;
