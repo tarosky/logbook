@@ -18,6 +18,9 @@ class Event
 	public function init_log( $logger_class )
 	{
 		if ( class_exists( $logger_class ) ) {
+			/**
+			 * @var Logger $logger
+			 */
 			$logger = new $logger_class();
 			if ( is_a( $logger, 'Talog\Logger' ) ) {
 				$this->loggers[] = $logger;
@@ -32,8 +35,10 @@ class Event
 	{
 		$self = $this;
 
+		/**
+		 * @var Logger $logger
+		 */
 		foreach ( $this->loggers as $logger ) {
-
 			foreach ( $logger->get_hooks() as $hook ) {
 				add_filter( $hook, function () use ( $self, $logger ) {
 					$args = func_get_args();
@@ -43,7 +48,8 @@ class Event
 						$return = $args[0];
 					}
 
-					if ( 'save_post' === current_filter() && 'talog' === get_post_type( $args[0] ) ) {
+					if ( 'save_post' === current_filter()
+					            && 'talog' === get_post_type( $args[0] ) ) {
 						return $return; // To prevent infinite loop.
 					}
 

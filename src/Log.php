@@ -4,6 +4,9 @@ namespace Talog;
 
 class Log
 {
+	/**
+	 * @var \stdClass $log
+	 */
 	private $log;
 
 	public function __construct()

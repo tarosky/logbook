@@ -89,6 +89,9 @@ final class Submenu_Page
 		if ( $level ) {
 			$level_class = '\\Talog\\Level\\' . ucfirst( $level );
 			if ( class_exists( $level_class ) ) {
+				/**
+				 * @var Level $level_object
+				 */
 				$level_object = new $level_class();
 				if ( is_a( $level_object, 'Talog\Level' ) ) {
 					$level_name = $level_object->get_level();
