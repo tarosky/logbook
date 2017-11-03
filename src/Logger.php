@@ -159,7 +159,7 @@ abstract class Logger
 		$vars = array();
 		foreach( $_SERVER as $key => $value ) {
 			if ( in_array( $key, $keys )) {
-				$vars[ $key ] = $value;
+				$vars[ $key ] = '<pre>' . esc_html( $value ) . '</pre>';
 			}
 		}
 

@@ -131,22 +131,6 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 				'<th>key3</th><td>val3</td>' ) );
 	}
 
-//	/**
-//	 * @param array $keys
-//	 * @return string The HTML table content.
-//	 */
-//	public function get_server_variables_table( $keys )
-//	{
-//		$vars = array();
-//		foreach( $_SERVER as $key => $value ) {
-//			if ( in_array( $key, $keys )) {
-//				$vars[ $key ] = $value;
-//			}
-//		}
-//
-//		return $this->get_table( $vars );
-//	}
-
 	/**
 	 * Add user and set the user as current user.
 	 *
