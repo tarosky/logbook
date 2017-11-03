@@ -50,6 +50,7 @@ function plugins_loaded() {
 		'Talog\Logger\Delete_Post',
 		'Talog\Logger\Last_Error',
 		'Talog\Logger\Post_Updated',
+		'Talog\Logger\Updated_Core',
 		'Talog\Logger\WP_Delete_File',
 		'Talog\Logger\WP_Login',
 	) );

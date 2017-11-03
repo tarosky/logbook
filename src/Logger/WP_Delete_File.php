@@ -14,7 +14,7 @@ class WP_Delete_File extends Logger
 	/**
 	 * Set the properties to the `Talog\Log` object for the log.
 	 *
-	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
+	 * @param mixed $additional_args An array of the args that was passed from WordPress hook.
 	 */
 	public function log( $additional_args )
 	{
