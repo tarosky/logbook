@@ -24,6 +24,10 @@ class Post_Updated extends Logger
 
 		list( $post_id, $post_after, $post_before ) = $additional_args;
 
+		if ( 'publish' !== $post_after->post_status && 'publish' !== $post_before->post_status ) {
+			return;
+		}
+
 		// Followings are always changed.
 		unset( $post_after->post_modified_gmt, $post_after->post_modified,
 			$post_before->post_modified_gmt, $post_before->post_modified );
@@ -32,6 +36,8 @@ class Post_Updated extends Logger
 		if ( json_encode( $post_after ) !== json_encode( $post_before ) ) {
 			if ( 'trash' === $post_after->post_status ) {
 				$title = '#' . $post_id . ' "' . $post_after->post_title . '" was moved to trash.';
+			} elseif ( 'publish' === $post_after->post_status && 'publish' !== $post_before->post_status ) {
+				$title = '#' . $post_id . ' "' . $post_after->post_title . '" was published.';
 			} else {
 				$title = '#' . $post_id . ' "' . $post_after->post_title . '" was updated.';
 			}
@@ -43,17 +49,17 @@ class Post_Updated extends Logger
 				$this->add_content( 'Title', $content );
 			}
 
-			$content = wp_text_diff( $post_before->post_title, $post_after->post_content );
+			$content = wp_text_diff( $post_before->post_content, $post_after->post_content );
 			if ( $content ) {
 				$this->add_content( 'Contents', $content );
 			}
 
-			$content = wp_text_diff( $post_before->post_title, $post_after->post_status );
+			$content = wp_text_diff( $post_before->post_status, $post_after->post_status );
 			if ( $content ) {
 				$this->add_content( 'Status', $content );
 			}
 
-			$content = wp_text_diff( $post_before->post_title, $post_after->post_date );
+			$content = wp_text_diff( $post_before->post_date, $post_after->post_date );
 			if ( $content ) {
 				$this->add_content( 'Date', $content );
 			}
