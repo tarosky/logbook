@@ -32,7 +32,13 @@ class Talog_Event_Test extends \WP_UnitTestCase
 		$logger->shutdown();
 		$last_log = $this->get_last_log();
 		$this->assertSame( 'hello', $last_log->post_title );
-		//$this->assertSame( 'test-content', $last_log->post_content );
+		$content = json_decode( urldecode( $last_log->post_content ), true );
+		$this->assertSame( array(
+			array(
+				'title' => 'test',
+				'content' => 'this is test!'
+			),
+		), $content );
 		$this->assertSame( "$user_id", $last_log->post_author );
 		$this->assertSame( 'publish', $last_log->post_status );
 
@@ -42,9 +48,6 @@ class Talog_Event_Test extends \WP_UnitTestCase
 		$this->assertSame( 'Test', $meta['label'] );
 		$this->assertSame( 'test_hook', $meta['hook'] );
 		$this->assertSame( false, $meta['is_cli'] );
-//		$this->assertTrue( is_array( $meta['server_vars'] ) );
-//		$this->assertSame( 'Taro', $meta['name'] );
-//		$this->assertSame( 'talog_content_hello_test_log', $meta['filter'] );
 
 		$_talog_label = get_post_meta( $last_log->ID, '_talog_label', true );
 		$this->assertSame( $meta['label'], $_talog_label );
@@ -79,7 +82,13 @@ class Talog_Event_Test extends \WP_UnitTestCase
 		$logger->shutdown();
 		$last_log = $this->get_last_log();
 		$this->assertSame( 'hello', $last_log->post_title );
-//		$this->assertSame( 'test-content', $last_log->post_content );
+		$content = json_decode( urldecode( $last_log->post_content ), true );
+		$this->assertSame( array(
+			array(
+				'title' => 'test',
+				'content' => 'this is test!'
+			),
+		), $content );
 		$this->assertSame( "$user_id", $last_log->post_author );
 		$this->assertSame( 'publish', $last_log->post_status );
 

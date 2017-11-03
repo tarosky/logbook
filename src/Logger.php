@@ -61,7 +61,7 @@ abstract class Logger
 	/**
 	 * @param string $log_level
 	 */
-	public function set_log_level( $log_level )
+	public function set_log_level_by_class( $log_level )
 	{
 		if ( class_exists( $log_level ) ) {
 			$level_object = new $log_level();
@@ -79,6 +79,8 @@ abstract class Logger
 	public function set_log( Log $log )
 	{
 		$this->log = $log;
+		$this->set_log_level_by_class( $this->log_level );
+		$this->log->set_label( $this->label );
 	}
 
 	/**
@@ -146,6 +148,22 @@ abstract class Logger
 	public function get_accepted_args()
 	{
 		return $this->accepted_args;
+	}
+
+	/**
+	 * @param array $keys
+	 * @return string The HTML table content.
+	 */
+	public function get_server_variables_table( $keys )
+	{
+		$vars = array();
+		foreach( $_SERVER as $key => $value ) {
+			if ( in_array( $key, $keys )) {
+				$vars[ $key ] = $value;
+			}
+		}
+
+		return $this->get_table( $vars );
 	}
 
 	/**

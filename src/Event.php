@@ -66,8 +66,6 @@ class Event
 	public function get_log( Logger $logger, $additional_args = array() )
 	{
 		$log = new Log();
-		$log->set_label( $logger->get_label() );
-		$log->set_log_level( $logger->get_log_level() );
 
 		call_user_func_array(
 			array( $logger, 'set_log' ),

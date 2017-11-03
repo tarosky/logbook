@@ -35,9 +35,9 @@ class Last_Error extends Logger
 			}
 
 			if ( in_array( intval( $error['type'] ), array( 1, 4, 16, 64, 4096 ) ) ) {
-				$this->set_log_level( '\Talog\Level\Error' );
+				$this->set_log_level_by_class( '\Talog\Level\Error' );
 			} elseif ( in_array( intval( $error['type'] ), array( 8, 1024, 8192, 16384 ) ) ) {
-				$this->set_log_level( '\Talog\Level\Trace' );
+				$this->set_log_level_by_class( '\Talog\Level\Trace' );
 			}
 		}
 	}
