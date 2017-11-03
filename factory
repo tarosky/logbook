@@ -1,0 +1,339 @@
+example/Example.php:48:		$this->set_title( "Nice! #{$post_id} was published!" );
+example/Example.php:53:		$this->add_content( 'Title 1', 'HTML content 1' );
+example/Example.php:54:		$this->add_content( 'Title 2', 'HTML content 2' );
+src/Event.php:26:				$this->loggers[] = $logger;
+src/Event.php:27:				return $this->loggers;
+src/Event.php:41:		foreach ( $this->loggers as $logger ) {
+src/Event.php:88:		$this->logs[] = $log;
+src/Event.php:95:		foreach ( $this->logs as $log_object ) {
+src/Event.php:96:			$this->save_log( $log_object );
+src/Event.php:99:		do_action( 'talog_after_save_log', $this->logs );
+src/Level.php:16:		return $this->level;
+src/Log.php:14:		$this->log = new \stdClass;
+src/Log.php:15:		$this->log->title = '';
+src/Log.php:16:		$this->log->content = '';
+src/Log.php:17:		$this->log->user = self::get_user_id();
+src/Log.php:18:		$this->log->meta = array(
+src/Log.php:31:		$this->log->title = $title;
+src/Log.php:43:		if ( $this->log->content ) {
+src/Log.php:44:			$contents = json_decode( urldecode( $this->log->content ) );
+src/Log.php:55:		$this->log->content = urlencode( $content );
+src/Log.php:61:			$this->log->meta['label'] = $label;
+src/Log.php:83:		$this->log->meta['log_level'] = $level_name;
+src/Log.php:88:		$this->log->meta[ $key ] = $value;
+src/Log.php:93:		unset( $this->log->meta[ $key ] );
+src/Log.php:98:		if ( empty( $this->log->title ) || empty( $this->log->meta['hook'] ) ) {
+src/Log.php:101:			return $this->log;
+src/Log.php:107:		if ( empty( $this->log->title ) || empty( $this->log->meta['hook'] ) ) {
+src/Logger/Activated_Plugin.php:33:		$table = $this->get_table( get_plugin_data( $path ) );
+src/Logger/Activated_Plugin.php:35:		$this->set_title( $title );
+src/Logger/Activated_Plugin.php:36:		$this->add_content( 'Plugin Data', $table );
+src/Logger/Delete_Post.php:39:		$content = $this->get_table( array(
+src/Logger/Delete_Post.php:49:		$this->set_title( $title );
+src/Logger/Delete_Post.php:50:		$this->add_content( 'Summary', $content );
+src/Logger/Last_Error.php:23:			$this->set_title( $lines[0] );
+src/Logger/Last_Error.php:28:				$this->add_content( $title, '<div class="code">' . $content . '</div>' );
+src/Logger/Last_Error.php:32:			$content = $this->get_table( $error );
+src/Logger/Last_Error.php:34:				$this->add_content( $title, $content );
+src/Logger/Last_Error.php:38:				$this->set_log_level_by_class( '\Talog\Level\Error' );
+src/Logger/Last_Error.php:40:				$this->set_log_level_by_class( '\Talog\Level\Trace' );
+src/Logger/Post_Updated.php:45:			$this->set_title( $title );
+src/Logger/Post_Updated.php:49:				$this->add_content( 'Title', $content );
+src/Logger/Post_Updated.php:54:				$this->add_content( 'Contents', $content );
+src/Logger/Post_Updated.php:59:				$this->add_content( 'Status', $content );
+src/Logger/Post_Updated.php:64:				$this->add_content( 'Date', $content );
+src/Logger/Post_Updated.php:67:			$this->add_content( 'URL', sprintf(
+src/Logger/Updated_Core.php:23:		$this->set_title( 'WordPress was updated to ' . $wp_version . '.' );
+src/Logger/Updated_Core.php:24:		$this->add_content( 'Version', $wp_version );
+src/Logger/WP_Delete_File.php:27:		$this->set_title( $title );
+src/Logger/WP_Login.php:27:		$content = $this->get_server_variables_table( array(
+src/Logger/WP_Login.php:33:			$this->set_title( $title );
+src/Logger/WP_Login.php:34:			$this->add_content( 'Environment Variables', $content );
+src/Logger.php:29:		if ( empty( $this->label ) ) {
+src/Logger.php:32:		if ( empty( $this->hooks ) || ! is_array( $this->hooks ) ) {
+src/Logger.php:49:		$this->log->set_title( $title );
+src/Logger.php:58:		$this->log->add_content( $title, $content );
+src/Logger.php:69:				$this->log->set_log_level( $level_object->get_level() );
+src/Logger.php:75:	 * Set `\Talog\Log` to the `$this->log`.
+src/Logger.php:81:		$this->log = $log;
+src/Logger.php:82:		$this->set_log_level_by_class( $this->log_level );
+src/Logger.php:83:		$this->log->set_label( $this->label );
+src/Logger.php:93:		return $this->label;
+src/Logger.php:103:		return $this->hooks;
+src/Logger.php:113:		$level = $this->log_level;
+src/Logger.php:140:		return $this->priority;
+src/Logger.php:150:		return $this->accepted_args;
+src/Logger.php:166:		return $this->get_table( $vars );
+src/Submenu_Page.php:11:		$this->post = get_post( $_GET['log_id'] );
+src/Submenu_Page.php:12:		if ( empty( $this->post ) || 'talog' !== $this->post->post_type ) {
+src/Submenu_Page.php:15:		$this->meta = get_post_meta( $this->post->ID, '_talog', true );
+src/Submenu_Page.php:20:		$post = $this->post;
+src/Submenu_Page.php:22:		if ( ! empty( $this->meta['log_level'] )) {
+src/Submenu_Page.php:23:			$log_level = self::get_level_name( $this->meta['log_level'] );
+src/Submenu_Page.php:41:		echo $this->meta_contents();
+src/Submenu_Page.php:71:		if ( ! empty( $this->meta['is_cli'] ) ) {
+src/Submenu_Page.php:73:		} elseif ( empty( $this->post->post_author ) ) {
+src/Submenu_Page.php:76:			$author = get_userdata( $this->post->post_author )->display_name;
+src/Submenu_Page.php:83:			esc_html( get_date_from_gmt( $this->post->post_date_gmt, 'Y-m-d H:i:s' ) )
+tests/class-test-log.php:17:		$this->set_title( 'hello' );
+tests/class-test-log.php:18:		$this->add_content( 'test', 'this is test!' );
+tests/logger/test-last-error.php:13:		$this->assertSame( 31, count( explode( "\n", trim( $result ) ) ) );
+tests/logger/test-last-error.php:24:		$this->assertSame( 16, count( explode( "\n", trim( $result ) ) ) );
+tests/logger/test-last-error.php:36:		$this->assertSame( 16, count( explode( "\n", trim( $result ) ) ) );
+tests/logger/test-last-error.php:52:		$this->assertSame( 'Undefined variable: e', $res->title );
+tests/logger/test-last-error.php:53:		$this->assertTrue( !! $res->content );
+tests/logger/test-plugin.php:17:		$this->assertSame( 'Plugin "hello.php" was activated.', $res->title );
+tests/logger/test-plugin.php:20:		$this->assertSame( 'Plugin Data', $content[0]['title'] );
+tests/logger/test-plugin.php:21:		$this->assertTrue( strpos( $content[0]['content'], 'Hello Dolly' ) > 0 );
+tests/test-admin.php:7:		$post = $this->factory()->post->create_and_get( array( 'post_type' => 'talog' ) );
+tests/test-admin.php:10:		$post = $this->factory()->post->create_and_get( array( 'post_type' => 'talog' ) );
+tests/test-admin.php:13:		$post = $this->factory()->post->create_and_get( array( 'post_type' => 'talog' ) );
+tests/test-admin.php:16:		$post = $this->factory()->post->create_and_get( array( 'post_type' => 'talog' ) );
+tests/test-admin.php:22:		$this->assertSame( array( 'apple', 'banana', 'orange' ), $values );
+tests/test-admin.php:28:		$this->assertSame( 'info', $result );
+tests/test-admin.php:31:		$this->assertSame( 'info', $result );
+tests/test-admin.php:34:		$this->assertSame( 'debug', $result );
+tests/test-event.php:9:		$this->assertTrue( is_a( $result, 'WP_Error' ) );
+tests/test-event.php:17:		$user_id = $this->set_current_user( 'editor' );
+tests/test-event.php:22:		$this->assertTrue( is_array( $result ) );
+tests/test-event.php:23:		$this->assertTrue( is_a( $result[0], 'Talog\Logger' ) );
+tests/test-event.php:24:		$this->assertSame( 'debug', $result[0]->get_log_level() );
+tests/test-event.php:27:		$this->assertFalse( $GLOBALS['test-log'] );
+tests/test-event.php:30:		$this->assertSame( array( 'foo', 'bar' ), $GLOBALS['test-log'] );
+tests/test-event.php:33:		$last_log = $this->get_last_log();
+tests/test-event.php:34:		$this->assertSame( 'hello', $last_log->post_title );
+tests/test-event.php:36:		$this->assertSame( array(
+tests/test-event.php:42:		$this->assertSame( "$user_id", $last_log->post_author );
+tests/test-event.php:43:		$this->assertSame( 'publish', $last_log->post_status );
+tests/test-event.php:46:		$this->assertSame( 'Test', $meta['label'] );
+tests/test-event.php:47:		$this->assertSame( 'debug', $meta['log_level'] );
+tests/test-event.php:48:		$this->assertSame( 'Test', $meta['label'] );
+tests/test-event.php:49:		$this->assertSame( 'test_hook', $meta['hook'] );
+tests/test-event.php:50:		$this->assertSame( false, $meta['is_cli'] );
+tests/test-event.php:53:		$this->assertSame( $meta['label'], $_talog_label );
+tests/test-event.php:55:		$this->assertSame( $meta['log_level'], $_talog_log_level );
+tests/test-event.php:68:		$user_id = $this->set_current_user( 'editor' );
+tests/test-event.php:73:		$this->assertTrue( is_array( $result ) );
+tests/test-event.php:74:		$this->assertTrue( is_a( $result[0], 'Talog\Logger' ) );
+tests/test-event.php:77:		$this->assertFalse( $GLOBALS['test-log'] );
+tests/test-event.php:80:		$this->assertSame( array( 'foo', 'bar' ), $GLOBALS['test-log'] );
+tests/test-event.php:83:		$last_log = $this->get_last_log();
+tests/test-event.php:84:		$this->assertSame( 'hello', $last_log->post_title );
+tests/test-event.php:86:		$this->assertSame( array(
+tests/test-event.php:92:		$this->assertSame( "$user_id", $last_log->post_author );
+tests/test-event.php:93:		$this->assertSame( 'publish', $last_log->post_status );
+tests/test-event.php:96:		$this->assertSame( 'Test', $meta['label'] );
+tests/test-event.php:97:		$this->assertSame( 'debug', $meta['log_level'] );
+tests/test-event.php:98:		$this->assertSame( 'Test', $meta['label'] );
+tests/test-event.php:99:		$this->assertSame( 'test_hook', $meta['hook'] );
+tests/test-event.php:100:		$this->assertSame( true, $meta['is_cli'] );
+tests/test-event.php:101://		$this->assertTrue( is_array( $meta['server_vars'] ) );
+tests/test-event.php:103:		$this->assertSame( $meta['label'], $_talog_label );
+tests/test-event.php:105:		$this->assertSame( $meta['log_level'], $_talog_log_level );
+tests/test-event.php:133:		$user = $this->factory->user->create_and_get( array(
+tests/test-log.php:8:		$this->assertTrue( is_a( $log->get_log(), 'WP_Error' ) );
+tests/test-log.php:22:			$this->assertTrue( is_a( $log, 'stdClass' ) );
+tests/test-log.php:23:			$this->assertSame( 'this is log', $log->title );
+tests/test-log.php:24:			$this->assertSame( '', $log->content );
+tests/test-log.php:25:			$this->assertSame( 0, $log->user );
+tests/test-log.php:26:			$this->assertSame( 'General', $log->meta['label'] );
+tests/test-log.php:27:			$this->assertSame( null, $log->meta['log_level'] );
+tests/test-log.php:28:			$this->assertSame( 'test_hook', $log->meta['hook'] );
+tests/test-log.php:29:			$this->assertSame( false, $log->meta['is_cli'] );
+tests/test-log.php:32:			$this->assertSame( 'bar', $log_object->get_log()->meta['foo'] );
+tests/test-log.php:34:			$this->assertTrue( empty( $log_object->get_log()->meta['foo'] ) );
+tests/test-log.php:38:		$this->assertTrue( $test_flag );
+tests/test-log.php:47:		$user_id = $this->set_current_user( 'administrator' );
+tests/test-log.php:62:			$this->assertTrue( is_a( $log, 'stdClass' ) );
+tests/test-log.php:63:			$this->assertSame( 'this is log', $log->title );
+tests/test-log.php:64://			$this->assertSame( 'hello', $log->content );
+tests/test-log.php:65:			$this->assertSame( $user_id, $log->user );
+tests/test-log.php:66:			$this->assertSame( 'Post', $log->meta['label'] );
+tests/test-log.php:67:			$this->assertSame( 'debug', $log->meta['log_level'] );
+tests/test-log.php:68:			$this->assertSame( 'test_hook', $log->meta['hook'] );
+tests/test-log.php:69:			$this->assertSame( true, $log->meta['is_cli'] );
+tests/test-log.php:73:		$this->assertTrue( $test_flag );
+tests/test-log.php:84:		$user = $this->factory->user->create_and_get( array(
+tests/test-logger.php:10:		$this->assertSame( 'debug', $logger->get_log_level() );
+tests/test-logger.php:24:		$this->assertSame( 'debug', $logger->get_log_level() );
+tests/test-logger.php:28:		$this->assertSame( 'hello', $log_data->title );
+tests/test-logger.php:30:		$this->assertSame( array(
+tests/test-logger.php:50:		$this->assertSame( 'debug', $logger->get_log_level() );
+tests/test-logger.php:51:		$this->assertSame( 'debug', $log_data->meta['log_level'] );
+tests/test-logger.php:54:		$this->assertSame( 'error', $log_data->meta['log_level'] );
+tests/test-logger.php:69:		$this->assertSame( $logger->get_label(), $log_data->meta['label'] );
+tests/test-logger.php:77:		$this->assertSame( array( 'test_hook' ), $logger->get_hooks() );
+tests/test-logger.php:85:		$this->assertSame( 'debug', $logger->get_log_level() );
+tests/test-logger.php:93:		$this->assertSame( 10, $logger->get_priority() );
+tests/test-logger.php:101:		$this->assertSame( null, $logger->get_server_variables_table( array() ) );
+tests/test-logger.php:108:		$this->assertTrue( 0 < strpos( $table, 'HTTP_HOST' ) );
+tests/test-logger.php:109:		$this->assertTrue( 0 < strpos( $table, 'SCRIPT_FILENAME' ) );
+tests/test-logger.php:110:		$this->assertTrue( 0 < strpos( $table, 'phpunit' ) );
+tests/test-logger.php:111:		$this->assertFalse( 0 < strpos( $table, 'UNDEFINED' ) );
+tests/test-logger.php:119:		$this->assertSame( null, $logger->get_server_variables_table( array() ) );
+tests/test-logger.php:126:		$this->assertTrue( 0 < strpos( $table,
+tests/test-logger.php:128:		$this->assertTrue( 0 < strpos( $table,
+tests/test-logger.php:130:		$this->assertTrue( 0 < strpos( $table,
+tests/test-logger.php:142:		$user = $this->factory->user->create_and_get( array(
+tests/test-object.php:15:		$this->assertSame( false, $obj->flag );
+tests/test-object.php:16:		$this->assertSame( false, $obj_copy->flag );
+tests/test-object.php:20:		$this->assertSame( true, $obj->flag );
+tests/test-object.php:21:		$this->assertSame( true, $obj_copy->flag );
+tests/test-post-type.php:7:		$this->assertTrue( in_array( 'talog', get_post_types() ) );
+tests/test-post-type.php:14:		$this->set_current_user( 'administrator' );
+tests/test-post-type.php:15:		$this->assertTrue( current_user_can( $post_type_object->cap->edit_posts ) );
+tests/test-post-type.php:16:		$this->assertTrue( ! current_user_can( $post_type_object->cap->create_posts ) );
+tests/test-post-type.php:17:		$this->assertTrue( ! current_user_can( $post_type_object->cap->delete_posts ) );
+tests/test-post-type.php:19:		$this->set_current_user( 'editor' );
+tests/test-post-type.php:20:		$this->assertTrue( current_user_can( $post_type_object->cap->edit_posts ) );
+tests/test-post-type.php:21:		$this->assertTrue( ! current_user_can( $post_type_object->cap->create_posts ) );
+tests/test-post-type.php:22:		$this->assertTrue( ! current_user_can( $post_type_object->cap->delete_posts ) );
+tests/test-post-type.php:24:		$this->set_current_user( 'author' );
+tests/test-post-type.php:25:		$this->assertTrue( ! current_user_can( $post_type_object->cap->edit_posts ) );
+tests/test-post-type.php:26:		$this->assertTrue( ! current_user_can( $post_type_object->cap->create_posts ) );
+tests/test-post-type.php:27:		$this->assertTrue( ! current_user_can( $post_type_object->cap->delete_posts ) );
+tests/test-post-type.php:29:		$this->set_current_user( 'contributor' );
+tests/test-post-type.php:30:		$this->assertTrue( ! current_user_can( $post_type_object->cap->edit_posts ) );
+tests/test-post-type.php:31:		$this->assertTrue( ! current_user_can( $post_type_object->cap->create_posts ) );
+tests/test-post-type.php:32:		$this->assertTrue( ! current_user_can( $post_type_object->cap->delete_posts ) );
+tests/test-post-type.php:34:		$this->set_current_user( 'subscriber' );
+tests/test-post-type.php:35:		$this->assertTrue( ! current_user_can( $post_type_object->cap->edit_posts ) );
+tests/test-post-type.php:36:		$this->assertTrue( ! current_user_can( $post_type_object->cap->create_posts ) );
+tests/test-post-type.php:37:		$this->assertTrue( ! current_user_can( $post_type_object->cap->delete_posts ) );
+tests/test-post-type.php:48:		$user = $this->factory()->user->create_and_get( array(
+vendor/composer/ClassLoader.php:62:        if (!empty($this->prefixesPsr0)) {
+vendor/composer/ClassLoader.php:63:            return call_user_func_array('array_merge', $this->prefixesPsr0);
+vendor/composer/ClassLoader.php:71:        return $this->prefixDirsPsr4;
+vendor/composer/ClassLoader.php:76:        return $this->fallbackDirsPsr0;
+vendor/composer/ClassLoader.php:81:        return $this->fallbackDirsPsr4;
+vendor/composer/ClassLoader.php:86:        return $this->classMap;
+vendor/composer/ClassLoader.php:94:        if ($this->classMap) {
+vendor/composer/ClassLoader.php:95:            $this->classMap = array_merge($this->classMap, $classMap);
+vendor/composer/ClassLoader.php:97:            $this->classMap = $classMap;
+vendor/composer/ClassLoader.php:113:                $this->fallbackDirsPsr0 = array_merge(
+vendor/composer/ClassLoader.php:115:                    $this->fallbackDirsPsr0
+vendor/composer/ClassLoader.php:118:                $this->fallbackDirsPsr0 = array_merge(
+vendor/composer/ClassLoader.php:119:                    $this->fallbackDirsPsr0,
+vendor/composer/ClassLoader.php:128:        if (!isset($this->prefixesPsr0[$first][$prefix])) {
+vendor/composer/ClassLoader.php:129:            $this->prefixesPsr0[$first][$prefix] = (array) $paths;
+vendor/composer/ClassLoader.php:134:            $this->prefixesPsr0[$first][$prefix] = array_merge(
+vendor/composer/ClassLoader.php:136:                $this->prefixesPsr0[$first][$prefix]
+vendor/composer/ClassLoader.php:139:            $this->prefixesPsr0[$first][$prefix] = array_merge(
+vendor/composer/ClassLoader.php:140:                $this->prefixesPsr0[$first][$prefix],
+vendor/composer/ClassLoader.php:161:                $this->fallbackDirsPsr4 = array_merge(
+vendor/composer/ClassLoader.php:163:                    $this->fallbackDirsPsr4
+vendor/composer/ClassLoader.php:166:                $this->fallbackDirsPsr4 = array_merge(
+vendor/composer/ClassLoader.php:167:                    $this->fallbackDirsPsr4,
+vendor/composer/ClassLoader.php:171:        } elseif (!isset($this->prefixDirsPsr4[$prefix])) {
+vendor/composer/ClassLoader.php:177:            $this->prefixLengthsPsr4[$prefix[0]][$prefix] = $length;
+vendor/composer/ClassLoader.php:178:            $this->prefixDirsPsr4[$prefix] = (array) $paths;
+vendor/composer/ClassLoader.php:181:            $this->prefixDirsPsr4[$prefix] = array_merge(
+vendor/composer/ClassLoader.php:183:                $this->prefixDirsPsr4[$prefix]
+vendor/composer/ClassLoader.php:187:            $this->prefixDirsPsr4[$prefix] = array_merge(
+vendor/composer/ClassLoader.php:188:                $this->prefixDirsPsr4[$prefix],
+vendor/composer/ClassLoader.php:204:            $this->fallbackDirsPsr0 = (array) $paths;
+vendor/composer/ClassLoader.php:206:            $this->prefixesPsr0[$prefix[0]][$prefix] = (array) $paths;
+vendor/composer/ClassLoader.php:222:            $this->fallbackDirsPsr4 = (array) $paths;
+vendor/composer/ClassLoader.php:228:            $this->prefixLengthsPsr4[$prefix[0]][$prefix] = $length;
+vendor/composer/ClassLoader.php:229:            $this->prefixDirsPsr4[$prefix] = (array) $paths;
+vendor/composer/ClassLoader.php:240:        $this->useIncludePath = $useIncludePath;
+vendor/composer/ClassLoader.php:251:        return $this->useIncludePath;
+vendor/composer/ClassLoader.php:262:        $this->classMapAuthoritative = $classMapAuthoritative;
+vendor/composer/ClassLoader.php:272:        return $this->classMapAuthoritative;
+vendor/composer/ClassLoader.php:282:        $this->apcuPrefix = function_exists('apcu_fetch') && ini_get('apc.enabled') ? $apcuPrefix : null;
+vendor/composer/ClassLoader.php:292:        return $this->apcuPrefix;
+vendor/composer/ClassLoader.php:321:        if ($file = $this->findFile($class)) {
+vendor/composer/ClassLoader.php:338:        if (isset($this->classMap[$class])) {
+vendor/composer/ClassLoader.php:339:            return $this->classMap[$class];
+vendor/composer/ClassLoader.php:341:        if ($this->classMapAuthoritative || isset($this->missingClasses[$class])) {
+vendor/composer/ClassLoader.php:344:        if (null !== $this->apcuPrefix) {
+vendor/composer/ClassLoader.php:345:            $file = apcu_fetch($this->apcuPrefix.$class, $hit);
+vendor/composer/ClassLoader.php:351:        $file = $this->findFileWithExtension($class, '.php');
+vendor/composer/ClassLoader.php:355:            $file = $this->findFileWithExtension($class, '.hh');
+vendor/composer/ClassLoader.php:358:        if (null !== $this->apcuPrefix) {
+vendor/composer/ClassLoader.php:359:            apcu_add($this->apcuPrefix.$class, $file);
+vendor/composer/ClassLoader.php:364:            $this->missingClasses[$class] = true;
+vendor/composer/ClassLoader.php:376:        if (isset($this->prefixLengthsPsr4[$first])) {
+vendor/composer/ClassLoader.php:381:                if (isset($this->prefixDirsPsr4[$search])) {
+vendor/composer/ClassLoader.php:382:                    foreach ($this->prefixDirsPsr4[$search] as $dir) {
+vendor/composer/ClassLoader.php:383:                        $length = $this->prefixLengthsPsr4[$first][$search];
+vendor/composer/ClassLoader.php:393:        foreach ($this->fallbackDirsPsr4 as $dir) {
+vendor/composer/ClassLoader.php:409:        if (isset($this->prefixesPsr0[$first])) {
+vendor/composer/ClassLoader.php:410:            foreach ($this->prefixesPsr0[$first] as $prefix => $dirs) {
+vendor/composer/ClassLoader.php:422:        foreach ($this->fallbackDirsPsr0 as $dir) {
+vendor/composer/ClassLoader.php:429:        if ($this->useIncludePath && $file = stream_resolve_include_path($logicalPathPsr0)) {
+vendor/erusev/parsedown/Parsedown.php:27:        $this->DefinitionData = array();
+vendor/erusev/parsedown/Parsedown.php:39:        $markup = $this->lines($lines);
+vendor/erusev/parsedown/Parsedown.php:53:        $this->breaksEnabled = $breaksEnabled;
+vendor/erusev/parsedown/Parsedown.php:62:        $this->markupEscaped = $markupEscaped;
+vendor/erusev/parsedown/Parsedown.php:71:        $this->urlsLinked = $urlsLinked;
+vendor/erusev/parsedown/Parsedown.php:168:                $Block = $this->{'block'.$CurrentBlock['type'].'Continue'}($Line, $CurrentBlock);
+vendor/erusev/parsedown/Parsedown.php:178:                    if ($this->isBlockCompletable($CurrentBlock['type']))
+vendor/erusev/parsedown/Parsedown.php:180:                        $CurrentBlock = $this->{'block'.$CurrentBlock['type'].'Complete'}($CurrentBlock);
+vendor/erusev/parsedown/Parsedown.php:191:            $blockTypes = $this->unmarkedBlockTypes;
+vendor/erusev/parsedown/Parsedown.php:193:            if (isset($this->BlockTypes[$marker]))
+vendor/erusev/parsedown/Parsedown.php:195:                foreach ($this->BlockTypes[$marker] as $blockType)
+vendor/erusev/parsedown/Parsedown.php:206:                $Block = $this->{'block'.$blockType}($Line, $CurrentBlock);
+vendor/erusev/parsedown/Parsedown.php:219:                    if ($this->isBlockContinuable($blockType))
+vendor/erusev/parsedown/Parsedown.php:240:                $CurrentBlock = $this->paragraph($Line);
+vendor/erusev/parsedown/Parsedown.php:248:        if (isset($CurrentBlock['continuable']) and $this->isBlockCompletable($CurrentBlock['type']))
+vendor/erusev/parsedown/Parsedown.php:250:            $CurrentBlock = $this->{'block'.$CurrentBlock['type'].'Complete'}($CurrentBlock);
+vendor/erusev/parsedown/Parsedown.php:271:            $markup .= isset($Block['markup']) ? $Block['markup'] : $this->element($Block['element']);
+vendor/erusev/parsedown/Parsedown.php:357:        if ($this->markupEscaped)
+vendor/erusev/parsedown/Parsedown.php:570:        if ($Line['text'][0] === '[' and $this->blockReference($Line))
+vendor/erusev/parsedown/Parsedown.php:681:        if ($this->markupEscaped)
+vendor/erusev/parsedown/Parsedown.php:686:        if (preg_match('/^<(\w*)(?:[ ]*'.$this->regexHtmlAttribute.')*[ ]*(\/)?>/', $Line['text'], $matches))
+vendor/erusev/parsedown/Parsedown.php:690:            if (in_array($element, $this->textLevelElements))
+vendor/erusev/parsedown/Parsedown.php:707:                if (isset($matches[2]) or in_array($matches[1], $this->voidElements))
+vendor/erusev/parsedown/Parsedown.php:716:                if (isset($matches[2]) or in_array($matches[1], $this->voidElements))
+vendor/erusev/parsedown/Parsedown.php:738:        if (preg_match('/^<'.$Block['name'].'(?:[ ]*'.$this->regexHtmlAttribute.')*[ ]*>/i', $Line['text'])) # open
+vendor/erusev/parsedown/Parsedown.php:786:            $this->DefinitionData['Reference'][$id] = $Data;
+vendor/erusev/parsedown/Parsedown.php:1006:        while ($excerpt = strpbrk($text, $this->inlineMarkerList))
+vendor/erusev/parsedown/Parsedown.php:1014:            foreach ($this->InlineTypes[$marker] as $inlineType)
+vendor/erusev/parsedown/Parsedown.php:1016:                $Inline = $this->{'inline'.$inlineType}($Excerpt);
+vendor/erusev/parsedown/Parsedown.php:1041:                $markup .= $this->unmarkedText($unmarkedText);
+vendor/erusev/parsedown/Parsedown.php:1044:                $markup .= isset($Inline['markup']) ? $Inline['markup'] : $this->element($Inline['element']);
+vendor/erusev/parsedown/Parsedown.php:1056:            $markup .= $this->unmarkedText($unmarkedText);
+vendor/erusev/parsedown/Parsedown.php:1061:        $markup .= $this->unmarkedText($text);
+vendor/erusev/parsedown/Parsedown.php:1123:        if ($Excerpt['text'][1] === $marker and preg_match($this->StrongRegex[$marker], $Excerpt['text'], $matches))
+vendor/erusev/parsedown/Parsedown.php:1127:        elseif (preg_match($this->EmRegex[$marker], $Excerpt['text'], $matches))
+vendor/erusev/parsedown/Parsedown.php:1148:        if (isset($Excerpt['text'][1]) and in_array($Excerpt['text'][1], $this->specialCharacters))
+vendor/erusev/parsedown/Parsedown.php:1166:        $Link = $this->inlineLink($Excerpt);
+vendor/erusev/parsedown/Parsedown.php:1245:            if ( ! isset($this->DefinitionData['Reference'][$definition]))
+vendor/erusev/parsedown/Parsedown.php:1250:            $Definition = $this->DefinitionData['Reference'][$definition];
+vendor/erusev/parsedown/Parsedown.php:1266:        if ($this->markupEscaped or strpos($Excerpt['text'], '>') === false)
+vendor/erusev/parsedown/Parsedown.php:1287:        if ($Excerpt['text'][1] !== ' ' and preg_match('/^<\w*(?:[ ]*'.$this->regexHtmlAttribute.')*[ ]*\/?>/s', $Excerpt['text'], $matches))
+vendor/erusev/parsedown/Parsedown.php:1339:        if ($this->urlsLinked !== true or ! isset($Excerpt['text'][2]) or $Excerpt['text'][2] !== '/')
+vendor/erusev/parsedown/Parsedown.php:1385:        if ($this->breaksEnabled)
+vendor/erusev/parsedown/Parsedown.php:1425:                $markup .= $this->{$Element['handler']}($Element['text']);
+vendor/erusev/parsedown/Parsedown.php:1448:            $markup .= "\n" . $this->element($Element);
+vendor/erusev/parsedown/Parsedown.php:1460:        $markup = $this->lines($lines);
+vendor/erusev/parsedown/Parsedown.php:1483:        $markup = $this->text($text);
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:39:		$this->gh_user = $gh_user;
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:40:		$this->gh_repo = $gh_repo;
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:41:		$this->slug    = $plugin_slug;
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:65:		if(  strpos( $source, $this->gh_repo ) === false ) {
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:70:		$newsource = trailingslashit( $path_parts['dirname'] ) . trailingslashit( $this->gh_repo );
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:87:		$remote_version = $this->get_api_data( '/releases/latest' );
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:92:		$current_version = $this->get_plugin_info();
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:94:		return $this->get_newer_version( $transient, $current_version, $remote_version );
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:108:				isset( $arg->slug ) && $arg->slug === $this->slug ) {
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:110:			$remote_version = $this->get_api_data( '/releases/latest' );
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:115:			$current_version = $this->get_plugin_info();
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:117:			return $this->get_plugins_api_object(
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:136:		$obj->slug = $this->slug;
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:146:			$this->gh_user,
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:147:			$this->gh_repo
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:159:		if ( is_file( WP_PLUGIN_DIR . '/' . dirname( $this->slug ) . '/README.md' ) ) {
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:161:				WP_PLUGIN_DIR . '/' . dirname( $this->slug ) . '/README.md'
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:168:		$obj->download_link = esc_url( $this->get_download_url( $remote_version ) );
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:184:			$obj->slug = $this->slug;
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:185:			$obj->plugin = $this->slug;
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:188:			$obj->package = $this->get_download_url( $remote_version );
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:189:			$transient->response[ $this->slug ] = $obj;
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:209:				$this->gh_user,
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:210:				$this->gh_repo,
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:226:		$plugin = get_plugin_data( WP_PLUGIN_DIR . '/' . $this->slug );
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:238:		$res = wp_remote_get( $this->get_gh_api( $endpoint ) );
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:256:			$this->gh_user,
+vendor/miya/gh-auto-updater/src/GH_Auto_Updater.php:257:			$this->gh_repo,

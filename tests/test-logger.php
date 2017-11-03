@@ -130,21 +130,4 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 		$this->assertTrue( 0 < strpos( $table,
 				'<th>key3</th><td>val3</td>' ) );
 	}
-
-	/**
-	 * Add user and set the user as current user.
-	 *
-	 * @param  string $role administrator, editor, author, contributor ...
-	 * @return int The user ID.
-	 */
-	private function set_current_user( $role )
-	{
-		$user = $this->factory->user->create_and_get( array(
-			'role' => $role,
-		) );
-
-		wp_set_current_user( $user->ID, $user->user_login );
-
-		return $user->ID;
-	}
 }

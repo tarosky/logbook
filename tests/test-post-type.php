@@ -41,17 +41,16 @@ class Talog_Posttype_Test extends WP_UnitTestCase
 	 * Add user and set the user as current user.
 	 *
 	 * @param  string $role administrator, editor, author, contributor ...
-	 * @return none
+	 * @return int The user ID
 	 */
 	private function set_current_user( $role )
 	{
-		$user = $this->factory->user->create_and_get( array(
+		$user = $this->factory()->user->create_and_get( array(
 			'role' => $role,
 		) );
 
-		/*
-		 * Set $user as the current user
-		 */
 		wp_set_current_user( $user->ID, $user->user_login );
+
+		return $user->ID;
 	}
 }
