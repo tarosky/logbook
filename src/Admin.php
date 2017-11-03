@@ -4,16 +4,17 @@ namespace Talog;
 
 /**
  * Customize the list table on the admin screen.
- * https://make.wordpress.org/docs/plugin-developer-handbook/10-plugin-components/custom-list-table-columns/
  *
  * @package Talog
  */
 final class Admin {
 	public function register() {
-		add_action( 'manage_talog_posts_custom_column', array( $this, 'manage_custom_column' ), 10, 2 );
+		add_action( 'manage_talog_posts_custom_column',
+					array( $this, 'manage_custom_column' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_filter( 'manage_edit-talog_columns', array( $this, 'manage_sortable_columns' ) );
-		add_filter( 'manage_edit-talog_sortable_columns', array( $this, 'manage_sortable_columns' ) );
+		add_filter( 'manage_edit-talog_sortable_columns',
+					array( $this, 'manage_sortable_columns' ) );
 		add_filter( 'manage_edit-talog_columns', array( $this, 'manage_columns' ) );
 		add_filter( 'request', array( $this, 'request' ) );
 		add_filter( 'bulk_actions-edit-talog', '__return_empty_array' );
@@ -189,7 +190,7 @@ final class Admin {
 		);
 	}
 
-	public static function get_meta_values( $meta_key, $post_type = 'talog' ) {
+	protected static function get_meta_values( $meta_key, $post_type = 'talog' ) {
 		global $wpdb;
 
 		$sql = "SELECT pm.meta_value FROM {$wpdb->postmeta} pm 

@@ -13,21 +13,11 @@ class Talog_Plugin_Test extends \WP_UnitTestCase
 		$obj->log( array( 'hello.php' ) );
 
 		$res = $log->get_log();
-		//var_dump( $res );
-		// TODO: need test
-	}
 
-	public function test_admin()
-	{
-		$obj = new Talog\Logger\Activated_Plugin();
-		$post = $this->factory()->post->create_and_get( array(
-			'post_content' => '',
-		) );
+		$this->assertSame( 'Plugin "hello.php" was activated.', $res->title );
 
-		$this->assertFalse( !! $post->post_content );
-
-		// TODO: need test
-//		$obj->admin( $post, array( 'error' => $error, 'error-file' => 'file' ) );
-//		$this->assertTrue( !! $post->post_content );
+		$content = json_decode( urldecode( $res->content ), true );
+		$this->assertSame( 'Plugin Data', $content[0]['title'] );
+		$this->assertTrue( strpos( $content[0]['content'], 'Hello Dolly' ) > 0 );
 	}
 }
