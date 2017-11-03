@@ -15,7 +15,7 @@ Download: https://github.com/tarosky/talog/releases
 
 ```
 add_action( 'plugins_loaded', function() {
-	Talog\init_log( 'Your_Class' );
+	Talog\init_log( 'Hello\Example' );
 } );
 ```
 
@@ -25,14 +25,14 @@ add_action( 'plugins_loaded', function() {
 
 ### List of logs
 
-![](https://www.evernote.com/l/ABWwkNLfbklOh5YYM6k0boOjBenoOwM6GBYB/image.png)
+![](https://www.evernote.com/l/ABUg-wL0wbtAFoQ8dTuN-206ZVeKmSk2NwgB/image.png)
 
 ### Detail screen of the log
 
 Updated post:
 
-![](https://www.evernote.com/l/ABVgRrfpi_5MAar-zDO_Q9V18F3hkhspV18B/image.png)
+![](https://www.evernote.com/l/ABWIQoGQcxdAnaPmKKVHawUxZ3UIJfTs64EB/image.png)
 
 Last error of PHP:
 
-![](https://www.evernote.com/l/ABUj6csA8ElG3q5hwXiSHrYTRFtQ0lGyX0MB/image.png)
+![](https://www.evernote.com/l/ABW7wljExtpNLq2XZ5p72-zKkH7PQ6FBYxQB/image.png)

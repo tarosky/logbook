@@ -3,49 +3,54 @@
  * This class is an example for custom logger class.
  */
 
-namespace My_Name_Space;
-use Talog\Log;
+namespace Hello;
 use Talog\Logger;
 
 class Example extends Logger
 {
+	/**
+	 * @var string $label The label that is used on list table.
+	 */
 	protected $label = 'Post';
+	/**
+	 * @var array $hooks An array of WordPress's action/filter hooks.
+	 */
 	protected $hooks = array( 'publish_post' );
+	/**
+	 * @var string $log_level The log level. See `src/Level/`
+	 */
 	protected $log_level = '\Talog\Level\Default_Level';
+	/**
+	 * @var int $priority Number of priority that will be passed to `add_filter()`.
+	 */
 	protected $priority = 10;
+	/**
+	 * @var int $accepted_args Number of args that will be passed to `add_filter()`.
+	 */
 	protected $accepted_args = 1;
 
 	/**
 	 * Set the properties to the `Talog\Log` object for the log.
 	 *
-	 * @param Log    $log             An instance of `Talog\Log`.
 	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
 	 */
-	public function log( Log $log, $additional_args )
+	public function log( $additional_args )
 	{
-		// title will be listed in table on the admin.
-		$log->set_title( 'This is a log.' );
+		/**
+		 * `$additional_args` contains args as array that passed from WordPress's hook.
+		 * Following example is `$post_id` that came from `publish_post` hook.
+		 */
+		list( $post_id ) = $additional_args;
 
-		// If you need a metadata use `update_meta()`.
-		// It will be saved to the database.
-		$log->update_meta( 'key', 'value' );
-	}
+		/**
+		 * title will be listed in table on the admin.
+		 */
+		$this->set_title( "Nice! #{$post_id} was published!" );
 
-	/**
-	 * Set the properties to `\WP_Post` for the admin.
-	 *
-	 * @param \WP_Post $post     The post object.
-	 * @param array   $post_meta The post meta of the `$post`.
-	 * @return \WP_Post The `\WP_Post` object.
-	 */
-	public function admin( \WP_Post $post, $post_meta )
-	{
-		// post_content will be displayed on admin.
-		$post->post_content = 'This is a content of the log.';
-
-		// We can use metadata like following.
-		if ( 'value' === $post_meta['key'] ) {
-			$post->post_content = 'Hey!!';
-		}
+		/**
+		 * You can add additional contents if you need.
+		 */
+		$this->add_content( 'Title 1', 'HTML content 1' );
+		$this->add_content( 'Title 2', 'HTML content 2' );
 	}
 }
