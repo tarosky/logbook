@@ -28,6 +28,11 @@
 	margin-left: 5px;
 }
 
+.talog-log-details tr
+{
+	white-space: nowrap;
+}
+
 .talog-log-details .log-title
 {
 	background-color: #ffffff;

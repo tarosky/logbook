@@ -124,34 +124,34 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 		) );
 
 		$this->assertTrue( 0 < strpos( $table,
-				'<th style="white-space: nowrap;">key1</th><td>val1</td>' ) );
+				'<th>key1</th><td>val1</td>' ) );
 		$this->assertTrue( 0 < strpos( $table,
-				'<th style="white-space: nowrap;">key2</th><td><a href="#hello">val2</a></td>' ) );
+				'<th>key2</th><td><a href="#hello">val2</a></td>' ) );
 		$this->assertTrue( 0 < strpos( $table,
-				'<th style="white-space: nowrap;">key3</th><td>val3</td>' ) );
+				'<th>key3</th><td>val3</td>' ) );
 	}
 
-	/**
-	 * @param array $keys
-	 * @return string The HTML table content.
-	 */
-	public function get_server_variables_table( $keys )
-	{
-		$vars = array();
-		foreach( $_SERVER as $key => $value ) {
-			if ( in_array( $key, $keys )) {
-				$vars[ $key ] = $value;
-			}
-		}
-
-		return $this->get_table( $vars );
-	}
+//	/**
+//	 * @param array $keys
+//	 * @return string The HTML table content.
+//	 */
+//	public function get_server_variables_table( $keys )
+//	{
+//		$vars = array();
+//		foreach( $_SERVER as $key => $value ) {
+//			if ( in_array( $key, $keys )) {
+//				$vars[ $key ] = $value;
+//			}
+//		}
+//
+//		return $this->get_table( $vars );
+//	}
 
 	/**
 	 * Add user and set the user as current user.
 	 *
 	 * @param  string $role administrator, editor, author, contributor ...
-	 * @return none
+	 * @return int The user ID.
 	 */
 	private function set_current_user( $role )
 	{
