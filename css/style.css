@@ -28,6 +28,12 @@
 	margin-left: 5px;
 }
 
+.talog-log-details .meta
+{
+	text-align: right;
+	margin-right: 20px;
+}
+
 .talog-log-details tr
 {
 	white-space: nowrap;

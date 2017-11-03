@@ -78,8 +78,7 @@ final class Log_Page
 		}
 
 		return sprintf(
-			'<p style="text-align: right; margin-right: 20px;">
-						<strong>%2$s</strong> by <strong>%1$s</strong></p>',
+			'<p class="meta"><strong>%2$s</strong> by <strong>%1$s</strong></p>',
 			esc_html( $author ),
 			esc_html( get_date_from_gmt( $this->post->post_date_gmt, 'Y-m-d H:i:s' ) )
 		);
