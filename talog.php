@@ -7,7 +7,7 @@
  * Author URI:
  * Text Domain:     talog
  * Domain Path:     /languages
- * Version:         100
+ * Version:         nightly
  *
  * @package         Talog
  */
