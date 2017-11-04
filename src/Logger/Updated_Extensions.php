@@ -3,7 +3,7 @@
 namespace Talog\Logger;
 use Talog\Logger;
 
-class Updated_Plugins extends Logger
+class Updated_Extensions extends Logger
 {
 	protected $label = 'WordPress';
 	protected $hooks = array( 'upgrader_process_complete' );

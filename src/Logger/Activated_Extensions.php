@@ -6,7 +6,7 @@
 namespace Talog\Logger;
 use Talog\Logger;
 
-class Activated_Plugin extends Logger
+class Activated_Extensions extends Logger
 {
 	protected $label = 'Plugin';
 	protected $hooks = array( 'activated_plugin', 'deactivated_plugin', 'switch_theme' );

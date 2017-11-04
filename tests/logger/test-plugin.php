@@ -4,7 +4,7 @@ class Talog_Plugin_Test extends \WP_UnitTestCase
 {
 	public function test_log()
 	{
-		$obj = new Talog\Logger\Activated_Plugin();
+		$obj = new Talog\Logger\Activated_Extensions();
 
 		$GLOBALS['wp_current_filter'] = array( 'activated_plugin' ); // Force `test` hook.
 
