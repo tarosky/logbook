@@ -30,6 +30,10 @@ class Activated_Plugin extends Logger
 		}
 
 		$path = trailingslashit( WP_PLUGIN_DIR ) . $plugin;
+
+		if ( ! function_exists( 'get_plugin_data' ) ) {
+			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		}
 		$table = $this->get_table( get_plugin_data( $path ) );
 
 		$this->set_title( $title );

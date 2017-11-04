@@ -53,31 +53,31 @@
 	padding-top: 0;
 }
 
-.talog-log-details .table-talog
+.talog-log-details table
 {
 	border-collapse: collapse;
 	border: 1px solid #dedede;
 }
 
-.talog-log-details .table-talog th,
-.talog-log-details .table-talog td
+.talog-log-details table th,
+.talog-log-details table td
 {
 	border: 1px solid #dedede;
 	padding: 15px !important;
 	word-break: break-all;
 }
 
-.talog-log-details .table-talog td:first-child
+.talog-log-details table td:first-child
 {
 	word-break: normal;
 }
 
-.talog-log-details .table-talog th
+.talog-log-details table th
 {
 	background-color: #f5f5f5;
 }
 
-.talog-log-details .table-talog tr:nth-child(odd)
+.talog-log-details table tr:nth-child(odd)
 {
 	background-color: #fafafa;
 }

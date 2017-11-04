@@ -7,7 +7,7 @@
  * Author URI:
  * Text Domain:     talog
  * Domain Path:     /languages
- * Version:         nightly
+ * Version:         100
  *
  * @package         Talog
  */
@@ -51,7 +51,7 @@ function plugins_loaded() {
 		'Talog\Logger\Last_Error',
 		'Talog\Logger\Post_Updated',
 		'Talog\Logger\Updated_Core',
-//		'Talog\Logger\WP_Delete_File',
+		'Talog\Logger\Updated_Plugins',
 		'Talog\Logger\WP_Login',
 	) );
 

@@ -30,7 +30,8 @@ class Delete_Post extends Logger
 		}
 
 		$title = sprintf(
-			'#%s "%s" was deleted.',
+			'%s #%s "%s" was deleted.',
+			esc_html( ucfirst( $post->post_type ) ),
 			esc_html( $post_id ),
 			esc_html( $post->post_title )
 		);
