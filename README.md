@@ -19,7 +19,8 @@ add_action( 'plugins_loaded', function() {
 } );
 ```
 
-[The example class is here.](https://github.com/tarosky/talog/blob/master/example/Example.php)
+* [The example class is here.](https://github.com/tarosky/talog/blob/master/example/Example.php)
+* See also [defaults](https://github.com/tarosky/talog/tree/master/src/Logger).
 
 ## Screenshot
 
