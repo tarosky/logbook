@@ -84,26 +84,12 @@ final class Log_Page
 		);
 	}
 
-	protected function get_level_name( $level = null ) {
-		$level_name  = '';
-		if ( $level ) {
-			$level_class = '\\Talog\\Level\\' . ucfirst( $level );
-			if ( class_exists( $level_class ) ) {
-				/**
-				 * @var Level $level_object
-				 */
-				$level_object = new $level_class();
-				if ( is_a( $level_object, 'Talog\Level' ) ) {
-					$level_name = $level_object->get_level();
-				}
-			}
+	protected function get_level_name( $level )
+	{
+		if ( ! $level ) {
+			$level = '';
 		}
 
-		if ( ! $level_name ) {
-			$obj = new Level\Default_Level();
-			$level_name = $obj->get_level();
-		}
-
-		return $level_name;
+		return $level;
 	}
 }
