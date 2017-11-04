@@ -26,7 +26,9 @@ class WP_Login extends Logger
 
 		$content = $this->get_server_variables_table( array(
 			'REMOTE_ADDR',
-			'HTTP_USER_AGENT'
+			'HTTP_USER_AGENT',
+			'HTTP_HOST',
+			'REQUEST_URI',
 		) );
 
 		if ( $content ) {

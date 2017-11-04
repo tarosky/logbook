@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/tarosky/talog.svg?branch=master)](https://travis-ci.org/tarosky/talog)
 
-A logging plugin for WordPress.
+A logging plugin for WordPress. You always can see what changed and who changed it.
 
 Download: https://github.com/tarosky/talog/releases
 

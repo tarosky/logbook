@@ -157,9 +157,11 @@ abstract class Logger
 	public function get_server_variables_table( $keys )
 	{
 		$vars = array();
-		foreach( $_SERVER as $key => $value ) {
-			if ( in_array( $key, $keys )) {
-				$vars[ $key ] = '<pre>' . esc_html( $value ) . '</pre>';
+		foreach( $keys as $key ) {
+			if ( ! empty( $_SERVER[ $key ] ) ) {
+				$vars[ $key ] = '<pre>' . esc_html( $_SERVER[ $key ] ) . '</pre>';
+			} else {
+				$vars[ $key ] = '';
 			}
 		}
 

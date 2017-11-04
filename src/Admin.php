@@ -88,6 +88,7 @@ final class Admin {
 		$columns['_date']      = 'Date';
 		$columns['_title']     = 'Log';
 		$columns['_log_level'] = 'Level';
+		$columns['_ip'] = 'IP';
 		$columns['_user']      = 'User';
 
 		return $columns;
@@ -180,6 +181,13 @@ final class Admin {
 		} elseif ( '_date' === $column_name ) {
 			$post = get_post( $post_id );
 			echo esc_html( get_date_from_gmt( $post->post_date_gmt, 'Y-m-d H:i:s' ) );
+		} elseif ( '_ip' === $column_name ) {
+			$meta = get_post_meta( $post_id, '_talog', true );
+			if ( ! empty( $meta['ip'] ) ) {
+				echo esc_html( $meta['ip'] );
+			} else {
+				echo '';
+			}
 		}
 	}
 

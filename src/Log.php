@@ -20,6 +20,7 @@ class Log
 			'log_level' => null,
 			'hook' => self::get_current_hook(),
 			'is_cli' => self::is_cli(),
+			'ip' => self::get_ip(),
 		);
 	}
 
@@ -108,6 +109,15 @@ class Log
 			return false;
 		} else {
 			return true;
+		}
+	}
+
+	protected static function get_ip()
+	{
+		if ( empty( $_SERVER['REMOTE_ADDR'] ) ) {
+			return '';
+		} else {
+			return $_SERVER['REMOTE_ADDR'];
 		}
 	}
 

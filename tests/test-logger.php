@@ -108,7 +108,7 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 		$this->assertTrue( 0 < strpos( $table, 'HTTP_HOST' ) );
 		$this->assertTrue( 0 < strpos( $table, 'SCRIPT_FILENAME' ) );
 		$this->assertTrue( 0 < strpos( $table, 'phpunit' ) );
-		$this->assertFalse( 0 < strpos( $table, 'UNDEFINED' ) );
+		$this->assertTrue( 0 < strpos( $table, 'UNDEFINED' ) );
 	}
 
 	public function test_logger_class_get_table()
