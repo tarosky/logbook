@@ -95,6 +95,14 @@ class Event
 			) )
 		);
 
+		if ( ! empty( $_SERVER['REQUEST_URI'] ) ) {
+			$path = '/xmlrpc.php';
+			$len = strlen( $path );
+			if ( $path === substr( $_SERVER['REQUEST_URI'], 0 - $len ) ) {
+				$log->set_log_level( 'warn' );
+			}
+		}
+
 		$this->logs[] = $log;
 
 		do_action( 'talog_after_hook', $log );
