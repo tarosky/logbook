@@ -6,6 +6,7 @@
     },
     "require": {
       "php": ">=5.6",
-      "miya/gh-auto-updater": "^1.0"
+      "miya/gh-auto-updater": "^1.0",
+        "phpunit/phpunit": "^6.4"
     }
 }

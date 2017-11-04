@@ -26,8 +26,8 @@ before_script:
 - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
 - composer install
 script:
-- phpunit
-- WP_MULTISITE=1 phpunit
+- vendor/bin/phpunit
+- WP_MULTISITE=1 vendor/bin/phpunit
 after_success:
 - sed -i -e "s/nightly/${TRAVIS_TAG}/" $(basename $TRAVIS_REPO_SLUG).php
 - curl https://raw.githubusercontent.com/miya0001/auto-build/master/auto-build.sh | bash
