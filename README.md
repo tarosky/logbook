@@ -6,6 +6,29 @@ A logging plugin for WordPress. You always can see what changed and who changed 
 
 Download: https://github.com/tarosky/talog/releases
 
+## It is logging:
+
+* WordPress
+	* Core updates
+	* Plugin/Theme updates
+	* Language updates
+* Post/Page/Attachment
+	* Created
+	* Updated
+	* Deleted
+* Plugin
+	* Activated
+	* Deactivated
+* Theme
+	* Switched
+* User
+	* Logged in
+* XML-RPC
+	* Authenticated
+	* Created
+	* Updated
+	* Deleted
+
 ## Customizing
 
 ### Add your custom log events
