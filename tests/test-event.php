@@ -34,11 +34,9 @@ class Talog_Event_Test extends \WP_UnitTestCase
 		$this->assertSame( 'hello', $last_log->post_title );
 		$content = json_decode( urldecode( $last_log->post_content ), true );
 		$this->assertSame( array(
-			array(
-				'title' => 'test',
-				'content' => 'this is test!'
-			),
-		), $content );
+			'title' => 'test',
+			'content' => 'this is test!'
+		), $content[0] );
 		$this->assertSame( "$user_id", $last_log->post_author );
 		$this->assertSame( 'publish', $last_log->post_status );
 
@@ -84,11 +82,10 @@ class Talog_Event_Test extends \WP_UnitTestCase
 		$this->assertSame( 'hello', $last_log->post_title );
 		$content = json_decode( urldecode( $last_log->post_content ), true );
 		$this->assertSame( array(
-			array(
-				'title' => 'test',
-				'content' => 'this is test!'
-			),
-		), $content );
+			'title' => 'test',
+			'content' => 'this is test!'
+		), $content[0] );
+		$this->assertSame( 2, count( $content ) );
 		$this->assertSame( "$user_id", $last_log->post_author );
 		$this->assertSame( 'publish', $last_log->post_status );
 
