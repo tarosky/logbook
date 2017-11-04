@@ -113,12 +113,17 @@ class Log
 		}
 	}
 
-	public function get_cli_command()
+	public function get_command_log()
 	{
 		return $this->log->meta['cli-command'];
 	}
 
-	public static function is_cli()
+	public function has_command_log()
+	{
+		return !! $this->log->meta['cli-command'];
+	}
+
+	protected static function is_cli()
 	{
 		if ( defined('WP_CLI') && WP_CLI ) {
 			return true;
@@ -158,6 +163,7 @@ class Log
 		}
 	}
 
+	// TODO: need test
 	protected function cli()
 	{
 		if ( self::is_cli() ) {

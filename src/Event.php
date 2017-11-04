@@ -85,10 +85,10 @@ class Event
 			return;
 		}
 
-		if ( $log::is_cli() ) {
+		if ( $log->has_command_log() ) {
 			$log->add_content( 'WP-CLI Command', sprintf(
 				'<pre style="padding: 0;">$ wp %s</pre>',
-				esc_html( $log->get_cli_command() )
+				esc_html( $log->get_command_log() )
 			) );
 		} else {
 			$log->add_content(
