@@ -13,7 +13,7 @@
  */
 
 namespace Talog;
-use \Miya\WP as WP;
+use \Miya\WP\GH_Auto_Updater;
 
 require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 
@@ -25,7 +25,7 @@ function activate_auto_update() {
 	$gh_repo = 'talog';       // The repository name of your plugin.
 
 	// Activate automatic update.
-	new WP\GH_Auto_Updater( $plugin_slug, $gh_user, $gh_repo );
+	new GH_Auto_Updater( $plugin_slug, $gh_user, $gh_repo );
 }
 
 function plugins_loaded() {
