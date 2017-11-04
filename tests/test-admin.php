@@ -27,9 +27,6 @@ class Talog_Admin_Test extends \WP_UnitTestCase
 		$result = self::getMethod( 'get_level_name', array( 'info' ) );
 		$this->assertSame( 'info', $result );
 
-		$result = self::getMethod( 'get_level_name', array( 'undefined' ) );
-		$this->assertSame( 'info', $result );
-
 		$result = self::getMethod( 'get_level_name', array( 'debug' ) );
 		$this->assertSame( 'debug', $result );
 	}
