@@ -64,6 +64,12 @@
 	border: 1px solid #dedede;
 }
 
+.talog-log-details table.diff,
+.talog-log-details table.diff td
+{
+	border: none;
+}
+
 .talog-log-details table th,
 .talog-log-details table td
 {
