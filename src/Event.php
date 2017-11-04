@@ -85,17 +85,24 @@ class Event
 			return;
 		}
 
-		$log->add_content(
-			'Environment Variables',
-			$logger->get_server_variables_table( array(
-				'REMOTE_ADDR',
-				'HTTP_X_FORWARDED_FOR',
-				'HTTP_CLIENT_IP',
-				'HTTP_USER_AGENT',
-				'HTTP_HOST',
-				'REQUEST_URI',
-			) )
-		);
+		if ( $log::is_cli() ) {
+			$log->add_content( 'WP-CLI Command', sprintf(
+				'<pre style="padding: 0;">$ wp %s</pre>',
+				esc_html( $log->get_cli_command() )
+			) );
+		} else {
+			$log->add_content(
+				'Environment Variables',
+				$logger->get_server_variables_table( array(
+					'REMOTE_ADDR',
+					'HTTP_X_FORWARDED_FOR',
+					'HTTP_CLIENT_IP',
+					'HTTP_USER_AGENT',
+					'HTTP_HOST',
+					'REQUEST_URI',
+				) )
+			);
+		}
 
 		if ( ! empty( $_SERVER['REQUEST_URI'] ) ) {
 			$path = '/xmlrpc.php';

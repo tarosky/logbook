@@ -20,6 +20,7 @@ class Log
 			'log_level' => null,
 			'hook' => self::get_current_hook(),
 			'is_cli' => self::is_cli(),
+			'cli-command' => self::cli(),
 			'ip' => self::get_ip(),
 		);
 	}
@@ -112,6 +113,20 @@ class Log
 		}
 	}
 
+	public function get_cli_command()
+	{
+		return $this->log->meta['cli-command'];
+	}
+
+	public static function is_cli()
+	{
+		if ( defined('WP_CLI') && WP_CLI ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	protected static function get_ip()
 	{
 		if ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
@@ -133,15 +148,6 @@ class Log
 		return wp_get_current_user();
 	}
 
-	protected static function is_cli()
-	{
-		if ( defined('WP_CLI') && WP_CLI ) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	protected function get_user_id()
 	{
 		$user = self::get_user();
@@ -149,6 +155,26 @@ class Log
 			return 0;
 		} else {
 			return $user->ID;
+		}
+	}
+
+	protected function cli()
+	{
+		if ( self::is_cli() ) {
+			$commands = $GLOBALS['argv'];
+			foreach ( $commands as $cmd ) {
+				array_shift( $commands );
+				if ( $cmd === $_SERVER['PHP_SELF'] ) {
+					break;
+				}
+			}
+			if ( $commands ) {
+				return implode( ' ', $commands );
+			} else {
+				return '';
+			}
+		} else {
+			return '';
 		}
 	}
 }

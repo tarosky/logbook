@@ -29,7 +29,7 @@ Download: https://github.com/tarosky/talog/releases
 	* Updated
 	* Deleted
 * Debug
-	* PHP errors/warnings/notices.
+	* PHP errors
 
 ## Customizing
 
