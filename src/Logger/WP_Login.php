@@ -9,7 +9,7 @@ class WP_Login extends Logger
 	protected $hooks = array( 'wp_login' );
 	protected $log_level = '\Talog\Level\Default_Level';
 	protected $priority = 10;
-	protected $accepted_args = 2;
+	protected $accepted_args = 1;
 
 	/**
 	 * Set the properties to the `Talog\Log` object for the log.
@@ -19,21 +19,12 @@ class WP_Login extends Logger
 	public function log( $additional_args )
 	{
 		list( $user_login ) = $additional_args;
+
 		$title = sprintf(
 			'User "%s" logged in.',
 			esc_html( $user_login )
 		);
 
-		$content = $this->get_server_variables_table( array(
-			'REMOTE_ADDR',
-			'HTTP_USER_AGENT',
-			'HTTP_HOST',
-			'REQUEST_URI',
-		) );
-
-		if ( $content ) {
-			$this->set_title( $title );
-			$this->add_content( 'Environment Variables', $content );
-		}
+		$this->set_title( $title );
 	}
 }

@@ -53,6 +53,7 @@ function plugins_loaded() {
 		'Talog\Logger\Updated_Core',
 		'Talog\Logger\Updated_Plugins',
 		'Talog\Logger\WP_Login',
+		'Talog\Logger\XML_RPC',
 	) );
 
 	foreach ( $loggers as $logger ) {

@@ -85,6 +85,16 @@ class Event
 			return;
 		}
 
+		$log->add_content(
+			'Environment Variables',
+			$logger->get_server_variables_table( array(
+				'REMOTE_ADDR',
+				'HTTP_USER_AGENT',
+				'HTTP_HOST',
+				'REQUEST_URI',
+			) )
+		);
+
 		$this->logs[] = $log;
 
 		do_action( 'talog_after_hook', $log );
