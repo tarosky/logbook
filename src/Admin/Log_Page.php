@@ -23,7 +23,7 @@ final class Log_Page
 		if ( ! empty( $this->meta['log_level'] )) {
 			$log_level = self::get_level_name( $this->meta['log_level'] );
 		} else {
-			$log_level = self::get_level_name();
+			$log_level = '';
 		}
 
 		echo '<div class="wrap talog-log-details">';

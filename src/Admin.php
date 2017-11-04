@@ -171,12 +171,6 @@ final class Admin {
 					esc_attr( self::get_level_name( $meta['log_level'] ) ),
 					esc_html( ucfirst( self::get_level_name( $meta['log_level'] ) ) )
 				);
-			} else {
-				printf(
-					'<span class="%s log-level">%s</span>',
-					esc_attr( self::get_level_name() ),
-					esc_html( ucfirst( self::get_level_name() ) )
-				);
 			}
 		} elseif ( '_date' === $column_name ) {
 			$post = get_post( $post_id );
