@@ -172,7 +172,7 @@
 .log-level.info
 {
 	color: #555555;
-	font-weight: bold;
+	font-weight: normal;
 }
 
 .log-level.debug
