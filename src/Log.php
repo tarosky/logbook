@@ -114,10 +114,12 @@ class Log
 
 	protected static function get_ip()
 	{
-		if ( empty( $_SERVER['REMOTE_ADDR'] ) ) {
-			return '';
-		} else {
+		if ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+			return $_SERVER['HTTP_X_FORWARDED_FOR'];
+		} elseif ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
 			return $_SERVER['REMOTE_ADDR'];
+		} else {
+			return '';
 		}
 	}
 

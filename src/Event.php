@@ -89,6 +89,8 @@ class Event
 			'Environment Variables',
 			$logger->get_server_variables_table( array(
 				'REMOTE_ADDR',
+				'HTTP_X_FORWARDED_FOR',
+				'HTTP_CLIENT_IP',
 				'HTTP_USER_AGENT',
 				'HTTP_HOST',
 				'REQUEST_URI',
