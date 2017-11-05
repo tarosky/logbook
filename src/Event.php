@@ -140,8 +140,6 @@ class Event
 		}
 
 		$this->logs[] = $log;
-
-		do_action( 'talog_after_hook', $log );
 	}
 
 	public function shutdown()

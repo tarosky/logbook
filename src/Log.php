@@ -148,7 +148,9 @@ class Log
 
 	protected static function get_ip()
 	{
-		if ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+		if ( ! empty( $_SERVER['HTTP_REMOTE_ADDR'] ) ) {
+			$ip = $_SERVER['HTTP_REMOTE_ADDR'];
+		} elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
 			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 		} elseif ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
 			$ip = $_SERVER['REMOTE_ADDR'];
