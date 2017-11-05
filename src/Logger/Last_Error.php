@@ -29,6 +29,11 @@ class Last_Error extends Logger
 			}
 
 			$title = 'Summary';
+			foreach ( $error as $key => $value ) {
+				if ( 'message' === $key ) {
+					$error['message'] = '<pre>' . $value . '</pre>';
+				}
+			}
 			$content = $this->get_table( $error );
 			if ( $content ) {
 				$this->add_content( $title, $content );
