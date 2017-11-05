@@ -93,7 +93,18 @@ class Event
 			}
 		}
 
-		if ( 'debug' === $log->get_log_level() || 'trace' === $log->get_log_level() ) {
+		/**
+		 * Filters the log levels that will be saved to log.
+		 *
+		 * @param array $active_levels
+		 */
+		$active_levels = apply_filters( 'talog_active_levels', array(
+			'fatal',
+			'error',
+			'warn',
+			'info',
+		) );
+		if ( ! in_array( $log->get_log_level(), $active_levels ) ) {
 			if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
 				return;
 			}
