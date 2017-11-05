@@ -85,6 +85,11 @@ class Log
 		$this->log->meta['log_level'] = $level_name;
 	}
 
+	public function get_log_level()
+	{
+		return $this->log->meta['log_level'];
+	}
+
 	public function update_meta( $key, $value )
 	{
 		$this->log->meta[ $key ] = $value;

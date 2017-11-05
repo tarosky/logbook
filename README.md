@@ -28,8 +28,10 @@ Download: https://github.com/tarosky/talog/releases
 	* Created
 	* Updated
 	* Deleted
-* Debug
-	* PHP errors
+* PHP
+	* Errors
+	* Warnings (WP_DEBUG only)
+	* Notices (WP_DEBUG only)
 
 ## Customizing
 

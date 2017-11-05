@@ -85,6 +85,20 @@ class Event
 			return;
 		}
 
+		if ( ! empty( $_SERVER['REQUEST_URI'] ) ) {
+			$path = '/xmlrpc.php';
+			$len = strlen( $path );
+			if ( $path === substr( $_SERVER['REQUEST_URI'], 0 - $len ) ) {
+				$log->set_log_level( 'warn' );
+			}
+		}
+
+		if ( 'debug' === $log->get_log_level() || 'trace' === $log->get_log_level() ) {
+			if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
+				return;
+			}
+		}
+
 		if ( $log->has_command_log() ) {
 			$log->add_content( 'WP-CLI Command', sprintf(
 				'<pre class="terminal">$ %s</pre>',
@@ -112,14 +126,6 @@ class Event
 				'Environment Variables',
 				$logger->get_server_variables_table( $server_variables )
 			);
-		}
-
-		if ( ! empty( $_SERVER['REQUEST_URI'] ) ) {
-			$path = '/xmlrpc.php';
-			$len = strlen( $path );
-			if ( $path === substr( $_SERVER['REQUEST_URI'], 0 - $len ) ) {
-				$log->set_log_level( 'warn' );
-			}
 		}
 
 		$this->logs[] = $log;
