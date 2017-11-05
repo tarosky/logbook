@@ -116,7 +116,7 @@ class Log
 	public function get_command_log()
 	{
 		if ( $this->log->meta['cli-command'] ) {
-			$u   = get_current_user();
+			$u   = exec( 'whoami' );
 			if ( empty( $_SERVER['REMOTE_ADDR'] ) ) {
 				$addr = 'localhost';
 			} else {
