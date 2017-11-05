@@ -78,5 +78,3 @@ function init_log( $logger_class ) {
 		wp_die( '`' . $logger_class . '` not found.' );
 	}
 }
-
-echo @$e;
