@@ -115,7 +115,16 @@ class Log
 
 	public function get_command_log()
 	{
-		return $this->log->meta['cli-command'];
+		if ( $this->log->meta['cli-command'] ) {
+			$u   = get_current_user();
+			if ( empty( $_SERVER['REMOTE_ADDR'] ) ) {
+				$addr = 'localhost';
+			} else {
+				$addr = $_SERVER['REMOTE_ADDR'];
+			}
+
+			return '[' . $u . '@' . $addr . '] wp ' . $this->log->meta['cli-command'];
+		}
 	}
 
 	public function has_command_log()

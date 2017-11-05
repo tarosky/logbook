@@ -138,8 +138,17 @@
 	padding: 0;
 }
 
-.talog-log-details pre.line {
+.talog-log-details pre.line
+{
 	background-color: #eeee88;
+}
+
+.talog-log-details pre.terminal
+{
+	background-color: #555555;
+	color: #ffffff;
+	padding: 20px 10px;
+	font-size: 16px;
 }
 
 .talog-log-details .hndle

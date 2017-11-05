@@ -87,7 +87,7 @@ class Event
 
 		if ( $log->has_command_log() ) {
 			$log->add_content( 'WP-CLI Command', sprintf(
-				'<pre style="padding: 0;">$ wp %s</pre>',
+				'<pre class="terminal">$ %s</pre>',
 				esc_html( $log->get_command_log() )
 			) );
 		} else {
