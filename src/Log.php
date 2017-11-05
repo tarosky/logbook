@@ -144,12 +144,19 @@ class Log
 	protected static function get_ip()
 	{
 		if ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			return $_SERVER['HTTP_X_FORWARDED_FOR'];
+			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 		} elseif ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
-			return $_SERVER['REMOTE_ADDR'];
+			$ip = $_SERVER['REMOTE_ADDR'];
 		} else {
-			return '';
+			$ip = '';
 		}
+
+		/**
+		 * Filters the remote address.
+		 *
+		 * @param string $ip The remote address of the user.
+		 */
+		return apply_filters( 'talog_log_remote_ip', $ip );
 	}
 
 	protected static function get_current_hook()

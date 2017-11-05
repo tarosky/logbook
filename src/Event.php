@@ -91,16 +91,26 @@ class Event
 				esc_html( $log->get_command_log() )
 			) );
 		} else {
+			$server_variables = array(
+				'REMOTE_ADDR',
+				'HTTP_X_FORWARDED_FOR',
+				'HTTP_CLIENT_IP',
+				'HTTP_USER_AGENT',
+				'HTTP_HOST',
+				'REQUEST_URI',
+			);
+			/**
+			 * Filters the keys of `$_SERVER` for the log.
+			 *
+			 * @param array $server_variables An array of the keys of `$_SERVER`.
+			 */
+			$server_variables = apply_filters(
+				"talog_log_server_variables",
+				$server_variables
+			);
 			$log->add_content(
 				'Environment Variables',
-				$logger->get_server_variables_table( array(
-					'REMOTE_ADDR',
-					'HTTP_X_FORWARDED_FOR',
-					'HTTP_CLIENT_IP',
-					'HTTP_USER_AGENT',
-					'HTTP_HOST',
-					'REQUEST_URI',
-				) )
+				$logger->get_server_variables_table( $server_variables )
 			);
 		}
 
