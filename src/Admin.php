@@ -188,15 +188,17 @@ final class Admin {
 	public function admin_enqueue_scripts() {
 		wp_enqueue_style(
 			'talog-admin-style',
-			plugins_url( '/css/style.css', dirname( __FILE__ ) )
+			plugins_url( '/css/style.css', dirname( __FILE__ ) ),
+			array(),
+			filemtime( dirname( dirname( __FILE__ ) ) . '/css/style.css' )
 		);
 	}
 
 	protected static function get_meta_values( $meta_key, $post_type = 'talog' ) {
 		global $wpdb;
 
-		$sql = "SELECT pm.meta_value FROM {$wpdb->postmeta} pm 
-			LEFT JOIN {$wpdb->posts} p ON p.ID = pm.post_id 
+		$sql = "SELECT pm.meta_value FROM {$wpdb->postmeta} pm
+			LEFT JOIN {$wpdb->posts} p ON p.ID = pm.post_id
 				WHERE pm.meta_key = '%s' AND p.post_type = '%s'";
 
 		$meta_values = $wpdb->get_col( $wpdb->prepare( $sql, $meta_key, $post_type ) );
