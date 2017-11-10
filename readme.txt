@@ -8,52 +8,52 @@ Stable tag: nightly
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-これは WordPress のアクティビティをログとして保存するプラグインです。何が変わったか誰がそれをしたかをいつでも確認することができます。
+This plugin is for logging users' activities. You can check anytime who and what has changed.
 
 == Description ==
 
-このプラグインは、WordPressの様々なアクティビティログを保存するためのプラグインです。
-このプラグインをインストールして有効化すると以下のような様々なアクティビティを監視することができます。
+Once you have installed and activated it, you can check the following activities.
 
-=== 特徴 ===
 
-* 軽量でパフォーマンスへのインパクトがほとんどありません。
-* 100通り以上のユニットテストが実行されており、エンタープライズでも安心して利用できます。
-* ログを保存するためのイベントは拡張可能であり、みなさん独自のログを保存するためのアドオンを開発することが可能です。
-* WordPressでの各種のアクティビティを保存
-	* 記事の公開や公開済みの記事のアップデートや削除
-	* プラグインやテーマの有効化や無効化
-	* WordPress本体やプラグイン、言語ファイルのアップデート
-	* ユーザーのログイン
-	* XML-RPCによるログインや記事の投稿
-	* PHPのエラー（デバッグモードでは、WaringやNoticeも保存）
+=== Features ===
 
-=== 保存するログの詳細 ===
+* Super lightweight and it doesn't affect site's performances.
+* It has passed over 100 patterns unit test, you can use it in the enterprise use.
+* The event saving logs is extensive, so you can develop own add-ons for saving it.
+* Logging following activities on WordPress
+    * Publish, update or delete published posts.
+    * Activate or deactivate plugins or themes.
+    * Updating WordPress core, plugins, language files.
+    * Users login action
+    * Login and posting via XML-RPC
+    * PHP errors. (On the debug mode, it also save Warning and Notice)
+
+=== Detail of saving logs ===
 
 * WordPress
-	* Core updates
-	* Plugin/Theme updates
-	* Language updates
+    * Core updates
+    * Plugin/Theme updates
+    * Language updates
 * Post/Page/Attachment
-	* Created
-	* Updated
-	* Deleted
+    * Created
+    * Updated
+    * Deleted
 * Plugin
-	* Activated
-	* Deactivated
+    * Activated
+    * Deactivated
 * Theme
-	* Switched
+    * Switched
 * User
-	* Logged in
+    * Logged in
 * XML-RPC
-	* Authenticated
-	* Created
-	* Updated
-	* Deleted
+    * Authenticated
+    * Created
+    * Updated
+    * Deleted
 * PHP
-	* Errors
-	* Warnings (WP_DEBUG only)
-	* Notices (WP_DEBUG only)
+    * Errors
+    * Warnings (WP_DEBUG only)
+    * Notices (WP_DEBUG only)
 
 == Installation ==
 
