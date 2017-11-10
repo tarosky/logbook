@@ -30,12 +30,13 @@ script:
 - WP_MULTISITE=1 phpunit
 after_success:
 - sed -i -e "s/nightly/${TRAVIS_TAG}/" $(basename $TRAVIS_REPO_SLUG).php
-- curl https://raw.githubusercontent.com/miya0001/auto-build/master/auto-build.sh | bash
+- curl https://raw.githubusercontent.com/miya0001/auto-build/master/auto-build.sh
+  | bash
 deploy:
   provider: releases
   api_key:
-    secure: CyfEVbjCZw6R/nWMdwyEqdDPPyqWpEi2E9cLRFj8ITxvg4vYLfi3znyNK4tfwy039V2bkbfchM+4BHuAZkux0D001rlRerMRykTLK133HjFB9JGACb0NpICm86OQIcHWh/tTSZ3SH8EWOEW8gMpKvURr5/JMkKGY8O+RWV/Bvvu5LD5M4o8WPFyaql07Qhw1sQxQBn7jp0bzh3bItIPirb1KL4XXQEQu59lpjWFdemziEqnXx1/BeANyIV4oZ1uRtfggVZVcSfA919UBPwOYgltU1hjoadWmFyAQeWtmgW4t2pkx2HFdidJX9Kjty58OTRoLjqyjQehOeU3F6bmdnuhFnsjQxUwePwYO+jX8NTUISJknFzXbTAN6FBZl7JlRl0u1y7L0g0lYvQlel9suqXhH95OyO/RyAjFXUDinhsjxnrFj8XsMSL1GeaQ5SLfjuBq/AipRrtWEC1UOIZqFzARHT3XkwQHoiorrAHwTxwVZSuz031L6eZDt2SSXrbZiH2wRxv1EkZb3avxzr9LnU2iWNrHxCjIgYqKOk+6d4gOfqRA6xeA+o/gXvhAy5ZBAOPDVu8+Nuc+bJX8Q0aby95F+Z462WgHbR6MpOwxhT4PXq4sHqlNqvUfSrmj2vFLju686RRW3HZokVenYnv70CZ6F3+bltkL38YL/ycteUZY=
-  file: talog.zip
+    secure: axarBP9+cbS2/tEYvdkeR3fPPLMeZ1px5IdgmEpqXRkRfHPxos7YtnGZ27FVliM3dNtXMxL2I9F0KklC3Ru1VzrYnwMYnImiHrBqocO5xJIwlWPwgj1X9sBtk2i8Kw3eoCRXP0teN14US4dbdMakjw+DeGql2q6mF3s04la7MfXY0orxbhwLvzHn0yfdWHEo20QyuUeAJsS6QyJygeIWmHIpd86baPvJwzdkQj4StDfiW74CXRiaaZ1Mtrsp0un+9exrY60E/NJC77+aOW6GGQWu8KMt24ozqqqaFOTiHMwQnG+8RMi7AtGnj3cknUESCgeGnimAGvibxFta6o2iCARFPt6UDLSNyuDBlaSV2BkXQqCMTKlXepW72fLAzkc7izCRSI+FhlcxaJTCflMDQSM74/e2Gg3SdRcijjAuqJokom2CHmQ8R2Z9QaZXRoP2hcj4uUnbo8lfRNX9hKcIuB1pbddqhVZ0Jdn7PXTNxX9pf7Jc29A5C3ftxOnYOd4tke2phiMUWXcZWV5APQ96TEsVFzw1ix/YmloQ/xZ+M8Ketf5q9Aauo6mrTF7QxEWUaWM2zQ+JTlXqxn1rT5pTJFcYyeBjApbHssE87w+RLeLGVFXyQW27Fun2NZR1Nn0436PZOLvv97DU68Ys3p0zU0PY+lLCyiEzaqG+d4/PUiE=
+  file: logbook.zip
   on:
     tags: true
-    repo: tarosky/talog
+    repo: tarosky/logbook

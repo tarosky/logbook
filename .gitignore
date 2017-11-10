@@ -6,4 +6,3 @@ node_modules/
 *.tar.gz
 *.zip
 /vendor/
-composer.lock

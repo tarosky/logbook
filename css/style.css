@@ -18,12 +18,12 @@
 	width: 15%;
 }
 
-.post-type-talog .alignleft.actions.bulkactions
+.post-type-logbook .alignleft.actions.bulkactions
 {
 	display: none;
 }
 
-.post-type-talog .wp-cli
+.post-type-logbook .wp-cli
 {
 	font-size: 8px;
 	background-color: #555555;
@@ -33,18 +33,18 @@
 	margin-left: 5px;
 }
 
-.talog-log-details .meta
+.logbook-log-details .meta
 {
 	text-align: right;
 	margin-right: 20px;
 }
 
-.talog-log-details th
+.logbook-log-details th
 {
 	white-space: nowrap;
 }
 
-.talog-log-details .log-title
+.logbook-log-details .log-title
 {
 	background-color: #ffffff;
 	padding: 20px;
@@ -52,53 +52,53 @@
 	border-radius: 3px;
 }
 
-.talog-log-details #main-content h2
+.logbook-log-details #main-content h2
 {
 	margin-top: 0;
 	padding-top: 0;
 }
 
-.talog-log-details table
+.logbook-log-details table
 {
 	border-collapse: collapse;
 	border: 1px solid #dedede;
 }
 
-.talog-log-details table.diff,
-.talog-log-details table.diff td
+.logbook-log-details table.diff,
+.logbook-log-details table.diff td
 {
 	border: none;
 }
 
-.talog-log-details table th,
-.talog-log-details table td
+.logbook-log-details table th,
+.logbook-log-details table td
 {
 	border: 1px solid #dedede;
 	padding: 15px !important;
 	word-break: break-all;
 }
 
-.talog-log-details table td:first-child
+.logbook-log-details table td:first-child
 {
 	word-break: normal;
 }
 
-.talog-log-details table th
+.logbook-log-details table th
 {
 	background-color: #f5f5f5;
 }
 
-.talog-log-details table tr:nth-child(odd)
+.logbook-log-details table tr:nth-child(odd)
 {
 	background-color: #fafafa;
 }
 
-.talog-log-details .inside
+.logbook-log-details .inside
 {
 	padding-bottom: 0;
 }
 
-.talog-log-details #main-content .inside > h2
+.logbook-log-details #main-content .inside > h2
 {
 	margin-top: 2em;
 	padding-bottom: 5px;
@@ -106,19 +106,19 @@
 	border-bottom: 1px solid #dedede;
 }
 
-.talog-log-details #main-content .inside > h2:first-child
+.logbook-log-details #main-content .inside > h2:first-child
 {
 	margin-top: 0;
 }
 
-.talog-log-details div.code
+.logbook-log-details div.code
 {
 	background-color: #f5f5f5;
 	padding: 20px 0;
 	box-sizing: border-box;
 }
 
-.talog-log-details pre {
+.logbook-log-details pre {
 	white-space: -moz-pre-wrap;
 	white-space: -pre-wrap;
 	white-space: -o-pre-wrap;
@@ -128,7 +128,7 @@
 	padding: 2px 20px;
 }
 
-.talog-log-details table pre {
+.logbook-log-details table pre {
 	white-space: -moz-pre-wrap;
 	white-space: -pre-wrap;
 	white-space: -o-pre-wrap;
@@ -138,12 +138,12 @@
 	padding: 0;
 }
 
-.talog-log-details pre.line
+.logbook-log-details pre.line
 {
 	background-color: #eeee88;
 }
 
-.talog-log-details pre.terminal
+.logbook-log-details pre.terminal
 {
 	background-color: #555555;
 	color: #ffffff;
@@ -151,17 +151,17 @@
 	font-size: 16px;
 }
 
-.talog-log-details .hndle
+.logbook-log-details .hndle
 {
 	cursor: auto !important;
 }
 
-.talog-log-details .handlediv
+.logbook-log-details .handlediv
 {
 	display: none !important;
 }
 
-.talog-log-details .log-level
+.logbook-log-details .log-level
 {
 	margin-right: 5px;
 }
@@ -204,33 +204,33 @@
 
 @media screen and ( max-width: 782px )
 {
-	.post-type-talog .wp-list-table tr th,
-	.post-type-talog .wp-list-table tr td
+	.post-type-logbook .wp-list-table tr th,
+	.post-type-logbook .wp-list-table tr td
 	{
 		display: none !important;
 	}
-	.post-type-talog .wp-list-table td::before
+	.post-type-logbook .wp-list-table td::before
 	{
 		display: none !important;
 	}
-	.post-type-talog .wp-list-table tr td:nth-child(1),
-	.post-type-talog .wp-list-table tr th:nth-child(2),
-	.post-type-talog .wp-list-table tr td:nth-child(2)
+	.post-type-logbook .wp-list-table tr td:nth-child(1),
+	.post-type-logbook .wp-list-table tr th:nth-child(2),
+	.post-type-logbook .wp-list-table tr td:nth-child(2)
 	{
 		display: block !important;
 	}
-	.post-type-talog .wp-list-table tr td:nth-child(1)
+	.post-type-logbook .wp-list-table tr td:nth-child(1)
 	{
 		padding-top: 10px !important;
 		padding-bottom: 3px !important;
 	}
-	.post-type-talog .wp-list-table tr td:nth-child(2)
+	.post-type-logbook .wp-list-table tr td:nth-child(2)
 	{
 		padding-top: 0 !important;
 		padding-bottom: 10px !important;
 		border-bottom: 1px solid #eeeeee;
 	}
-	.post-type-talog .displaying-num
+	.post-type-logbook .displaying-num
 	{
 		display: none;
 	}
