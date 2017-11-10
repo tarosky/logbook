@@ -13,20 +13,9 @@
  */
 
 namespace LogBook;
-use \Miya\WP\GH_Auto_Updater;
 
 require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 
-add_action( 'init', 'LogBook\activate_auto_update' );
-
-function activate_auto_update() {
-	$plugin_slug = plugin_basename( __FILE__ ); // e.g. `hello/hello.php`.
-	$gh_user = 'tarosky';                      // The user name of GitHub.
-	$gh_repo = 'logbook';       // The repository name of your plugin.
-
-	// Activate automatic update.
-	new GH_Auto_Updater( $plugin_slug, $gh_user, $gh_repo );
-}
 
 function plugins_loaded() {
 	// Creates an instance of logger.

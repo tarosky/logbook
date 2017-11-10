@@ -4,89 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0093b51d9adf082bc65dad4a566943db",
-    "packages": [
-        {
-            "name": "erusev/parsedown",
-            "version": "1.6.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/erusev/parsedown.git",
-                "reference": "728952b90a333b5c6f77f06ea9422b94b585878d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown/zipball/728952b90a333b5c6f77f06ea9422b94b585878d",
-                "reference": "728952b90a333b5c6f77f06ea9422b94b585878d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Parsedown": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Emanuil Rusev",
-                    "email": "hello@erusev.com",
-                    "homepage": "http://erusev.com"
-                }
-            ],
-            "description": "Parser for Markdown.",
-            "homepage": "http://parsedown.org",
-            "keywords": [
-                "markdown",
-                "parser"
-            ],
-            "time": "2017-05-14T14:47:48+00:00"
-        },
-        {
-            "name": "miya/gh-auto-updater",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/miya0001/gh-auto-updater.git",
-                "reference": "b190c6f2740788957a3a7e18a00ddbcfd219e7d9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/miya0001/gh-auto-updater/zipball/b190c6f2740788957a3a7e18a00ddbcfd219e7d9",
-                "reference": "b190c6f2740788957a3a7e18a00ddbcfd219e7d9",
-                "shasum": ""
-            },
-            "require": {
-                "erusev/parsedown": "^1.6"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Miya\\WP\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL v2"
-            ],
-            "authors": [
-                {
-                    "name": "miya0001",
-                    "email": "miya@wpist.me"
-                }
-            ],
-            "time": "2017-02-13T01:00:48+00:00"
-        }
-    ],
+    "content-hash": "6990fb18f6d4ba3c611d49f7d25b3680",
+    "packages": [],
     "packages-dev": [
         {
             "name": "doctrine/instantiator",
@@ -1410,8 +1329,6 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": {
-        "php": ">=5.6"
-    },
+    "platform": [],
     "platform-dev": []
 }
