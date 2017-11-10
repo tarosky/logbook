@@ -67,3 +67,7 @@ function init_log( $logger_class ) {
 		wp_die( '`' . $logger_class . '` not found.' );
 	}
 }
+
+if ( defined( 'WP_CLI' ) && WP_CLI ) {
+	\WP_CLI::add_command( 'log', 'LogBook\CLI' );
+}
