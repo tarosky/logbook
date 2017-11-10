@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/tarosky/logbook.svg?branch=master)](https://travis-ci.org/tarosky/logbook)
 
-A logging plugin for WordPress. You always can see what changed and who changed it.
+A logging plugin for WordPress. You can see what changed and who changed it.
 
 Download: https://github.com/tarosky/logbook/releases
 
