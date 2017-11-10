@@ -43,7 +43,7 @@ class Log
 			return;
 		}
 		if ( $this->log->content ) {
-			$contents = json_decode( urldecode( $this->log->content ) );
+			$contents = json_decode( urldecode( $this->log->content ), true );
 		} else {
 			$contents = array();
 		}
