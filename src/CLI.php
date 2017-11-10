@@ -28,8 +28,8 @@ class CLI extends CommandWithDBObject {
 
 	protected $obj_type = 'logbook';
 	protected $obj_fields = array(
-		'post_date',
-		'post_title',
+		'date',
+		'title',
 		'level',
 		'ip',
 		'user',
@@ -131,18 +131,24 @@ class CLI extends CommandWithDBObject {
 			$formatter->display_items( $query->posts );
 		} else {
 			$query = new WP_Query( $query_args );
+			/**
+			 * @param \WP_Post $post
+			 */
 			$posts = array_map( function( $post ) {
-				$post->url = get_permalink( $post->ID );
+				$log = new \stdClass();
+				$log->ID = $post->ID;
+				$log->date = get_date_from_gmt( $post->post_date_gmt, 'Y-m-d H:i:s' );
+				$log->title = $post->post_title;
 				$meta = get_post_meta( $post->ID, '_logbook', true );
-				$post->level = $meta['log_level'];
-				$post->ip = $meta['ip'];
-				$post->label = $meta['label'];
+				$log->level = $meta['log_level'];
+				$log->ip = $meta['ip'];
+				$log->label = $meta['label'];
 				if ( $post->post_author && $u = get_userdata( $post->post_author ) ) {
-					$post->user = $u->user_login;
+					$log->user = $u->user_login;
 				} else {
-					$post->user = '';
+					$log->user = '';
 				}
-				return $post;
+				return $log;
 			}, $query->posts );
 			$formatter->display_items( $posts );
 		}
