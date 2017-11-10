@@ -1,10 +1,10 @@
-# talog
+# logbook
 
-[![Build Status](https://travis-ci.org/tarosky/talog.svg?branch=master)](https://travis-ci.org/tarosky/talog)
+[![Build Status](https://travis-ci.org/tarosky/logbook.svg?branch=master)](https://travis-ci.org/tarosky/logbook)
 
 A logging plugin for WordPress. You always can see what changed and who changed it.
 
-Download: https://github.com/tarosky/talog/releases
+Download: https://github.com/tarosky/logbook/releases
 
 ## It is logging:
 
@@ -46,8 +46,8 @@ add_action( 'plugins_loaded', function() {
 } );
 ```
 
-* [The example class is here.](https://github.com/tarosky/talog/blob/master/example/Example.php)
-* See also [defaults](https://github.com/tarosky/talog/tree/master/src/Logger).
+* [The example class is here.](https://github.com/tarosky/logbook/blob/master/example/Example.php)
+* See also [defaults](https://github.com/tarosky/logbook/tree/master/src/Logger).
 
 ## Screenshot
 
