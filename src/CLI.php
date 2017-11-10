@@ -158,7 +158,7 @@ class CLI extends CommandWithDBObject {
 				$post->level = $meta['log_level'];
 				$post->ip = $meta['ip'];
 				$post->label = $meta['label'];
-				if ( $u = get_userdata( $post->post_author ) ) {
+				if ( $post->post_author && $u = get_userdata( $post->post_author ) ) {
 					$post->user = $u->user_login;
 				} else {
 					$post->user = '';
