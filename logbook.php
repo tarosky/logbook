@@ -4,7 +4,7 @@
  * Plugin URI:      https://github.com/tarosky/logbook
  * Description:     A logging plugin.
  * Author:          Takayuki Miyauchi
- * Author URI:
+ * Author URI:      https://tarosky.co.jp/
  * Text Domain:     logbook
  * Domain Path:     /languages
  * Version:         nightly
