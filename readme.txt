@@ -17,18 +17,21 @@ Once you have installed and activated it, you can check the following activities
 
 === Features ===
 
-* Super lightweight and it doesn't affect site's performances.
-* It has passed over 100 patterns unit test, you can use it in the enterprise use.
-* The event saving logs is extensive, so you can develop own add-ons for saving it.
-* Logging following activities on WordPress
+* Super lightweight and it doesn't affect site's performances.
+* It has passed over 100 patterns unit test, you can use it with confidence in the enterprise.
+* Extensible event saving logs, so you can develop own add-ons for collecting it.
+* Saving logs the following activities on WordPress
     * Publish, update or delete published posts.
     * Activate or deactivate plugins or themes.
     * Updating WordPress core, plugins, language files.
     * Users login action
     * Login and posting via XML-RPC
-    * PHP errors. (On the debug mode, it also save Warning and Notice)
+    * PHP errors (On the debug mode, it also save Warning and Notice)
 
 === Detail of saving logs ===
+
+
+
 
 * WordPress
     * Core updates
