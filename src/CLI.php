@@ -67,33 +67,12 @@ class CLI extends CommandWithDBObject {
 	 * These fields will be displayed by default for each post:
 	 *
 	 * * ID
-	 * * post_title
-	 * * post_name
-	 * * post_date
-	 * * post_status
-	 *
-	 * These fields are optionally available:
-	 *
-	 * * post_author
-	 * * post_date_gmt
-	 * * post_content
-	 * * post_excerpt
-	 * * comment_status
-	 * * ping_status
-	 * * post_password
-	 * * to_ping
-	 * * pinged
-	 * * post_modified
-	 * * post_modified_gmt
-	 * * post_content_filtered
-	 * * post_parent
-	 * * guid
-	 * * menu_order
-	 * * post_type
-	 * * post_mime_type
-	 * * comment_count
-	 * * filter
-	 * * url
+	 * * date
+	 * * title
+	 * * level
+	 * * ip
+	 * * label
+	 * * user
 	 *
 	 * ## EXAMPLES
 	 *
@@ -136,7 +115,7 @@ class CLI extends CommandWithDBObject {
 
 		$defaults = array(
 			'post_type' => 'logbook',
-			'posts_per_page' => -1,
+			'posts_per_page' => 20,
 			'post_status'    => 'any',
 		);
 		$query_args = array_merge( $defaults, $assoc_args );
