@@ -131,9 +131,6 @@ class CLI extends CommandWithDBObject {
 			$formatter->display_items( $query->posts );
 		} else {
 			$query = new WP_Query( $query_args );
-			/**
-			 * @param \WP_Post $post
-			 */
 			$posts = array_map( function( $post ) {
 				$log = new \stdClass();
 				$log->ID = $post->ID;
