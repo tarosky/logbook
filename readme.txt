@@ -14,7 +14,6 @@ This plugin is for logging users' activities. You can check anytime who and what
 
 Once you have installed and activated it, you can check the following activities.
 
-
 === Features ===
 
 * Super lightweight and it doesn't affect site's performances.
@@ -29,9 +28,6 @@ Once you have installed and activated it, you can check the following activities
     * PHP errors (On the debug mode, it also save Warning and Notice)
 
 === Detail of saving logs ===
-
-
-
 
 * WordPress
     * Core updates
