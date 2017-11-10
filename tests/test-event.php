@@ -1,10 +1,10 @@
 <?php
 
-class Talog_Event_Test extends \WP_UnitTestCase
+class LogBook_Event_Test extends \WP_UnitTestCase
 {
 	public function test_logger_class()
 	{
-		$logger = new \Talog\Event();
+		$logger = new \LogBook\Event();
 		$result = $logger->init_log( 'hello' );
 		$this->assertTrue( is_a( $result, 'WP_Error' ) );
 	}
@@ -16,11 +16,11 @@ class Talog_Event_Test extends \WP_UnitTestCase
 		$GLOBALS['test-log'] = false;
 		$user_id = $this->set_current_user( 'editor' );
 
-		$logger = new \Talog\Event();
+		$logger = new \LogBook\Event();
 		$result = $logger->init_log( 'Hello\Test_Log' );
 
 		$this->assertTrue( is_array( $result ) );
-		$this->assertTrue( is_a( $result[0], 'Talog\Logger' ) );
+		$this->assertTrue( is_a( $result[0], 'LogBook\Logger' ) );
 		$this->assertSame( 'debug', $result[0]->get_log_level() );
 
 		do_action( 'plugins_loaded' );
@@ -40,17 +40,17 @@ class Talog_Event_Test extends \WP_UnitTestCase
 		$this->assertSame( "$user_id", $last_log->post_author );
 		$this->assertSame( 'publish', $last_log->post_status );
 
-		$meta = get_post_meta( $last_log->ID, '_talog', true );
+		$meta = get_post_meta( $last_log->ID, '_logbook', true );
 		$this->assertSame( 'Test', $meta['label'] );
 		$this->assertSame( 'debug', $meta['log_level'] );
 		$this->assertSame( 'Test', $meta['label'] );
 		$this->assertSame( 'test_hook', $meta['hook'] );
 		$this->assertSame( false, $meta['is_cli'] );
 
-		$_talog_label = get_post_meta( $last_log->ID, '_talog_label', true );
-		$this->assertSame( $meta['label'], $_talog_label );
-		$_talog_log_level = get_post_meta( $last_log->ID, '_talog_log_level', true );
-		$this->assertSame( $meta['log_level'], $_talog_log_level );
+		$_logbook_label = get_post_meta( $last_log->ID, '_logbook_label', true );
+		$this->assertSame( $meta['label'], $_logbook_label );
+		$_logbook_log_level = get_post_meta( $last_log->ID, '_logbook_log_level', true );
+		$this->assertSame( $meta['log_level'], $_logbook_log_level );
 	}
 
 	/**
@@ -65,11 +65,11 @@ class Talog_Event_Test extends \WP_UnitTestCase
 		$GLOBALS['test-log'] = false;
 		$user_id = $this->set_current_user( 'editor' );
 
-		$logger = new \Talog\Event();
+		$logger = new \LogBook\Event();
 		$result = $logger->init_log( 'Hello\Test_Log' );
 
 		$this->assertTrue( is_array( $result ) );
-		$this->assertTrue( is_a( $result[0], 'Talog\Logger' ) );
+		$this->assertTrue( is_a( $result[0], 'LogBook\Logger' ) );
 
 		do_action( 'plugins_loaded' );
 		$this->assertFalse( $GLOBALS['test-log'] );
@@ -89,28 +89,28 @@ class Talog_Event_Test extends \WP_UnitTestCase
 		$this->assertSame( "$user_id", $last_log->post_author );
 		$this->assertSame( 'publish', $last_log->post_status );
 
-		$meta = get_post_meta( $last_log->ID, '_talog', true );
+		$meta = get_post_meta( $last_log->ID, '_logbook', true );
 		$this->assertSame( 'Test', $meta['label'] );
 		$this->assertSame( 'debug', $meta['log_level'] );
 		$this->assertSame( 'Test', $meta['label'] );
 		$this->assertSame( 'test_hook', $meta['hook'] );
 		$this->assertSame( true, $meta['is_cli'] );
 //		$this->assertTrue( is_array( $meta['server_vars'] ) );
-		$_talog_label = get_post_meta( $last_log->ID, '_talog_label', true );
-		$this->assertSame( $meta['label'], $_talog_label );
-		$_talog_log_level = get_post_meta( $last_log->ID, '_talog_log_level', true );
-		$this->assertSame( $meta['log_level'], $_talog_log_level );
+		$_logbook_label = get_post_meta( $last_log->ID, '_logbook_label', true );
+		$this->assertSame( $meta['label'], $_logbook_label );
+		$_logbook_log_level = get_post_meta( $last_log->ID, '_logbook_log_level', true );
+		$this->assertSame( $meta['log_level'], $_logbook_log_level );
 	}
 
 	/**
-	 * Get the last post from the talog post-type.
+	 * Get the last post from the logbook post-type.
 	 *
 	 * @return mixed An WP_Post object.
 	 */
 	private function get_last_log()
 	{
 		$posts = get_posts( array(
-			'post_type' => 'talog',
+			'post_type' => 'logbook',
 			'order' => 'DESC',
 			'orderby' => 'post_date_gmt',
 			'posts_per_page' => 1,

@@ -3,7 +3,7 @@
  * The base class for log levels.
  */
 
-namespace Talog;
+namespace LogBook;
 
 class Level
 {

@@ -3,8 +3,8 @@
  * The base class for log levels.
  */
 
-namespace Talog\Level;
-use Talog\Level;
+namespace LogBook\Level;
+use LogBook\Level;
 
 class Warn extends Level
 {

@@ -1,18 +1,18 @@
 <?php
 
-namespace Talog\Logger;
-use Talog\Logger;
+namespace LogBook\Logger;
+use LogBook\Logger;
 
 class Last_Error extends Logger
 {
 	protected $label = 'Debug';
 	protected $hooks = array( 'shutdown' );
-	protected $log_level = '\Talog\Level\Debug';
+	protected $log_level = '\LogBook\Level\Debug';
 	protected $priority = 10;
 	protected $accepted_args = 1;
 
 	/**
-	 * Set the properties to the `Talog\Log` object for the log.
+	 * Set the properties to the `LogBook\Log` object for the log.
 	 *
 	 * @param mixed $additional_args An array of the args that was passed from WordPress hook.
 	 */
@@ -40,9 +40,9 @@ class Last_Error extends Logger
 			}
 
 			if ( in_array( intval( $error['type'] ), array( 1, 4, 16, 64, 4096 ) ) ) {
-				$this->set_log_level_by_class( '\Talog\Level\Error' );
+				$this->set_log_level_by_class( '\LogBook\Level\Error' );
 			} elseif ( in_array( intval( $error['type'] ), array( 8, 1024, 8192, 16384 ) ) ) {
-				$this->set_log_level_by_class( '\Talog\Level\Trace' );
+				$this->set_log_level_by_class( '\LogBook\Level\Trace' );
 			}
 		}
 	}

@@ -1,7 +1,6 @@
 <?php
 
-namespace Talog\Admin;
-use Talog\Level;
+namespace LogBook\Admin;
 
 final class Log_Page
 {
@@ -10,10 +9,10 @@ final class Log_Page
 
 	public function __construct() {
 		$this->post = get_post( $_GET['log_id'] );
-		if ( empty( $this->post ) || 'talog' !== $this->post->post_type ) {
+		if ( empty( $this->post ) || 'logbook' !== $this->post->post_type ) {
 			wp_die( 'Not found.' );
 		}
-		$this->meta = get_post_meta( $this->post->ID, '_talog', true );
+		$this->meta = get_post_meta( $this->post->ID, '_logbook', true );
 	}
 
 	public function display()
@@ -26,10 +25,10 @@ final class Log_Page
 			$log_level = '';
 		}
 
-		echo '<div class="wrap talog-log-details">';
+		echo '<div class="wrap logbook-log-details">';
 		printf(
 			'<p><a href="%s">Back to the list page.</a></p>',
-			admin_url( 'edit.php?post_type=talog' )
+			admin_url( 'edit.php?post_type=logbook' )
 		);
 
 		printf(
@@ -48,12 +47,12 @@ final class Log_Page
 					$title = $contents[ $i ]['title'];
 					$content = $contents[ $i ]['content'];
 					add_meta_box(
-						'talog-content-' . $i,
+						'logbook-content-' . $i,
 						$title,
 						function () use ( $content ) {
 							echo $content;
 						},
-						'talog',
+						'logbook',
 						'normal'
 					);
 				}
@@ -61,7 +60,7 @@ final class Log_Page
 		}
 
 		echo '<div class="metabox-holder">';
-		do_meta_boxes( 'talog', 'normal', null );
+		do_meta_boxes( 'logbook', 'normal', null );
 		echo '</div>';
 
 		echo '</div><!-- .wrap -->';

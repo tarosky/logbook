@@ -1,14 +1,14 @@
 <?php
 
-class Talog_Plugin_Test extends \WP_UnitTestCase
+class LogBook_Plugin_Test extends \WP_UnitTestCase
 {
 	public function test_log()
 	{
-		$obj = new Talog\Logger\Activated_Extensions();
+		$obj = new LogBook\Logger\Activated_Extensions();
 
 		$GLOBALS['wp_current_filter'] = array( 'activated_plugin' ); // Force `test` hook.
 
-		$log = new Talog\Log();
+		$log = new LogBook\Log();
 		$obj->set_log( $log );
 		$obj->log( array( 'hello.php' ) );
 

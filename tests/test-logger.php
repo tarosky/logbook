@@ -1,6 +1,6 @@
 <?php
 
-class Talog_Logger_Test extends \WP_UnitTestCase
+class LogBook_Logger_Test extends \WP_UnitTestCase
 {
 	public function test_logger_class_with_test_log()
 	{
@@ -17,7 +17,7 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 
 		$GLOBALS['wp_current_filter'] = array( 'activated_plugin' );
 
-		$log = new Talog\Log();
+		$log = new LogBook\Log();
 		$logger->set_log( $log );
 		$logger->log( array() );
 
@@ -42,7 +42,7 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 
 		$GLOBALS['wp_current_filter'] = array( 'activated_plugin' );
 
-		$log = new Talog\Log();
+		$log = new LogBook\Log();
 		$logger->set_log( $log );
 		$logger->log( array() );
 		$log_data = $log->get_log();
@@ -50,7 +50,7 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 		$this->assertSame( 'debug', $logger->get_log_level() );
 		$this->assertSame( 'debug', $log_data->meta['log_level'] );
 
-		$logger->set_log_level_by_class( 'Talog\Level\Error' );
+		$logger->set_log_level_by_class( 'LogBook\Level\Error' );
 		$this->assertSame( 'error', $log_data->meta['log_level'] );
 	}
 
@@ -61,7 +61,7 @@ class Talog_Logger_Test extends \WP_UnitTestCase
 
 		$GLOBALS['wp_current_filter'] = array( 'activated_plugin' );
 
-		$log = new Talog\Log();
+		$log = new LogBook\Log();
 		$logger->set_log( $log );
 		$logger->log( array() );
 		$log_data = $log->get_log();

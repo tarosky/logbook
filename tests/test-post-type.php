@@ -1,15 +1,15 @@
 <?php
 
-class Talog_Posttype_Test extends WP_UnitTestCase
+class LogBook_Posttype_Test extends WP_UnitTestCase
 {
-	public function test_talog_post_type_should_exist()
+	public function test_logbook_post_type_should_exist()
 	{
-		$this->assertTrue( in_array( 'talog', get_post_types() ) );
+		$this->assertTrue( in_array( 'logbook', get_post_types() ) );
 	}
 
-	public function test_talog_capabilities()
+	public function test_logbook_capabilities()
 	{
-		$post_type_object = get_post_type_object( 'talog' );
+		$post_type_object = get_post_type_object( 'logbook' );
 
 		$this->set_current_user( 'administrator' );
 		$this->assertTrue( current_user_can( $post_type_object->cap->edit_posts ) );

@@ -1,10 +1,10 @@
 <?php
 
-namespace Talog;
+namespace LogBook;
 
 final class Post_Type
 {
-	const post_type = 'talog';
+	const post_type = 'logbook';
 
 	public function register()
 	{
@@ -37,11 +37,11 @@ final class Post_Type
 		);
 
 		/**
-		 * Filters the capabilities for the talog post type.
+		 * Filters the capabilities for the logbook post type.
 		 *
 		 * @params array $capabilities An array of the capabilities.
 		 * @return array An array of the filtered capabilities.
 		 */
-		return apply_filters( 'talog_log_capabilities', $capabilities );
+		return apply_filters( 'logbook_log_capabilities', $capabilities );
 	}
 }

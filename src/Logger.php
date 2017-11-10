@@ -1,12 +1,12 @@
 <?php
 
-namespace Talog;
+namespace LogBook;
 
 /**
  * Class Logger
- * @package Talog
+ * @package LogBook
  *
- * @property \Talog\Log $log
+ * @property \LogBook\Log $log
  * @property string $label
  * @property array $hook
  * @property string $log_level
@@ -18,7 +18,7 @@ abstract class Logger
 	protected $log;
 	protected $label = '';
 	protected $hooks = array();
-	protected $log_level = '\Talog\Level\Default_Level';
+	protected $log_level = '\LogBook\Level\Default_Level';
 	protected $priority = 10;
 	protected $accepted_args = 1;
 
@@ -27,15 +27,15 @@ abstract class Logger
 	 */
 	public function __construct() {
 		if ( empty( $this->label ) ) {
-			wp_die( '`Talog\Logger\Logger` requires the `$label` property.' );
+			wp_die( '`LogBook\Logger\Logger` requires the `$label` property.' );
 		}
 		if ( empty( $this->hooks ) || ! is_array( $this->hooks ) ) {
-			wp_die( '`Talog\Logger\Logger` requires the `$hooks` property.' );
+			wp_die( '`LogBook\Logger\Logger` requires the `$hooks` property.' );
 		}
 	}
 
 	/**
-	 * Set the properties to the `Talog\Log` object for the log.
+	 * Set the properties to the `LogBook\Log` object for the log.
 	 *
 	 * @param mixed  $additional_args An array of the args that was passed from WordPress hook.
 	 */
@@ -65,16 +65,16 @@ abstract class Logger
 	{
 		if ( class_exists( $log_level ) ) {
 			$level_object = new $log_level();
-			if ( is_a( $level_object, '\Talog\Level' ) ) {
+			if ( is_a( $level_object, '\LogBook\Level' ) ) {
 				$this->log->set_log_level( $level_object->get_level() );
 			}
 		}
 	}
 
 	/**
-	 * Set `\Talog\Log` to the `$this->log`.
+	 * Set `\LogBook\Log` to the `$this->log`.
 	 *
-	 * @param Log    $log             An instance of `Talog\Log`.
+	 * @param Log    $log             An instance of `LogBook\Log`.
 	 */
 	public function set_log( Log $log )
 	{
@@ -104,9 +104,9 @@ abstract class Logger
 	}
 
 	/**
-	 * Returns the value of `Talog\Level`.
+	 * Returns the value of `LogBook\Level`.
 	 *
-	 * @return string Log level that come from `Talog\Level` class.
+	 * @return string Log level that come from `LogBook\Level` class.
 	 */
 	public function get_log_level()
 	{
@@ -116,7 +116,7 @@ abstract class Logger
 		if ( $level ) {
 			if ( class_exists( $level ) ) {
 				$level_object = new $level();
-				if ( is_a( $level_object, 'Talog\Level' ) ) {
+				if ( is_a( $level_object, 'LogBook\Level' ) ) {
 					$level_name = $level_object->get_level();
 				}
 			}
@@ -184,7 +184,7 @@ abstract class Logger
 				);
 			}
 
-			return '<table class="table-talog">'
+			return '<table class="table-logbook">'
 			       . implode( "", $cols ) . '</table>';
 		}
 	}

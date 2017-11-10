@@ -1,23 +1,23 @@
 <?php
 
-namespace Talog;
+namespace LogBook;
 
 /**
  * Customize the list table on the admin screen.
  *
- * @package Talog
+ * @package LogBook
  */
 final class Admin {
 	public function register() {
-		add_action( 'manage_talog_posts_custom_column',
+		add_action( 'manage_logbook_posts_custom_column',
 					array( $this, 'manage_custom_column' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
-		add_filter( 'manage_edit-talog_columns', array( $this, 'manage_sortable_columns' ) );
-		add_filter( 'manage_edit-talog_sortable_columns',
+		add_filter( 'manage_edit-logbook_columns', array( $this, 'manage_sortable_columns' ) );
+		add_filter( 'manage_edit-logbook_sortable_columns',
 					array( $this, 'manage_sortable_columns' ) );
-		add_filter( 'manage_edit-talog_columns', array( $this, 'manage_columns' ) );
+		add_filter( 'manage_edit-logbook_columns', array( $this, 'manage_columns' ) );
 		add_filter( 'request', array( $this, 'request' ) );
-		add_filter( 'bulk_actions-edit-talog', '__return_empty_array' );
+		add_filter( 'bulk_actions-edit-logbook', '__return_empty_array' );
 		add_action( 'restrict_manage_posts', array( $this, 'restrict_manage_posts' ) );
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 	}
@@ -28,7 +28,7 @@ final class Admin {
 			'Hello',
 			null,
 			'edit_pages',
-			'talog',
+			'logbook',
 			function () {
 				$page = new Admin\Log_Page();
 				$page->display();
@@ -39,7 +39,7 @@ final class Admin {
 	public function restrict_manage_posts() {
 		echo '<select name="_label">';
 		echo '<option value="">All labels &nbsp;</option>';
-		$labels = self::get_meta_values( '_talog_label' );
+		$labels = self::get_meta_values( '_logbook_label' );
 		foreach ( $labels as $label ) {
 			if ( ! empty( $_GET['_label'] ) && $label === $_GET['_label'] ) {
 				$selected = 'selected';
@@ -107,7 +107,7 @@ final class Admin {
 
 	public function request( $vars ) {
 		if ( ! empty( $_GET['post_type'] ) ) {
-			if ( 'talog' === $_GET['post_type'] && array_key_exists( 'orderby', $vars ) ) {
+			if ( 'logbook' === $_GET['post_type'] && array_key_exists( 'orderby', $vars ) ) {
 				if ( 'Log' == $vars['orderby'] ) {
 					$vars['orderby'] = 'post_title';
 				} elseif ( 'Date' == $vars['orderby'] ) {
@@ -116,21 +116,21 @@ final class Admin {
 					$vars['orderby'] = 'post_author';
 				} elseif ( 'Level' == $vars['orderby'] ) {
 					$vars['orderby']  = 'meta_value';
-					$vars['meta_key'] = '_talog_log_level';
+					$vars['meta_key'] = '_logbook_log_level';
 				}
 			}
 
 			$meta_query = array();
-			if ( 'talog' === $_GET['post_type'] && ! empty( $_GET['_label'] ) ) {
+			if ( 'logbook' === $_GET['post_type'] && ! empty( $_GET['_label'] ) ) {
 				$meta_query[] = array(
-					'key'   => '_talog_label',
+					'key'   => '_logbook_label',
 					'value' => $_GET['_label'],
 				);
 			}
 
-			if ( 'talog' === $_GET['post_type'] && ! empty( $_GET['_log_level'] ) ) {
+			if ( 'logbook' === $_GET['post_type'] && ! empty( $_GET['_log_level'] ) ) {
 				$meta_query[] = array(
-					'key'   => '_talog_log_level',
+					'key'   => '_logbook_log_level',
 					'value' => $_GET['_log_level'],
 				);
 			}
@@ -145,13 +145,13 @@ final class Admin {
 
 	public function manage_custom_column( $column_name, $post_id ) {
 		if ( '_title' === $column_name ) {
-			$meta       = get_post_meta( $post_id, '_talog', true );
+			$meta       = get_post_meta( $post_id, '_logbook', true );
 			$post       = get_post( $post_id );
 			$post_title = $post->post_title;
 			printf(
 				'<a class="row-title" href="%2$s"><strong>%1$s</strong></a> ',
 				esc_html( $post_title ),
-				get_admin_url() . 'options.php?page=talog&log_id=' . intval( $post_id )
+				get_admin_url() . 'options.php?page=logbook&log_id=' . intval( $post_id )
 			);
 			if ( ! empty( $meta['is_cli'] ) ) {
 				echo '<sup class="wp-cli">WP-CLI</sup>';
@@ -164,7 +164,7 @@ final class Admin {
 				echo '';
 			}
 		} elseif ( '_log_level' === $column_name ) {
-			$meta = get_post_meta( $post_id, '_talog', true );
+			$meta = get_post_meta( $post_id, '_logbook', true );
 			if ( ! empty( $meta['log_level'] ) ) {
 				printf(
 					'<span class="%s log-level">%s</span>',
@@ -176,7 +176,7 @@ final class Admin {
 			$post = get_post( $post_id );
 			echo esc_html( get_date_from_gmt( $post->post_date_gmt, 'Y-m-d H:i:s' ) );
 		} elseif ( '_ip' === $column_name ) {
-			$meta = get_post_meta( $post_id, '_talog', true );
+			$meta = get_post_meta( $post_id, '_logbook', true );
 			if ( ! empty( $meta['ip'] ) ) {
 				echo esc_html( $meta['ip'] );
 			} else {
@@ -187,14 +187,14 @@ final class Admin {
 
 	public function admin_enqueue_scripts() {
 		wp_enqueue_style(
-			'talog-admin-style',
+			'logbook-admin-style',
 			plugins_url( '/css/style.css', dirname( __FILE__ ) ),
 			array(),
 			filemtime( dirname( dirname( __FILE__ ) ) . '/css/style.css' )
 		);
 	}
 
-	protected static function get_meta_values( $meta_key, $post_type = 'talog' ) {
+	protected static function get_meta_values( $meta_key, $post_type = 'logbook' ) {
 		global $wpdb;
 
 		$sql = "SELECT pm.meta_value FROM {$wpdb->postmeta} pm

@@ -1,28 +1,28 @@
 <?php
 /**
- * Plugin Name:     Talog
- * Plugin URI:      https://github.com/tarosky/talog
+ * Plugin Name:     LogBook
+ * Plugin URI:      https://github.com/tarosky/logbook
  * Description:     A logging plugin.
  * Author:          Takayuki Miyauchi
  * Author URI:
- * Text Domain:     talog
+ * Text Domain:     logbook
  * Domain Path:     /languages
  * Version:         nightly
  *
- * @package         Talog
+ * @package         LogBook
  */
 
-namespace Talog;
+namespace LogBook;
 use \Miya\WP\GH_Auto_Updater;
 
 require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 
-add_action( 'init', 'Talog\activate_auto_update' );
+add_action( 'init', 'LogBook\activate_auto_update' );
 
 function activate_auto_update() {
 	$plugin_slug = plugin_basename( __FILE__ ); // e.g. `hello/hello.php`.
 	$gh_user = 'tarosky';                      // The user name of GitHub.
-	$gh_repo = 'talog';       // The repository name of your plugin.
+	$gh_repo = 'logbook';       // The repository name of your plugin.
 
 	// Activate automatic update.
 	new GH_Auto_Updater( $plugin_slug, $gh_user, $gh_repo );
@@ -30,9 +30,9 @@ function activate_auto_update() {
 
 function plugins_loaded() {
 	// Creates an instance of logger.
-	$GLOBALS['talog'] = new Event();
+	$GLOBALS['logbook'] = new Event();
 
-	// Registers post type `talog`.
+	// Registers post type `logbook`.
 	$post_type = new Post_Type();
 	$post_type->register();
 
@@ -45,15 +45,15 @@ function plugins_loaded() {
 	/**
 	 * Filters the array of default loggers.
 	 */
-	$loggers = apply_filters( 'talog_default_loggers', array(
-		'Talog\Logger\Activated_Extensions',
-		'Talog\Logger\Delete_Post',
-		'Talog\Logger\Last_Error',
-		'Talog\Logger\Post_Updated',
-		'Talog\Logger\Updated_Core',
-		'Talog\Logger\Updated_Extensions',
-		'Talog\Logger\WP_Login',
-		'Talog\Logger\XML_RPC',
+	$loggers = apply_filters( 'logbook_default_loggers', array(
+		'LogBook\Logger\Activated_Extensions',
+		'LogBook\Logger\Delete_Post',
+		'LogBook\Logger\Last_Error',
+		'LogBook\Logger\Post_Updated',
+		'LogBook\Logger\Updated_Core',
+		'LogBook\Logger\Updated_Extensions',
+		'LogBook\Logger\WP_Login',
+		'LogBook\Logger\XML_RPC',
 	) );
 
 	foreach ( $loggers as $logger ) {
@@ -61,18 +61,18 @@ function plugins_loaded() {
 	}
 }
 
-add_action( 'plugins_loaded', 'Talog\plugins_loaded' );
+add_action( 'plugins_loaded', 'LogBook\plugins_loaded' );
 
 /**
  * Registers the logger to the specific hooks.
  *
- * @param string $logger_class The `Talog\Logger\Logger` class.
+ * @param string $logger_class The `LogBook\Logger\Logger` class.
  */
 function init_log( $logger_class ) {
 	if ( class_exists( $logger_class ) ) {
-		$result = $GLOBALS['talog']->init_log( $logger_class );
+		$result = $GLOBALS['logbook']->init_log( $logger_class );
 		if ( is_wp_error( $result ) ) {
-			wp_die( 'Incorrect `Talog\Logger` object.' );
+			wp_die( 'Incorrect `LogBook\Logger` object.' );
 		}
 	} else {
 		wp_die( '`' . $logger_class . '` not found.' );

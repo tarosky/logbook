@@ -1,10 +1,10 @@
 <?php
 
-namespace Talog;
+namespace LogBook;
 
 class Event
 {
-	const post_type = 'talog';
+	const post_type = 'logbook';
 
 	private $loggers = array();
 	private $logs = array();
@@ -22,13 +22,13 @@ class Event
 			 * @var Logger $logger
 			 */
 			$logger = new $logger_class();
-			if ( is_a( $logger, 'Talog\Logger' ) ) {
+			if ( is_a( $logger, 'LogBook\Logger' ) ) {
 				$this->loggers[] = $logger;
 				return $this->loggers;
 			}
 		}
 
-		return new \WP_Error( 'Incorrect `Talog\Logger` object' );
+		return new \WP_Error( 'Incorrect `LogBook\Logger` object' );
 	}
 
 	public function plugins_loaded()
@@ -49,7 +49,7 @@ class Event
 					}
 
 					if ( 'save_post' === current_filter()
-					            && 'talog' === get_post_type( $args[0] ) ) {
+					            && 'logbook' === get_post_type( $args[0] ) ) {
 						return $return; // To prevent infinite loop.
 					}
 
@@ -64,7 +64,7 @@ class Event
 	/**
 	 * Callback function to save log.
 	 *
-	 * @param Logger $logger          Talog\Logger object.
+	 * @param Logger $logger          LogBook\Logger object.
 	 * @param array  $additional_args An array that is passed from WordPress hook.
 	 */
 	public function watch( Logger $logger, $additional_args = array() )
@@ -81,7 +81,7 @@ class Event
 			array( $additional_args )
 		);
 
-		if ( ! is_a( $log, 'Talog\Log' ) || ! $log->is_log() ) {
+		if ( ! is_a( $log, 'LogBook\Log' ) || ! $log->is_log() ) {
 			return;
 		}
 
@@ -98,7 +98,7 @@ class Event
 		 *
 		 * @param array $active_levels
 		 */
-		$active_levels = apply_filters( 'talog_active_levels', array(
+		$active_levels = apply_filters( 'logbook_active_levels', array(
 			'fatal',
 			'error',
 			'warn',
@@ -130,7 +130,7 @@ class Event
 			 * @param array $server_variables An array of the keys of `$_SERVER`.
 			 */
 			$server_variables = apply_filters(
-				"talog_log_server_variables",
+				"logbook_log_server_variables",
 				$server_variables
 			);
 			$log->add_content(
@@ -148,7 +148,7 @@ class Event
 			$this->save_log( $log_object );
 		}
 
-		do_action( 'talog_after_save_log', $this->logs );
+		do_action( 'logbook_after_save_log', $this->logs );
 	}
 
 	private function save_log( Log $log_object )
@@ -163,9 +163,9 @@ class Event
 		) );
 
 		// Followings will be used for `orderby` for query.
-		update_post_meta( $post_id, '_talog_label', $log->meta['label'] );
-		update_post_meta( $post_id, '_talog_log_level', $log->meta['log_level'] );
+		update_post_meta( $post_id, '_logbook_label', $log->meta['label'] );
+		update_post_meta( $post_id, '_logbook_log_level', $log->meta['log_level'] );
 
-		update_post_meta( $post_id, '_talog', $log->meta );
+		update_post_meta( $post_id, '_logbook', $log->meta );
 	}
 }

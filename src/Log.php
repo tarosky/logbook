@@ -1,6 +1,6 @@
 <?php
 
-namespace Talog;
+namespace LogBook;
 
 class Log
 {
@@ -68,10 +68,10 @@ class Log
 	{
 		$level_name  = '';
 		if ( $level ) {
-			$level_class = '\\Talog\\Level\\' . ucfirst( $level );
+			$level_class = '\\LogBook\\Level\\' . ucfirst( $level );
 			if ( class_exists( $level_class ) ) {
 				$level_object = new $level_class();
-				if ( is_a( $level_object, 'Talog\Level' ) ) {
+				if ( is_a( $level_object, 'LogBook\Level' ) ) {
 					$level_name = $level_object->get_level();
 				}
 			}
@@ -163,7 +163,7 @@ class Log
 		 *
 		 * @param string $ip The remote address of the user.
 		 */
-		return apply_filters( 'talog_log_remote_ip', $ip );
+		return apply_filters( 'logbook_log_remote_ip', $ip );
 	}
 
 	protected static function get_current_hook()

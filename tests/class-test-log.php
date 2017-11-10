@@ -1,13 +1,13 @@
 <?php
 
 namespace Hello;
-use Talog;
+use LogBook;
 
-class Test_Log extends Talog\Logger
+class Test_Log extends LogBook\Logger
 {
 	protected $label = 'Test';
 	protected $hooks = array( 'test_hook' );
-	protected $log_level = '\Talog\Level\Debug';
+	protected $log_level = '\LogBook\Level\Debug';
 	protected $priority = 10;
 	protected $accepted_args = 2;
 

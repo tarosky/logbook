@@ -1,6 +1,6 @@
 <?php
 
-class Talog_Last_Error_Test extends \WP_UnitTestCase
+class LogBook_Last_Error_Test extends \WP_UnitTestCase
 {
 	public function test_length_should_be_31()
 	{
@@ -9,7 +9,7 @@ class Talog_Last_Error_Test extends \WP_UnitTestCase
 			'line' => 20,
 		);
 
-		$result = Talog\Logger\Last_Error::get_a_part_of_file( $file );
+		$result = LogBook\Logger\Last_Error::get_a_part_of_file( $file );
 		$this->assertSame( 31, count( explode( "\n", trim( $result ) ) ) );
 	}
 
@@ -20,7 +20,7 @@ class Talog_Last_Error_Test extends \WP_UnitTestCase
 			'line' => 1,
 		);
 
-		$result = Talog\Logger\Last_Error::get_a_part_of_file( $file );
+		$result = LogBook\Logger\Last_Error::get_a_part_of_file( $file );
 		$this->assertSame( 16, count( explode( "\n", trim( $result ) ) ) );
 	}
 
@@ -32,19 +32,19 @@ class Talog_Last_Error_Test extends \WP_UnitTestCase
 			'line' => $file_length,
 		);
 
-		$result = Talog\Logger\Last_Error::get_a_part_of_file( $file );
+		$result = LogBook\Logger\Last_Error::get_a_part_of_file( $file );
 		$this->assertSame( 16, count( explode( "\n", trim( $result ) ) ) );
 	}
 
 	public function test_log()
 	{
-		$obj = new Talog\Logger\Last_Error();
+		$obj = new LogBook\Logger\Last_Error();
 
 		echo @$e; // error;
 
 		$GLOBALS['wp_current_filter'] = array( 'test' ); // Force `test` hook.
 
-		$log = new Talog\Log();
+		$log = new LogBook\Log();
 		$obj->set_log( $log );
 		$obj->log( array() );
 

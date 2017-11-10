@@ -1,6 +1,6 @@
 <?php
 
-class Talog_Updated_Plugins_Test extends \WP_UnitTestCase
+class LogBook_Updated_Plugins_Test extends \WP_UnitTestCase
 {
 	public function test_log()
 	{
@@ -44,12 +44,12 @@ class Talog_Updated_Plugins_Test extends \WP_UnitTestCase
 
 	protected static function getMethod( $method_name, $args = array() )
 	{
-		$class = new \ReflectionClass( '\Talog\Logger\Updated_Extensions' );
+		$class = new \ReflectionClass( '\LogBook\Logger\Updated_Extensions' );
 
 		$method = $class->getMethod( $method_name );
 		$method->setAccessible( true );
 
-		$obj = new \Talog\Logger\Updated_Extensions();
+		$obj = new \LogBook\Logger\Updated_Extensions();
 		return $method->invokeArgs( $obj, $args );
 	}
 }

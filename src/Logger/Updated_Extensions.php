@@ -1,18 +1,18 @@
 <?php
 
-namespace Talog\Logger;
-use Talog\Logger;
+namespace LogBook\Logger;
+use LogBook\Logger;
 
 class Updated_Extensions extends Logger
 {
 	protected $label = 'WordPress';
 	protected $hooks = array( 'upgrader_process_complete' );
-	protected $log_level = '\Talog\Level\Default_Level';
+	protected $log_level = '\LogBook\Level\Default_Level';
 	protected $priority = 9;
 	protected $accepted_args = 2;
 
 	/**
-	 * Set the properties to the `Talog\Log` object for the log.
+	 * Set the properties to the `LogBook\Log` object for the log.
 	 *
 	 * @param mixed $additional_args An array of the args that was passed from WordPress hook.
 	 */

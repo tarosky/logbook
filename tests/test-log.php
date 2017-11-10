@@ -1,10 +1,10 @@
 <?php
 
-class Talog_Log_Test extends \WP_UnitTestCase
+class LogBook_Log_Test extends \WP_UnitTestCase
 {
 	public function test_log_object()
 	{
-		$log = new Talog\Log();
+		$log = new LogBook\Log();
 		$this->assertTrue( is_a( $log->get_log(), 'WP_Error' ) );
 	}
 
@@ -15,7 +15,7 @@ class Talog_Log_Test extends \WP_UnitTestCase
 		add_action( 'test_hook', function() use ( &$test_flag ) {
 			$test_flag = true;
 
-			$log_object = new Talog\Log();
+			$log_object = new LogBook\Log();
 			$log_object->set_title( 'this is log' );
 			$log = $log_object->get_log();
 
@@ -52,7 +52,7 @@ class Talog_Log_Test extends \WP_UnitTestCase
 		add_action( 'test_hook', function() use ( &$test_flag, $user_id ) {
 			$test_flag = true;
 
-			$log_object = new Talog\Log();
+			$log_object = new LogBook\Log();
 			$log_object->set_title( 'this is log' );
 			$log_object->add_content( 'hello', 'world' );
 			$log_object->set_label( 'Post' );
