@@ -38,7 +38,10 @@ final class Admin {
 
 	public function restrict_manage_posts() {
 		echo '<select name="_label">';
-		echo '<option value="">All labels &nbsp;</option>';
+		printf(
+			'<option value="">%s &nbsp;</option>',
+			__( 'All labels', 'logbook' )
+		);
 		$labels = self::get_meta_values( '_logbook_label' );
 		foreach ( $labels as $label ) {
 			if ( ! empty( $_GET['_label'] ) && $label === $_GET['_label'] ) {
@@ -56,7 +59,10 @@ final class Admin {
 		echo '</select>';
 
 		echo '<select name="_log_level">';
-		echo '<option value="">All levels &nbsp;</option>';
+		printf(
+			'<option value="">%s &nbsp;</option>',
+			__( 'All levels', 'logbook' )
+		);
 		$levels = array(
 			'fatal',
 			'error',
@@ -85,11 +91,11 @@ final class Admin {
 	public function manage_columns() {
 		$columns = array();
 
-		$columns['_date']      = 'Date';
-		$columns['_title']     = 'Log';
-		$columns['_log_level'] = 'Level';
-		$columns['_ip'] = 'IP';
-		$columns['_user']      = 'User';
+		$columns['_date']      = __( 'Date', 'logbook' );
+		$columns['_title']     = __( 'Log', 'logbook' );
+		$columns['_log_level'] = __( 'Level', 'logbook' );
+		$columns['_ip']        = __( 'IP', 'logbook' );
+		$columns['_user']      = __( 'User', 'logbook' );
 
 		return $columns;
 	}
@@ -97,10 +103,10 @@ final class Admin {
 	public function manage_sortable_columns() {
 		$columns = array();
 
-		$columns['_date']      = 'Date';
-		$columns['_title']     = 'Log';
-		$columns['_log_level'] = 'Level';
-		$columns['_user']      = 'User';
+		$columns['_date']      = __( 'Date', 'logbook' );
+		$columns['_title']     = __( 'Log', 'logbook' );
+		$columns['_log_level'] = __( 'Level', 'logbook' );
+		$columns['_user']      = __( 'User', 'logbook' );
 
 		return $columns;
 	}

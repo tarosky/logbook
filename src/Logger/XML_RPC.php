@@ -20,7 +20,7 @@ class XML_RPC extends Logger
 	{
 		list( $method ) = $additional_args;
 
-		$this->set_title( 'XML-RPC user was authenticated.' );
+		$this->set_title( __( 'XML-RPC user was authenticated.', 'logbook' ) );
 		$this->add_content( 'Method', $method );
 	}
 }

@@ -15,14 +15,12 @@ final class Post_Type
 	{
 		register_post_type( self::post_type, array(
 			'labels'            => array(
-				'name'                => "Logs",
+				'name'                => __( "Logs", 'logbook' ),
 			),
 			'public'            => false,
 			'show_ui'           => true,
 			'menu_icon'         => 'dashicons-list-view',
 			'show_in_rest'      => false,
-			'rest_base'         => 'log',
-			'rest_controller_class' => 'WP_REST_Posts_Controller',
 			'capability_type'   => 'page',
 			'capabilities'      => self::get_caps(),
 			'map_meta_cap'      => false,

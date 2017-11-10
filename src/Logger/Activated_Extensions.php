@@ -28,7 +28,7 @@ class Activated_Extensions extends Logger
 			 */
 			list( $theme_name, $theme ) = $additional_args;
 			$this->set_title( sprintf(
-				'Theme was switched to %s.',
+				__( 'Theme was switched to %s.', 'logbook' ),
 				esc_html( $theme_name )
 			) );
 			$this->add_content( 'Theme Data', $this->get_table( array(
@@ -41,9 +41,15 @@ class Activated_Extensions extends Logger
 			list( $plugin ) = $additional_args;
 
 			if ( 'activated_plugin' === current_filter() ) {
-				$title = 'Plugin "' . $plugin . '" was activated.';
+				$title = sprintf(
+					__( 'Plugin "%s" was activated.', 'logbook' ),
+					$plugin
+				);
 			} else {
-				$title = 'Plugin "' . $plugin . '" was deactivated.';
+				$title = sprintf(
+					__( 'Plugin "%s" was deactivated.', 'logbook' ),
+					$plugin
+				);
 			}
 
 			$path = trailingslashit( WP_PLUGIN_DIR ) . $plugin;

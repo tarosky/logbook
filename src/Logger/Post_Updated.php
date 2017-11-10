@@ -35,12 +35,18 @@ class Post_Updated extends Logger
 		// Don't save log when it has no changes.
 		if ( json_encode( $post_after ) !== json_encode( $post_before ) ) {
 			if ( 'trash' === $post_after->post_status ) {
-				$title = '#' . $post_id . ' "' . $post_after->post_title . '" was moved to trash.';
+				$title = __( '#%s "%s" was moved to trash.', 'logbook' );
 			} elseif ( 'publish' === $post_after->post_status && 'publish' !== $post_before->post_status ) {
-				$title = '#' . $post_id . ' "' . $post_after->post_title . '" was published.';
+				$title = __( '#%s "%s" was published.', 'logbook' );
 			} else {
-				$title = '#' . $post_id . ' "' . $post_after->post_title . '" was updated.';
+				$title = __( '#%s "%s" was updated.', 'logbook' );
 			}
+
+			$title = sprintf(
+				$title,
+				$post_id,
+				$post_after->post_title
+			);
 
 			$this->set_title( $title );
 

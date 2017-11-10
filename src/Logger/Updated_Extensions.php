@@ -30,7 +30,7 @@ class Updated_Extensions extends Logger
 
 		switch ( $options['type'] ) {
 			case 'translation':
-				$this->set_title( 'Languages were updated.' );
+				$this->set_title( __( 'Languages were updated.', 'logbook' ) );
 				$this->add_content( 'Summary', self::_table( $options['translations'], array(
 					'language',
 					'type',
@@ -39,12 +39,12 @@ class Updated_Extensions extends Logger
 				) ) );
 				break;
 			case 'plugin':
-				$this->set_title( 'Plugins were updated.' );
+				$this->set_title( __( 'Plugins were updated.', 'logbook' ) );
 				$table = $this->get_plugins_table( $options['plugins'] );
 				$this->add_content( 'Summary', $table );
 				break;
 			case 'theme':
-				$this->set_title( 'Themes were updated.' );
+				$this->set_title( __( 'Themes were updated.', 'logbook' ) );
 				$table = $this->get_themes_table( $options['themes'] );
 				$this->add_content( 'Summary', $table );
 				break;

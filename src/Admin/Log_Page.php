@@ -27,8 +27,9 @@ final class Log_Page
 
 		echo '<div class="wrap logbook-log-details">';
 		printf(
-			'<p><a href="%s">Back to the list page.</a></p>',
-			admin_url( 'edit.php?post_type=logbook' )
+			'<p><a href="%s">%s</a></p>',
+			admin_url( 'edit.php?post_type=logbook' ),
+			esc_html__( 'Back to the list page.', 'logbook' )
 		);
 
 		printf(

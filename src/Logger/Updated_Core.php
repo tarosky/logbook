@@ -19,8 +19,11 @@ class Updated_Core extends Logger
 	public function log( $additional_args )
 	{
 		list( $wp_version ) = $additional_args;
-
-		$this->set_title( 'WordPress was updated to ' . $wp_version . '.' );
+		$title =sprintf(
+			__( 'WordPress was updated to %s.', 'logbook' ),
+			$wp_version
+		);
+		$this->set_title( $title . $wp_version . '.' );
 		$this->add_content( 'Version', $wp_version );
 	}
 }

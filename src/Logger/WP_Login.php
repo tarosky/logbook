@@ -21,7 +21,7 @@ class WP_Login extends Logger
 		list( $user_login ) = $additional_args;
 
 		$title = sprintf(
-			'User "%s" logged in.',
+			__( 'User "%s" logged in.', 'logbook' ),
 			esc_html( $user_login )
 		);
 
