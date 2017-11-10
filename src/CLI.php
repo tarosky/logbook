@@ -115,7 +115,7 @@ class CLI extends CommandWithDBObject {
 
 		$defaults = array(
 			'post_type' => 'logbook',
-			'posts_per_page' => 20,
+			'posts_per_page' => -1,
 			'post_status'    => 'any',
 		);
 		$query_args = array_merge( $defaults, $assoc_args );
