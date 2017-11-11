@@ -26,6 +26,7 @@ Once you have installed and activated it, you can check the following activities
     * Users login action
     * Login and posting via XML-RPC
     * PHP errors (On the debug mode, it also save Warning and Notice)
+* WP-CLI command ready.
 
 === Detail of saving logs ===
 
@@ -53,6 +54,20 @@ Once you have installed and activated it, you can check the following activities
     * Errors
     * Warnings (WP_DEBUG only)
     * Notices (WP_DEBUG only)
+
+=== WP-CLI ===
+
+Get a list of logs.
+
+`
+$ wp log list
+`
+
+Get a list of specific level of logs.
+
+`
+$ wp list --level=error
+`
 
 == Installation ==
 

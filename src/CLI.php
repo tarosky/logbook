@@ -36,7 +36,7 @@ class CLI extends CommandWithDBObject
 	);
 
 	/**
-	 * Get a list of posts.
+	 * Get a list of logs.
 	 *
 	 * ## OPTIONS
 	 *
