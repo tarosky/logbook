@@ -57,6 +57,31 @@ class Log
 		$this->log->content = urlencode( $content );
 	}
 
+	/**
+	 * @param \WP_Post $post
+	 * @return array $log
+	 */
+	public static function get_the_log( $post )
+	{
+		$log = array();
+		$log['id'] = $post->ID;
+		$log['date'] = $post->post_date_gmt;
+		$log['log'] = $post->post_title;
+		$log['content'] = json_decode( urldecode( $post->post_content ), true );
+
+		if ( $post->post_author && $u = get_userdata( $post->post_author ) ) {
+			$log['user'] = $u->user_login;
+		} else {
+			$log['user'] = '';
+		}
+
+		$log['label'] = get_post_meta( $post->ID, '_logbook_label', true );
+		$log['level'] = get_post_meta( $post->ID, '_logbook_log_level', true );
+		$log['meta'] = get_post_meta( $post->ID, '_logbook', true );
+
+		return $log;
+	}
+
 	public function set_label( $label )
 	{
 		if ( ! empty( $label ) ) {

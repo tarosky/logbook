@@ -40,29 +40,11 @@ class Rest_Logs_Controller extends \WP_REST_Posts_Controller
 		return $response;
 	}
 
-	public function log_mapper( $p )
+	public function log_mapper( $post_array )
 	{
-		/**
-		 * @var \WP_Post $post
-		 */
-		$post = get_post( $p['id'] );
-
-		$log = array();
-		$log['id'] = $post->ID;
-		$log['date'] = $post->post_date_gmt;
-		$log['log'] = $post->post_title;
-		$log['content'] = json_decode( urldecode( $post->post_content ), true );
-
-		if ( $post->post_author && $u = get_userdata( $post->post_author ) ) {
-			$log['user'] = $u->user_login;
-		} else {
-			$log['user'] = '';
-		}
-
-		$log['label'] = get_post_meta( $p['id'], '_logbook_label', true );
-		$log['level'] = get_post_meta( $p['id'], '_logbook_log_level', true );
-		$log['meta'] = get_post_meta( $p['id'], '_logbook', true );
-
+		$post = get_post( $post_array['id'] );
+		$log = Log::get_the_log( $post );
+		unset( $log['meta']['cli-command'] ); // For security reason.
 		return $log;
 	}
 
