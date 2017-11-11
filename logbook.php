@@ -16,6 +16,10 @@ namespace LogBook;
 
 require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 
+if ( defined( 'WP_CLI' ) && WP_CLI ) {
+	\WP_CLI::add_command( 'log', 'LogBook\CLI' );
+}
+
 function plugins_loaded() {
 	// Registers post type `logbook`.
 	$post_type = new Post_Type();
@@ -43,10 +47,6 @@ function plugins_loaded() {
 
 	foreach ( $loggers as $logger ) {
 		init_log( $logger );
-	}
-
-	if ( defined( 'WP_CLI' ) && WP_CLI ) {
-		\WP_CLI::add_command( 'log', 'LogBook\CLI' );
 	}
 }
 
