@@ -44,6 +44,10 @@ function plugins_loaded() {
 	foreach ( $loggers as $logger ) {
 		init_log( $logger );
 	}
+
+	if ( defined( 'WP_CLI' ) && WP_CLI ) {
+		\WP_CLI::add_command( 'log', 'LogBook\CLI' );
+	}
 }
 
 add_action( 'plugins_loaded', 'LogBook\plugins_loaded' );
