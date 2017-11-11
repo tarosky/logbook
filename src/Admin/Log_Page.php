@@ -7,12 +7,25 @@ final class Log_Page
 	private $post;
 	private $meta;
 
-	public function __construct() {
+	public function __construct()
+	{
+		if ( empty( $_GET['log_id'] ) ) {
+			wp_die( 'Not found.' );
+		}
 		$this->post = get_post( $_GET['log_id'] );
 		if ( empty( $this->post ) || 'logbook' !== $this->post->post_type ) {
 			wp_die( 'Not found.' );
 		}
 		$this->meta = get_post_meta( $this->post->ID, '_logbook', true );
+	}
+
+	public static function get_instance()
+	{
+		static $instance;
+		if ( ! $instance ) {
+			$instance = new Log_Page();
+		}
+		return $instance;
 	}
 
 	public function display()

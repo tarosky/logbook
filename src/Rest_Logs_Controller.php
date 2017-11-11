@@ -68,7 +68,7 @@ class Rest_Logs_Controller extends \WP_REST_Posts_Controller
 
 	public function permission_callback()
 	{
-		$token = get_option( 'logbook_api_token' );
+		$token = get_option( 'logbook-api-token' );
 
 		if ( ! empty( $_SERVER['HTTP_X_LOGBOOK_API_TOKEN'] ) ) {
 			if ( $token === sha1( $_SERVER['HTTP_X_LOGBOOK_API_TOKEN'] ) ) {

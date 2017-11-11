@@ -7,8 +7,10 @@ namespace LogBook;
  *
  * @package LogBook
  */
-final class Admin {
-	public function register() {
+final class Admin
+{
+	public function register()
+	{
 		add_action( 'manage_logbook_posts_custom_column',
 					array( $this, 'manage_custom_column' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
@@ -20,18 +22,51 @@ final class Admin {
 		add_filter( 'bulk_actions-edit-logbook', '__return_empty_array' );
 		add_action( 'restrict_manage_posts', array( $this, 'restrict_manage_posts' ) );
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+
+		add_filter( 'admin_title', function( $title ) {
+			if ( 'options.php' === $GLOBALS['pagenow'] ) {
+				if ( ! empty( $_GET['page'] ) && 'logbook' === $_GET['page'] ) {
+					if ( ! empty( $_GET['log_id'] ) && intval( $_GET['log_id'] ) ) {
+						return 'Log #' . $_GET['log_id'] . $title;
+					}
+				}
+			}
+			return $title;
+		}, 10 );
+
+		add_action( 'admin_menu', function() {
+			if ( ! empty( $_POST['logbook-token'] ) ) {
+				if ( wp_verify_nonce( $_POST['logbook-token'], 'logbook-access-token' ) ) {
+					$token = sha1( mt_rand() );
+					update_option( 'logbook-api-token', sha1( $token ) );
+					update_option( 'logbook-tmp-token', $token );
+					wp_safe_redirect( untrailingslashit( admin_url() ) . '/edit.php?post_type=logbook&page=settings' );
+					exit;
+				}
+			}
+		}, 11 );
 	}
 
 	public function admin_menu() {
 		add_submenu_page(
 			null,
-			'Hello',
+			'Log',
 			null,
 			'edit_pages',
 			'logbook',
 			function () {
-				$page = new Admin\Log_Page();
-				$page->display();
+				Admin\Log_Page::get_instance()->display();
+			}
+		);
+
+		add_submenu_page(
+			'edit.php?post_type=logbook',
+			'LogBook Settings',
+			'Settings',
+			'activate_plugins',
+			'settings',
+			function () {
+				Admin\Settings::get_instance()->display();
 			}
 		);
 	}

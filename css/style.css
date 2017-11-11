@@ -202,6 +202,22 @@
 	font-weight: normal;
 }
 
+.logbook-settings .token
+{
+	display: flex;
+	align-items: center;
+}
+
+.logbook-settings .token span
+{
+	margin-right: 1em;
+}
+
+.logbook-settings h2
+{
+	margin-top: 2em;
+}
+
 @media screen and ( max-width: 782px )
 {
 	.post-type-logbook .wp-list-table tr th,
@@ -233,5 +249,10 @@
 	.post-type-logbook .displaying-num
 	{
 		display: none;
+	}
+
+	.logbook-settings .token
+	{
+		display: block;
 	}
 }
