@@ -24,13 +24,12 @@ use \WP_Query;
  *
  * @package wp-cli
  */
-class CLI extends CommandWithDBObject {
-
+class CLI extends CommandWithDBObject
+{
 	protected $obj_type = 'logbook';
 	protected $obj_fields = array(
 		'date',
 		'title',
-		'label',
 		'level',
 		'ip',
 		'login',
@@ -88,7 +87,8 @@ class CLI extends CommandWithDBObject {
 	 * @param array $_
 	 * @param array $assoc_args
 	 */
-	public function list_( $_, $assoc_args ) {
+	public function list_( $_, $assoc_args )
+	{
 		$formatter = $this->get_formatter( $assoc_args );
 
 		if ( ! empty( $assoc_args['login'] ) ) {

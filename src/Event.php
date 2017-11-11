@@ -15,6 +15,17 @@ class Event
 		add_action( 'shutdown', array( $this, 'shutdown' ), 11 );
 	}
 
+	public static function get_instance()
+	{
+		static $instance;
+
+		if ( ! $instance ) {
+			$instance = new Event();
+		}
+
+		return $instance;
+	}
+
 	public function init_log( $logger_class )
 	{
 		if ( class_exists( $logger_class ) ) {

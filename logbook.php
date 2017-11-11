@@ -16,11 +16,7 @@ namespace LogBook;
 
 require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 
-
 function plugins_loaded() {
-	// Creates an instance of logger.
-	$GLOBALS['logbook'] = new Event();
-
 	// Registers post type `logbook`.
 	$post_type = new Post_Type();
 	$post_type->register();
@@ -59,15 +55,11 @@ add_action( 'plugins_loaded', 'LogBook\plugins_loaded' );
  */
 function init_log( $logger_class ) {
 	if ( class_exists( $logger_class ) ) {
-		$result = $GLOBALS['logbook']->init_log( $logger_class );
+		$result = Event::get_instance()->init_log( $logger_class );
 		if ( is_wp_error( $result ) ) {
 			wp_die( 'Incorrect `LogBook\Logger` object.' );
 		}
 	} else {
 		wp_die( '`' . $logger_class . '` not found.' );
 	}
-}
-
-if ( defined( 'WP_CLI' ) && WP_CLI ) {
-	\WP_CLI::add_command( 'log', 'LogBook\CLI' );
 }
