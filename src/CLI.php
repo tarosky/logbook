@@ -30,9 +30,10 @@ class CLI extends CommandWithDBObject {
 	protected $obj_fields = array(
 		'date',
 		'title',
+		'label',
 		'level',
 		'ip',
-		'user',
+		'login',
 	);
 
 	/**
@@ -72,46 +73,45 @@ class CLI extends CommandWithDBObject {
 	 * * level
 	 * * ip
 	 * * label
-	 * * user
+	 * * login
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     # List post
-	 *     $ wp post list --field=ID
-	 *     568
-	 *     829
-	 *     1329
-	 *     1695
+	 *     # List log
+	 *     $ wp log list
 	 *
-	 *     # List posts in JSON
-	 *     $ wp post list --post_type=post --posts_per_page=5 --format=json
-	 *     [{"ID":1,"post_title":"Hello world!","post_name":"hello-world","post_date":"2015-06-20 09:00:10","post_status":"publish"},{"ID":1178,"post_title":"Markup: HTML Tags and Formatting","post_name":"markup-html-tags-and-formatting","post_date":"2013-01-11 20:22:19","post_status":"draft"}]
-	 *
-	 *     # List all pages
-	 *     $ wp post list --post_type=page --fields=post_title,post_status
-	 *     +-------------+-------------+
-	 *     | post_title  | post_status |
-	 *     +-------------+-------------+
-	 *     | Sample Page | publish     |
-	 *     +-------------+-------------+
-	 *
-	 *     # List ids of all pages and posts
-	 *     $ wp post list --post_type=page,post --format=ids
-	 *     15 25 34 37 198
-	 *
-	 *     # List given posts
-	 *     $ wp post list --post__in=1,3
-	 *     +----+--------------+-------------+---------------------+-------------+
-	 *     | ID | post_title   | post_name   | post_date           | post_status |
-	 *     +----+--------------+-------------+---------------------+-------------+
-	 *     | 3  | Lorem Ipsum  | lorem-ipsum | 2016-06-01 14:34:36 | publish     |
-	 *     | 1  | Hello world! | hello-world | 2016-06-01 14:31:12 | publish     |
-	 *     +----+--------------+-------------+---------------------+-------------+
+	 *     # Query log
+	 *     $ wp log list --level=error
 	 *
 	 * @subcommand list
+	 *
+	 * @param array $_
+	 * @param array $assoc_args
 	 */
 	public function list_( $_, $assoc_args ) {
 		$formatter = $this->get_formatter( $assoc_args );
+
+		if ( ! empty( $assoc_args['login'] ) ) {
+			$u = get_user_by( 'login', $assoc_args['login'] );
+			$assoc_args['author'] = $u->ID;
+			unset( $assoc_args['login'] );
+		}
+
+		if ( ! empty( $assoc_args['level'] ) ) {
+			$assoc_args['meta_query'][] = array(
+				'key'   => '_logbook_log_level',
+				'value' => $assoc_args['level'],
+			);
+			unset( $assoc_args['level'] );
+		}
+
+		if ( ! empty( $assoc_args['label'] ) ) {
+			$assoc_args['meta_query'][] = array(
+				'key'   => '_logbook_label',
+				'value' => $assoc_args['label'],
+			);
+			unset( $assoc_args['label'] );
+		}
 
 		$defaults = array(
 			'post_type' => 'logbook',
@@ -141,9 +141,9 @@ class CLI extends CommandWithDBObject {
 				$log->ip = $meta['ip'];
 				$log->label = $meta['label'];
 				if ( $post->post_author && $u = get_userdata( $post->post_author ) ) {
-					$log->user = $u->user_login;
+					$log->login = $u->user_login;
 				} else {
-					$log->user = '';
+					$log->login = '';
 				}
 				return $log;
 			}, $query->posts );
