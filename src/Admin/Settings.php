@@ -24,13 +24,19 @@ class Settings
 		echo '<form method="post">';
 		wp_nonce_field( 'logbook-access-token', 'logbook-token' );
 		echo '<h2>Rest API Access Token</h2>';
+		$message = __( 'Regenerate token', 'logbook' );
 		if ( $token = get_option( 'logbook-tmp-token' ) ) {
 			delete_option( 'logbook-tmp-token' );
 		} else {
-			$token = str_repeat( '*', 40 );
+			if ( get_option( 'logbook-api-token' ) ) {
+				$token = str_repeat( '*', 40 );
+			} else {
+				$token = '';
+				$message = __( 'Generate token', 'logbook' );
+			}
 		}
 		echo '<div class="token"><span>' . esc_html( $token ) . '</span>';
-		echo '<input type="submit" class="button" value="Generate token"></div>';
+		echo '<input type="submit" class="button" value="' . $message . '"></div>';
 		echo '</form>';
 		echo '</div>';
 	}

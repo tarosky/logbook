@@ -37,9 +37,7 @@ final class Admin
 		add_action( 'admin_menu', function() {
 			if ( ! empty( $_POST['logbook-token'] ) ) {
 				if ( wp_verify_nonce( $_POST['logbook-token'], 'logbook-access-token' ) ) {
-					$token = sha1( mt_rand() );
-					update_option( 'logbook-api-token', sha1( $token ) );
-					update_option( 'logbook-tmp-token', $token );
+					self::generate_token();
 					wp_safe_redirect( untrailingslashit( admin_url() ) . '/edit.php?post_type=logbook&page=settings' );
 					exit;
 				}
@@ -235,7 +233,14 @@ final class Admin
 		);
 	}
 
-	protected static function get_meta_values( $meta_key, $post_type = 'logbook' ) {
+	private static function generate_token()
+	{
+		$token = sha1( mt_rand() );
+		update_option( 'logbook-api-token', sha1( $token ) );
+		update_option( 'logbook-tmp-token', $token );
+	}
+
+	private static function get_meta_values( $meta_key, $post_type = 'logbook' ) {
 		global $wpdb;
 
 		$sql = "SELECT pm.meta_value FROM {$wpdb->postmeta} pm
@@ -250,7 +255,7 @@ final class Admin
 		return $meta_values;
 	}
 
-	protected function get_level_name( $level ) {
+	private function get_level_name( $level ) {
 		if ( ! $level ) {
 			$level = '';
 		}

@@ -2,7 +2,7 @@
 
 class LogBook_Admin_Test extends \WP_UnitTestCase
 {
-	function test_get_all_meta_values()
+	public function test_get_all_meta_values()
 	{
 		$post = $this->factory()->post->create_and_get( array( 'post_type' => 'logbook' ) );
 		update_post_meta( $post->ID, '_test', 'apple');
@@ -22,13 +22,31 @@ class LogBook_Admin_Test extends \WP_UnitTestCase
 		$this->assertSame( array( 'apple', 'banana', 'orange' ), $values );
 	}
 
-	function test_get_level_name()
+	public function test_get_level_name()
 	{
 		$result = self::getMethod( 'get_level_name', array( 'info' ) );
 		$this->assertSame( 'info', $result );
 
 		$result = self::getMethod( 'get_level_name', array( 'debug' ) );
 		$this->assertSame( 'debug', $result );
+	}
+
+	public function test_token()
+	{
+		self::getStaticMethod( 'generate_token' );
+
+		$this->assertTrue( !! get_option( 'logbook-api-token' ) );
+		$this->assertTrue( !! get_option( 'logbook-tmp-token' ) );
+		$this->assertSame(
+			get_option( 'logbook-api-token' ),
+			sha1( get_option( 'logbook-tmp-token' ) )
+		);
+
+		$settings = new LogBook\Admin\Settings();
+		ob_start();
+		$settings->display();
+		ob_end_clean();
+		$this->assertFalse( get_option( 'logbook-tmp-token' ) );
 	}
 
 	protected static function getMethod( $method_name, $args = array() )
