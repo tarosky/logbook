@@ -176,6 +176,7 @@ class Event
 		// Followings will be used for `orderby` for query.
 		update_post_meta( $post_id, '_logbook_label', $log->meta['label'] );
 		update_post_meta( $post_id, '_logbook_log_level', $log->meta['log_level'] );
+		update_post_meta( $post_id, '_logbook_ip', $log->meta['ip'] );
 
 		update_post_meta( $post_id, '_logbook', $log->meta );
 	}

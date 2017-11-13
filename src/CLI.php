@@ -29,7 +29,7 @@ class CLI extends CommandWithDBObject
 	protected $obj_type = 'logbook';
 	protected $obj_fields = array(
 		'date',
-		'title',
+		'log',
 		'level',
 		'ip',
 		'login',
@@ -113,6 +113,14 @@ class CLI extends CommandWithDBObject
 			unset( $assoc_args['label'] );
 		}
 
+		if ( ! empty( $assoc_args['ip'] ) ) {
+			$assoc_args['meta_query'][] = array(
+				'key'   => '_logbook_ip',
+				'value' => $assoc_args['ip'],
+			);
+			unset( $assoc_args['ip'] );
+		}
+
 		$defaults = array(
 			'post_type' => 'logbook',
 			'posts_per_page' => -1,
@@ -132,19 +140,9 @@ class CLI extends CommandWithDBObject
 		} else {
 			$query = new WP_Query( $query_args );
 			$posts = array_map( function( $post ) {
-				$log = new \stdClass();
-				$log->ID = $post->ID;
-				$log->date = get_date_from_gmt( $post->post_date_gmt, 'Y-m-d H:i:s' );
-				$log->title = $post->post_title;
-				$meta = get_post_meta( $post->ID, '_logbook', true );
-				$log->level = $meta['log_level'];
-				$log->ip = $meta['ip'];
-				$log->label = $meta['label'];
-				if ( $post->post_author && $u = get_userdata( $post->post_author ) ) {
-					$log->login = $u->user_login;
-				} else {
-					$log->login = '';
-				}
+				$log = Log::get_the_log( $post );
+				$log['ip'] = $log['meta']['ip'];
+				$log['login'] = $log['user'];
 				return $log;
 			}, $query->posts );
 			$formatter->display_items( $posts );
