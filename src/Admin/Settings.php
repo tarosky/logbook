@@ -38,6 +38,15 @@ class Settings
 		echo '<div class="token"><span>' . esc_html( $token ) . '</span>';
 		echo '<input type="submit" class="button" value="' . $message . '"></div>';
 		echo '</form>';
+
+		?>
+		<h3>How to use an access token</h3>
+		<p>Rest API endpoint to see logs requires Access Token.<br>
+			Please generate Access Token and pass it as the value of <code>X-LogBook-API-Token</code> request header like following.</p>
+		<pre>$ curl <?php echo esc_url( home_url() ); ?>/wp-json/logbook/v1/logs -H "X-LogBook-API-Token: &lt;your-access-token&gt;"</pre>
+		<p><strong>Note:</strong> Access token will be displayed only once.</p>
+		<?php
+
 		echo '</div>';
 	}
 }

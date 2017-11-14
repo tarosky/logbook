@@ -218,6 +218,13 @@
 	margin-top: 2em;
 }
 
+.logbook-settings pre
+{
+	background-color: #555555;
+	color: #ffffff;
+	padding: 20px;
+}
+
 @media screen and ( max-width: 782px )
 {
 	.post-type-logbook .wp-list-table tr th,
