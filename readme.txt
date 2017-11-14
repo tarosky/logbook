@@ -1,6 +1,6 @@
 === Logbook ===
 Contributors: miyauchi, tarosky
-Tags: comments, spam
+Tags: log, event, security
 Requires at least: 4.8
 Tested up to: 4.9
 Requires PHP: 5.6
