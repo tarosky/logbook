@@ -21,7 +21,11 @@ matrix:
   - php: 5.6
     env: WP_VERSION=latest
   - php: 5.6
-    env: WP_VERSION=trunk
+    env: WP_VERSION=trunk WP_PULUGIN_DEPLOY=1
+env:
+  global:
+    - SVN_REPO: https://plugins.svn.wordpress.org/logbook/
+    - secure: "MgWxQZeTnR9EuGaV9jaRUWcBdUM1pm2+hn7TwK50QphfaBwF59NIqB97P7q7K/MZh9K5rYDwiFeI5KbC6woBiQyGb1NkiWxEPl7VHXNg3sb2Rl0r3/k6gxsEP+FiOsYM5pDbyekjMcWXQrk+x0hG0nTHV88OCVplE7YbaWnWnLPA/JJfTs2x3MIyxprS+awFPN2zqXN/la50B4s2f2EMd6Ge3D3U+cpNS5fzlJE0vFG7lcktFnzkNsjL02E9iwoUCQXbnaJu2q2I+2TYpDmqcCJgm+OOMW9kwMl+lcvKvbak2HnJ0pAagAFfxk6j3i6CTaQPra6ZHRbCqkZmEc2/25k3aGdTn0O3fagDRmRkwG+2E7M/vSRIYqcqUcOp6LFOY24E4V5pdmYEVD5KVDjDIhUM8fQgkMMQ9w/n1IfXxbXbgNOsVl9vrs+yc+P+XvsINO0jLoguVJqoLUpcX1Jo3poGjLiWf8tlroDtpf7HeE+ZZ46k+uOal3xeBYF8xEc1JvVF4Zk7SSEGfb0ieBQ8Hn3KvL1ztyucR6YBbQc7Tluu/4yiczBoCKU6Nh7qFSHqh5TUjfmKpFkKXlika/U0LvLXOtkFzlKuFEj17XaOQ/seG78aQZqr4dcdn/54pAu0n2tMmlWcvZhPOHwSvlbxrOs4H/2PmViuqF9QZKVFytM="
 before_script:
 - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
 - composer install --no-dev
@@ -32,6 +36,7 @@ after_success:
 - sed -i -e "s/nightly/${TRAVIS_TAG}/" $(basename $TRAVIS_REPO_SLUG).php
 - curl https://raw.githubusercontent.com/miya0001/auto-build/master/auto-build.sh
   | bash
+- curl -L https://raw.githubusercontent.com/miya0001/travis2wpplugin/master/deploy.sh | bash
 deploy:
   provider: releases
   api_key:
