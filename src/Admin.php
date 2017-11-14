@@ -35,7 +35,7 @@ final class Admin
 		}, 10 );
 
 		add_action( 'admin_menu', function() {
-			if ( ! empty( $_POST['logbook-token'] ) ) {
+			if ( current_user_can( 'activate_plugins' ) && ! empty( $_POST['logbook-token'] ) ) {
 				if ( wp_verify_nonce( $_POST['logbook-token'], 'logbook-access-token' ) ) {
 					self::generate_token();
 					wp_safe_redirect( untrailingslashit( admin_url() ) . '/edit.php?post_type=logbook&page=settings' );
