@@ -75,8 +75,11 @@ $ wp list --level=error
 
 == Screenshots ==
 
+1. List of logs.
+2. Diff of post.
+3. Error of plugin.
 
 == Changelog ==
 
 = 1.0 =
-* The first releasae.
+* The first release.
