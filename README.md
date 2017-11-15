@@ -4,7 +4,7 @@
 
 A logging plugin for WordPress. You can see what changed and who changed it.
 
-Download: https://github.com/tarosky/logbook/releases
+Download: https://wordpress.org/plugins/logbook/
 
 ## It is logging:
 

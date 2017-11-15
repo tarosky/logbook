@@ -69,6 +69,10 @@ Get a list of specific level of logs.
 $ wp list --level=error
 `
 
+=== Issues ===
+
+https://github.com/tarosky/logbook
+
 == Installation ==
 
 1. Activate the plugin through the 'Plugins' menu in WordPress
