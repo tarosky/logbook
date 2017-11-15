@@ -71,7 +71,7 @@ $ wp list --level=error
 
 === Issues ===
 
-https://github.com/tarosky/logbook
+[https://github.com/tarosky/logbook](https://github.com/tarosky/logbook)
 
 == Installation ==
 
