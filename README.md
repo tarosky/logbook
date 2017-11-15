@@ -42,7 +42,7 @@ Download: https://wordpress.org/plugins/logbook/
 
 ```
 add_action( 'plugins_loaded', function() {
-	Talog\init_log( 'Hello\Example' );
+	LogBook\init_log( 'Hello\Example' );
 } );
 ```
 
