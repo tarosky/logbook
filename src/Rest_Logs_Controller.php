@@ -7,9 +7,10 @@ use WP_Error;
 
 class Rest_Logs_Controller extends \WP_REST_Posts_Controller
 {
-	public function __construct()
+	public function __construct( $post_type )
 	{
-		$this->post_type = 'logbook';
+		parent::__construct( $post_type );
+		$this->post_type = $post_type;
 		$this->namespace = 'logbook/v1';
 		$this->rest_base = 'logs';
 	}
