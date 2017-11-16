@@ -52,6 +52,13 @@ function plugins_loaded() {
 
 add_action( 'plugins_loaded', 'LogBook\plugins_loaded' );
 
+function rest_api_init() {
+	$rest = new Rest_Logs_Controller();
+	$rest->register_routes();
+}
+
+add_action( 'rest_api_init', 'LogBook\rest_api_init' );
+
 /**
  * Registers the logger to the specific hooks.
  *
