@@ -19,7 +19,6 @@ class Updated_Core extends Logger
 	public function log( $additional_args )
 	{
 		list( $wp_version ) = $additional_args;
-		var_dump( $wp_version );
 		$title = sprintf(
 			__( 'WordPress was updated to %s.', 'logbook' ),
 			$wp_version
