@@ -4,7 +4,7 @@
  */
 
 namespace Hello;
-use LogBook\Logger;
+use \LogBook\Logger;
 
 class Example extends Logger
 {

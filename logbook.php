@@ -48,16 +48,14 @@ function plugins_loaded() {
 	foreach ( $loggers as $logger ) {
 		init_log( $logger );
 	}
+
+	add_action( 'rest_api_init', function() {
+		$rest = new Rest_Logs_Controller( Post_Type::post_type );
+		$rest->register_routes();
+	} );
 }
 
-add_action( 'plugins_loaded', 'LogBook\plugins_loaded' );
-
-function rest_api_init() {
-	$rest = new Rest_Logs_Controller( Post_Type::post_type );
-	$rest->register_routes();
-}
-
-add_action( 'rest_api_init', 'LogBook\rest_api_init' );
+add_action( 'plugins_loaded', 'LogBook\plugins_loaded', 9 );
 
 /**
  * Registers the logger to the specific hooks.

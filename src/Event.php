@@ -96,14 +96,6 @@ class Event
 			return;
 		}
 
-		if ( ! empty( $_SERVER['REQUEST_URI'] ) ) {
-			$path = '/xmlrpc.php';
-			$len = strlen( $path );
-			if ( $path === substr( $_SERVER['REQUEST_URI'], 0 - $len ) ) {
-				$log->set_log_level( 'warn' );
-			}
-		}
-
 		/**
 		 * Filters the log levels that will be saved to log.
 		 *

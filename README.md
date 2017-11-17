@@ -37,12 +37,13 @@ Download: https://wordpress.org/plugins/logbook/
 
 ### Add your custom log events
 
-1. Create a class that extends the `Talog\Logger` class.
-2. Load the class by `Talog\init_log()` like following.
+1. Create a class that extends the `\LogBook\Logger` class.
+2. Load the class by `\LogBook\init_log()` like following.
 
 ```
 add_action( 'plugins_loaded', function() {
-	LogBook\init_log( 'Hello\Example' );
+	require_once dirname( __FILE__ ) . '/path/to/example.php';
+	\LogBook\init_log( 'Hello\Example' );
 } );
 ```
 
