@@ -4,7 +4,7 @@ namespace LogBook;
 
 class Event
 {
-	const post_type = 'logbook';
+	const post_type = Post_Type::post_type;
 
 	private $loggers = array();
 	private $logs = array();

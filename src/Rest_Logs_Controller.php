@@ -7,9 +7,12 @@ use WP_Error;
 
 class Rest_Logs_Controller extends \WP_REST_Posts_Controller
 {
-	public function __construct( $post_type ) {
+	public function __construct( $post_type )
+	{
 		parent::__construct( $post_type );
+		$this->post_type = $post_type;
 		$this->namespace = 'logbook/v1';
+		$this->rest_base = 'logs';
 	}
 
 	public function register_routes() {
@@ -35,25 +38,34 @@ class Rest_Logs_Controller extends \WP_REST_Posts_Controller
 			return $response;
 		}
 
-		$response->data = array_map( array( $this, 'log_mapper' ), $response->data );
+		return $response;
+	}
+
+	public function prepare_item_for_response( $post, $request )
+	{
+		$log = Log::get_the_log( $post );
+		unset( $log['meta']['cli-command'] ); // For security reason.
+		$response = rest_ensure_response( $log );
 
 		return $response;
 	}
 
-	public function log_mapper( $post_array )
-	{
-		$post = get_post( $post_array['id'] );
-		$log = Log::get_the_log( $post );
-		unset( $log['meta']['cli-command'] ); // For security reason.
-		return $log;
+	public function check_read_permission( $post ) {
+		return true;
 	}
 
-	public function permission_callback()
+	/**
+	 * @param \WP_REST_Request $request
+	 *
+	 * @return bool|WP_Error
+	 */
+	public function permission_callback( $request )
 	{
 		$token = get_option( 'logbook-api-token' );
+		$request_token = $request->get_header( 'http_x_logbook_api_token' );
 
-		if ( ! empty( $_SERVER['HTTP_X_LOGBOOK_API_TOKEN'] ) ) {
-			if ( $token === sha1( $_SERVER['HTTP_X_LOGBOOK_API_TOKEN'] ) ) {
+		if ( ! empty( $request_token ) ) {
+			if ( $token === sha1( $request_token ) ) {
 				return true;
 			}
 		}
