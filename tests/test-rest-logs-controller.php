@@ -30,13 +30,13 @@ class Rest_Logs_Controller_Test extends WP_UnitTestCase
 		);
 
 		$request = new WP_REST_Request( 'GET', '/logbook/v1/logs' );
-		$request->set_header( 'HTTP-X-LOGBOOK-API-TOKEN', $this->token );
+		$request->set_header( 'X-LogBook-API-Token', $this->token );
 		$rest = new LogBook\Rest_Logs_Controller( 'logbook' );
 		$this->assertFalse( is_wp_error( $rest->permission_callback( $request ) ) );
 		$this->assertTrue( !! $rest->permission_callback( $request ) );
 
 		$request = new WP_REST_Request( 'GET', '/logbook/v1/logs' );
-		$request->set_header( 'HTTP-X-LOGBOOK-API-TOKEN', "xxxx" );
+		$request->set_header( 'X-LogBook-API-Token', "xxxx" );
 		$this->assertTrue( is_wp_error( $rest->permission_callback( $request ) ) );
 	}
 
@@ -47,7 +47,7 @@ class Rest_Logs_Controller_Test extends WP_UnitTestCase
 		$this->assertResponseStatus( 401, $response );
 
 		$request = new WP_REST_Request( 'GET', '/logbook/v1/logs' );
-		$request->set_header( 'HTTP-X-LOGBOOK-API-TOKEN', 'xxxx' );
+		$request->set_header( 'X-LogBook-API-Token', 'xxxx' );
 		$response = $this->server->dispatch( $request );
 		$this->assertResponseStatus( 401, $response );
 	}
@@ -55,7 +55,7 @@ class Rest_Logs_Controller_Test extends WP_UnitTestCase
 	public function test_get_authorized()
 	{
 		$request = new WP_REST_Request( 'GET', '/logbook/v1/logs' );
-		$request->set_header( 'HTTP-X-LOGBOOK-API-TOKEN', $this->token );
+		$request->set_header( 'X-LogBook-API-Token', $this->token );
 		$response = $this->server->dispatch( $request );
 		$this->assertResponseStatus( 200, $response );
 	}
