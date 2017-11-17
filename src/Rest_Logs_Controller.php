@@ -23,7 +23,6 @@ class Rest_Logs_Controller extends \WP_REST_Posts_Controller
 				'permission_callback' => array( $this, 'permission_callback' ),
 				'args'                => $this->get_collection_params(),
 			),
-			'schema' => array( $this, 'get_public_item_schema' ),
 		) );
 	}
 
