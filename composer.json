@@ -1,4 +1,5 @@
 {
+    "name": "tarosky/logbook",
     "autoload": {
       "psr-4": {
         "LogBook\\": "src/"
