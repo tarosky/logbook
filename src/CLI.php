@@ -127,7 +127,11 @@ class CLI extends CommandWithDBObject
 			$query = new WP_Query( $query_args );
 			$posts = array_map( function( $post ) {
 				$log = Log::get_the_log( $post );
-				$log['ip'] = $log['meta']['ip'];
+				if ( empty( $log['meta']['ip'] ) ) {
+					$log['ip'] = '';
+				} else {
+					$log['ip'] = $log['meta']['ip'];
+				}
 				$log['login'] = $log['user'];
 				return $log;
 			}, $query->posts );
