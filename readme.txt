@@ -60,13 +60,13 @@ Once you have installed and activated it, you can check the following activities
 Get a list of logs.
 
 `
-$ wp log list
+$ wp log list --posts_per_page=5
 `
 
 Get a list of specific level of logs.
 
 `
-$ wp list --level=error
+$ wp list --level=error --posts_per_page=5
 `
 
 === Issues ===
@@ -85,5 +85,6 @@ $ wp list --level=error
 
 == Changelog ==
 
-= 1.0 =
-* The first release.
+You can see all changelog on GitHub.
+
+https://github.com/tarosky/logbook/releases
