@@ -60,6 +60,33 @@ class Rest_Logs_Controller_Test extends WP_UnitTestCase
 		$this->assertResponseStatus( 200, $response );
 	}
 
+	public function test_get_authorized_as_admin()
+	{
+		$this->set_current_user( 'administrator' );
+		$request = new WP_REST_Request( 'GET', '/logbook/v1/logs' );
+		$response = $this->server->dispatch( $request );
+		$this->assertResponseStatus( 200, $response );
+	}
+
+	public function test_get_authorized_as_editor()
+	{
+		$this->set_current_user( 'editor' );
+		$request = new WP_REST_Request( 'GET', '/logbook/v1/logs' );
+		$response = $this->server->dispatch( $request );
+		$this->assertResponseStatus( 200, $response );
+	}
+
+	public function test_get_authorized_as_atuthor()
+	{
+		$roles = array( 'author', 'contributor', 'subscriber' );
+		foreach ( $roles as $role ) {
+			$this->set_current_user( $role );
+			$request = new WP_REST_Request( 'GET', '/logbook/v1/logs' );
+			$response = $this->server->dispatch( $request );
+			$this->assertResponseStatus( 401, $response );
+		}
+	}
+
 	protected static function getStaticMethod( $class, $method_name, $args = array() )
 	{
 		$class = new \ReflectionClass( $class );
@@ -68,6 +95,23 @@ class Rest_Logs_Controller_Test extends WP_UnitTestCase
 		$method->setAccessible( true );
 
 		return $method->invokeArgs( null, $args );
+	}
+
+	/**
+	 * Add user and set the user as current user.
+	 *
+	 * @param  string $role administrator, editor, author, contributor ...
+	 * @return int The user ID
+	 */
+	private function set_current_user( $role )
+	{
+		$user = $this->factory()->user->create_and_get( array(
+			'role' => $role,
+		) );
+
+		wp_set_current_user( $user->ID, $user->user_login );
+
+		return $user->ID;
 	}
 
 	/**
