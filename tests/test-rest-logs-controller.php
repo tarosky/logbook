@@ -46,7 +46,16 @@ class Rest_Logs_Controller_Test extends WP_UnitTestCase
 		$response = $this->server->dispatch( $request );
 		$this->assertResponseStatus( 401, $response );
 
+		$request = new WP_REST_Request( 'GET', '/logbook/v1/stats' );
+		$response = $this->server->dispatch( $request );
+		$this->assertResponseStatus( 401, $response );
+
 		$request = new WP_REST_Request( 'GET', '/logbook/v1/logs' );
+		$request->set_header( 'X-LogBook-API-Token', 'xxxx' );
+		$response = $this->server->dispatch( $request );
+		$this->assertResponseStatus( 401, $response );
+
+		$request = new WP_REST_Request( 'GET', '/logbook/v1/stats' );
 		$request->set_header( 'X-LogBook-API-Token', 'xxxx' );
 		$response = $this->server->dispatch( $request );
 		$this->assertResponseStatus( 401, $response );
@@ -58,12 +67,22 @@ class Rest_Logs_Controller_Test extends WP_UnitTestCase
 		$request->set_header( 'X-LogBook-API-Token', $this->token );
 		$response = $this->server->dispatch( $request );
 		$this->assertResponseStatus( 200, $response );
+
+		$request = new WP_REST_Request( 'GET', '/logbook/v1/stats' );
+		$request->set_header( 'X-LogBook-API-Token', $this->token );
+		$response = $this->server->dispatch( $request );
+		$this->assertResponseStatus( 200, $response );
 	}
 
 	public function test_get_authorized_as_admin()
 	{
 		$this->set_current_user( 'administrator' );
 		$request = new WP_REST_Request( 'GET', '/logbook/v1/logs' );
+		$response = $this->server->dispatch( $request );
+		$this->assertResponseStatus( 200, $response );
+
+		$this->set_current_user( 'administrator' );
+		$request = new WP_REST_Request( 'GET', '/logbook/v1/stats' );
 		$response = $this->server->dispatch( $request );
 		$this->assertResponseStatus( 200, $response );
 	}
@@ -74,6 +93,11 @@ class Rest_Logs_Controller_Test extends WP_UnitTestCase
 		$request = new WP_REST_Request( 'GET', '/logbook/v1/logs' );
 		$response = $this->server->dispatch( $request );
 		$this->assertResponseStatus( 200, $response );
+
+		$this->set_current_user( 'editor' );
+		$request = new WP_REST_Request( 'GET', '/logbook/v1/stats' );
+		$response = $this->server->dispatch( $request );
+		$this->assertResponseStatus( 200, $response );
 	}
 
 	public function test_get_authorized_as_atuthor()
@@ -82,6 +106,10 @@ class Rest_Logs_Controller_Test extends WP_UnitTestCase
 		foreach ( $roles as $role ) {
 			$this->set_current_user( $role );
 			$request = new WP_REST_Request( 'GET', '/logbook/v1/logs' );
+			$response = $this->server->dispatch( $request );
+			$this->assertResponseStatus( 401, $response );
+
+			$request = new WP_REST_Request( 'GET', '/logbook/v1/stats' );
 			$response = $this->server->dispatch( $request );
 			$this->assertResponseStatus( 401, $response );
 		}
