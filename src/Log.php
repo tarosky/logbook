@@ -211,7 +211,6 @@ class Log
 		}
 	}
 
-	// TODO: need test
 	protected function cli()
 	{
 		if ( self::is_cli() ) {
