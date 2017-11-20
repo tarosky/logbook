@@ -269,6 +269,10 @@ final class Admin
 
 	public static function user_info( $user_id )
 	{
+		if ( ! intval( $user_id ) ) {
+			return "";
+		}
+
 		$avatar = get_avatar( $user_id, 32 );
 		if ( empty( $avatar ) ) {
 			$avatar = '';
