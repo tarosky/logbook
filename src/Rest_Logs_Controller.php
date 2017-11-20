@@ -15,7 +15,8 @@ class Rest_Logs_Controller extends \WP_REST_Posts_Controller
 		$this->rest_base = 'logs';
 	}
 
-	public function register_routes() {
+	public function register_routes()
+	{
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
 			array(
 				'methods'             => WP_REST_Server::READABLE,
@@ -39,6 +40,25 @@ class Rest_Logs_Controller extends \WP_REST_Posts_Controller
 				'args'                => $this->get_collection_params(),
 			),
 		) );
+
+		register_rest_route( $this->namespace, '/stats', array(
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_stats' ),
+				'permission_callback' => array( $this, 'permission_callback' ),
+			),
+		) );
+	}
+
+	public function get_stats()
+	{
+		$data = array(
+			'wp_version' => $GLOBALS['wp_version'],
+			'php_version' => phpversion(),
+		);
+
+		$response = rest_ensure_response( $data );
+		return $response;
 	}
 
 	/**
@@ -78,7 +98,8 @@ class Rest_Logs_Controller extends \WP_REST_Posts_Controller
 		return $response;
 	}
 
-	public function check_read_permission( $post ) {
+	public function check_read_permission( $post )
+	{
 		return true;
 	}
 
