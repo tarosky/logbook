@@ -24,6 +24,35 @@ class Rest_Logs_Controller extends \WP_REST_Posts_Controller
 				'args'                => $this->get_collection_params(),
 			),
 		) );
+
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<id>[\d]+)', array(
+			'args' => array(
+				'id' => array(
+					'description' => __( 'Unique identifier for the log.' ),
+					'type'        => 'integer',
+				),
+			),
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_item' ),
+				'permission_callback' => array( $this, 'permission_callback' ),
+				'args'                => $this->get_collection_params(),
+			),
+		) );
+	}
+
+	/**
+	 * @param \WP_REST_Request $request
+	 * @return \WP_REST_Response|\WP_Error
+	 */
+	public function get_item( $request )
+	{
+		$response = parent::get_item( $request );
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
+
+		return $response;
 	}
 
 	/**
