@@ -30,10 +30,6 @@ matrix:
     env: WP_VERSION=latest
   - php: 5.4
     env: WP_VERSION=trunk
-  - php: 5.3
-    env: WP_VERSION=latest
-  - php: 5.3
-    env: WP_VERSION=trunk
 env:
   global:
     - SVN_REPO: https://plugins.svn.wordpress.org/logbook/
