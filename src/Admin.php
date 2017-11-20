@@ -198,7 +198,7 @@ final class Admin
 		} elseif ( '_user' === $column_name ) {
 			$post = get_post( $post_id );
 			if ( $post->post_author ) {
-				echo esc_html( get_userdata( $post->post_author )->user_login );
+				echo self::user_info( $post->post_author );
 			} else {
 				echo '';
 			}
@@ -230,6 +230,27 @@ final class Admin
 			plugins_url( '/css/style.css', dirname( __FILE__ ) ),
 			array(),
 			filemtime( dirname( dirname( __FILE__ ) ) . '/css/style.css' )
+		);
+	}
+
+	public static function user_info( $user_id )
+	{
+		$avatar = get_avatar( $user_id, 40 );
+		if ( empty( $avatar ) ) {
+			$avatar = '';
+		}
+
+		$user = get_userdata( $user_id );
+		$display_name = $user->display_name;
+		$role = reset( $user->roles );
+
+		return sprintf(
+			'<div class="user"><div class="avatar">%s</div>
+				<div class="display-name"><a href="%s">%s</a><div class="role">%s</div></div></div>',
+			$avatar,
+			esc_url( admin_url( 'user-edit.php?user_id=' . intval( $user_id ) ) ),
+			esc_html( $display_name ),
+			esc_html( $role )
 		);
 	}
 

@@ -5,7 +5,8 @@
 
 .column-_user
 {
-	width: 10%;
+	width: 20%;
+	white-space: nowrap;
 }
 
 .column-_date
@@ -33,10 +34,29 @@
 	margin-left: 5px;
 }
 
+.post-type-logbook table .user,
+.logbook-log-details .user
+{
+	display: flex;
+	align-items: center;
+}
+
+.post-type-logbook table .user .avatar,
+.logbook-log-details .user .avatar
+{
+	margin-right: 3px;
+}
+
+.post-type-logbook table .user .role,
+.logbook-log-details .user .role
+{
+	font-size: 80%;
+}
+
 .logbook-log-details .meta
 {
 	text-align: right;
-	margin-right: 20px;
+	margin: 1em 10px 1em 0;
 }
 
 .logbook-log-details th
