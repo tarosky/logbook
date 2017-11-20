@@ -119,6 +119,36 @@ final class Admin
 			);
 		}
 		echo '</select>';
+
+		echo '<select name="_user">';
+		printf(
+			'<option value="">%s &nbsp;</option>',
+			__( 'All Users', 'logbook' )
+		);
+
+		$users = get_users( array(
+			'blog_id' => $GLOBALS['blog_id'],
+			'orderby' => 'ID',
+			'order' => 'ASC',
+		) );
+
+		/**
+		 * @var \WP_User $user
+		 */
+		foreach ( $users as $user ) {
+			if ( ! empty( $_GET['_user'] ) && $user->ID === intval( $_GET['_user'] ) ) {
+				$selected = 'selected';
+			} else {
+				$selected = '';
+			}
+			printf(
+				'<option value="%s" %s>%s</option>',
+				esc_attr( $user->ID ),
+				$selected,
+				esc_html( $user->display_name )
+			);
+		}
+		echo '</select>';
 	}
 
 	public function manage_columns() {
@@ -157,6 +187,10 @@ final class Admin
 					$vars['orderby']  = 'meta_value';
 					$vars['meta_key'] = '_logbook_log_level';
 				}
+			}
+
+			if ( 'logbook' === $_GET['post_type'] && ! empty( $_GET['_user'] ) ) {
+				$vars['author'] = $_GET['_user'];
 			}
 
 			$meta_query = array();
@@ -235,7 +269,7 @@ final class Admin
 
 	public static function user_info( $user_id )
 	{
-		$avatar = get_avatar( $user_id, 40 );
+		$avatar = get_avatar( $user_id, 32 );
 		if ( empty( $avatar ) ) {
 			$avatar = '';
 		}
@@ -244,11 +278,16 @@ final class Admin
 		$display_name = $user->display_name;
 		$role = reset( $user->roles );
 
+		$url = add_query_arg( array(
+			'post_type' => 'logbook',
+			'_user' => $user_id,
+		), admin_url( 'edit.php' ) );
+
 		return sprintf(
 			'<div class="user"><div class="avatar">%s</div>
 				<div class="display-name"><a href="%s">%s</a><div class="role">%s</div></div></div>',
 			$avatar,
-			esc_url( admin_url( 'user-edit.php?user_id=' . intval( $user_id ) ) ),
+			esc_url( $url ),
 			esc_html( $display_name ),
 			esc_html( $role )
 		);
