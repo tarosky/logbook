@@ -33,6 +33,8 @@ function plugins_loaded() {
 
 	/**
 	 * Filters the array of default loggers.
+	 *
+	 * @param array $logger_classes An array of classes of `\LogBook\Logger`.
 	 */
 	$loggers = apply_filters( 'logbook_default_loggers', array(
 		'LogBook\Logger\Activated_Extensions',
@@ -60,7 +62,7 @@ add_action( 'plugins_loaded', 'LogBook\plugins_loaded', 9 );
 /**
  * Registers the logger to the specific hooks.
  *
- * @param string $logger_class The `LogBook\Logger\Logger` class.
+ * @param string $logger_class The extended class of the `LogBook\Logger`.
  */
 function init_log( $logger_class ) {
 	if ( class_exists( $logger_class ) ) {
