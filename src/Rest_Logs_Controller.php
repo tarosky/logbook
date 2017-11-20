@@ -69,6 +69,11 @@ class Rest_Logs_Controller extends \WP_REST_Posts_Controller
 			}
 		}
 
+		$post_type = get_post_type_object( $this->post_type );
+		if ( current_user_can( $post_type->cap->edit_posts ) ) {
+			return true;
+		}
+
 		return new WP_Error(
 			'logbook_rest_error',
 			'You don\'t have permission to access this API.',
