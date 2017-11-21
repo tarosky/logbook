@@ -261,9 +261,9 @@ final class Admin
 	public function admin_enqueue_scripts() {
 		wp_enqueue_style(
 			'logbook-admin-style',
-			plugins_url( '/css/style.css', dirname( __FILE__ ) ),
+			plugins_url( '/css/style.css', dirname( dirname( __FILE__ ) ) ),
 			array(),
-			filemtime( dirname( dirname( __FILE__ ) ) . '/css/style.css' )
+			filemtime( dirname( dirname( dirname( __FILE__ ) ) ) . '/css/style.css' )
 		);
 	}
 
