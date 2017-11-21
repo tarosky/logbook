@@ -20,6 +20,13 @@ class Rest_Logs_Controller_Test extends WP_UnitTestCase
 
 		self::getStaticMethod( '\LogBook\Admin', 'generate_token' );
 		$this->token = get_option( 'logbook-tmp-token' );
+
+		require_once dirname( __FILE__ ) . '/class-test-log.php';
+		$logger = new \LogBook\Event();
+		$logger->init_log( 'Hello\Test_Log' );
+		do_action( 'plugins_loaded' );
+		do_action( 'test_hook', 'foo', 'bar' );
+		$logger->shutdown();
 	}
 
 	public function test_auth()
@@ -113,6 +120,30 @@ class Rest_Logs_Controller_Test extends WP_UnitTestCase
 			$response = $this->server->dispatch( $request );
 			$this->assertResponseStatus( 401, $response );
 		}
+	}
+
+	public function test_api_response()
+	{
+		$request = new WP_REST_Request( 'GET', '/logbook/v1/logs' );
+		$request->set_header( 'X-LogBook-API-Token', $this->token );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertResponseStatus( 200, $response );
+
+		$data = $response->get_data();
+		$this->assertSame( 1, count( $data ) );
+		$this->assertSame( 'hello', $data[0]['log'] );
+		$this->assertTrue( is_array( $data[0]['content'] ) );
+		$this->assertSame( 2, count( $data[0]['content'] ) );
+		$this->assertSame( 'Test', $data[0]['label'] );
+		$this->assertSame( 'debug', $data[0]['level'] );
+		$this->assertSame( array(
+			'label' => 'Test',
+			'log_level' => 'debug',
+			'hook' => 'test_hook',
+			'is_cli' => false,
+			'ip' => '127.0.0.1',
+		), $data[0]['meta'] );
 	}
 
 	protected static function getStaticMethod( $class, $method_name, $args = array() )
