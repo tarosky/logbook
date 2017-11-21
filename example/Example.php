@@ -19,7 +19,7 @@ class Example extends Logger
 	/**
 	 * @var string $log_level The log level. See `src/Level/`
 	 */
-	protected $log_level = '\Talog\Level\Default_Level';
+	protected $log_level = \LogBook::DEFAULT_LEVEL;
 	/**
 	 * @var int $priority Number of priority that will be passed to `add_filter()`.
 	 */

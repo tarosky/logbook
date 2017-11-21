@@ -7,7 +7,7 @@ class Last_Error extends Logger
 {
 	protected $label = 'Debug';
 	protected $hooks = array( 'shutdown' );
-	protected $log_level = '\LogBook\Level\Debug';
+	protected $log_level = \LogBook::DEBUG;
 	protected $priority = 10;
 	protected $accepted_args = 1;
 
@@ -40,9 +40,9 @@ class Last_Error extends Logger
 			}
 
 			if ( in_array( intval( $error['type'] ), array( 1, 4, 16, 64, 4096 ) ) ) {
-				$this->set_log_level_by_class( '\LogBook\Level\Error' );
+				$this->set_level( \LogBook::ERROR );
 			} elseif ( in_array( intval( $error['type'] ), array( 8, 1024, 8192, 16384 ) ) ) {
-				$this->set_log_level_by_class( '\LogBook\Level\Trace' );
+				$this->set_level( \LogBook::TRACE );
 			}
 		}
 	}

@@ -7,7 +7,7 @@ class Delete_Post extends Logger
 {
 	protected $label = 'Post';
 	protected $hooks = array( 'delete_post' );
-	protected $log_level = '\LogBook\Level\Default_Level';
+	protected $log_level = \LogBook::DEFAULT_LEVEL;
 	protected $priority = 10;
 	protected $accepted_args = 1;
 

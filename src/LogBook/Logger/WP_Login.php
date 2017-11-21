@@ -7,7 +7,7 @@ class WP_Login extends Logger
 {
 	protected $label = 'User';
 	protected $hooks = array( 'wp_login' );
-	protected $log_level = '\LogBook\Level\Default_Level';
+	protected $log_level = \LogBook::DEFAULT_LEVEL;
 	protected $priority = 10;
 	protected $accepted_args = 1;
 

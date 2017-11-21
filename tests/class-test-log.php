@@ -7,7 +7,7 @@ class Test_Log extends LogBook\Logger
 {
 	protected $label = 'Test';
 	protected $hooks = array( 'test_hook' );
-	protected $log_level = '\LogBook\Level\Debug';
+	protected $log_level = \LogBook::DEBUG;
 	protected $priority = 10;
 	protected $accepted_args = 2;
 

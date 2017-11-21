@@ -10,7 +10,7 @@ class Activated_Extensions extends Logger
 {
 	protected $label = 'Plugin';
 	protected $hooks = array( 'activated_plugin', 'deactivated_plugin', 'switch_theme' );
-	protected $log_level = '\LogBook\Level\Default_Level';
+	protected $log_level = \LogBook::DEFAULT_LEVEL;
 	protected $priority = 10;
 	protected $accepted_args = 2;
 

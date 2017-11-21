@@ -18,7 +18,7 @@ abstract class Logger
 	protected $log;
 	protected $label = '';
 	protected $hooks = array();
-	protected $log_level = '\LogBook\Level\Default_Level';
+	protected $log_level = \LogBook::DEFAULT_LEVEL;
 	protected $priority = 10;
 	protected $accepted_args = 1;
 
@@ -59,19 +59,6 @@ abstract class Logger
 	}
 
 	/**
-	 * @param string $log_level
-	 */
-	public function set_log_level_by_class( $log_level )
-	{
-		if ( class_exists( $log_level ) ) {
-			$level_object = new $log_level();
-			if ( is_a( $level_object, '\LogBook\Level' ) ) {
-				$this->log->set_log_level( $level_object->get_level() );
-			}
-		}
-	}
-
-	/**
 	 * Set `\LogBook\Log` to the `$this->log`.
 	 *
 	 * @param Log    $log             An instance of `LogBook\Log`.
@@ -79,7 +66,7 @@ abstract class Logger
 	public function set_log( Log $log )
 	{
 		$this->log = $log;
-		$this->set_log_level_by_class( $this->log_level );
+		$this->log->set_log_level( $this->log_level );
 		$this->log->set_label( $this->label );
 	}
 
@@ -104,30 +91,21 @@ abstract class Logger
 	}
 
 	/**
-	 * Returns the value of `LogBook\Level`.
+	 * Returns the value of `LogBook`.
 	 *
-	 * @return string Log level that come from `LogBook\Level` class.
+	 * @return string Log level that come from `LogBook` class.
 	 */
 	public function get_log_level()
 	{
-		$level = $this->log_level;
+		return $this->log_level;
+	}
 
-		$level_name  = '';
-		if ( $level ) {
-			if ( class_exists( $level ) ) {
-				$level_object = new $level();
-				if ( is_a( $level_object, 'LogBook\Level' ) ) {
-					$level_name = $level_object->get_level();
-				}
-			}
-		}
-
-		if ( ! $level_name ) {
-			$obj = new Level\Default_Level();
-			$level_name = $obj->get_level();
-		}
-
-		return $level_name;
+	/**
+	 * @param string $level The log level.
+	 */
+	public function set_level( $level )
+	{
+		$this->log->set_log_level( $level );
 	}
 
 	/**

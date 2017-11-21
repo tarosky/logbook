@@ -7,7 +7,7 @@ class Updated_Extensions extends Logger
 {
 	protected $label = 'WordPress';
 	protected $hooks = array( 'upgrader_process_complete' );
-	protected $log_level = '\LogBook\Level\Default_Level';
+	protected $log_level = \LogBook::DEFAULT_LEVEL;
 	protected $priority = 9;
 	protected $accepted_args = 2;
 

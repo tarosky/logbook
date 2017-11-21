@@ -89,25 +89,9 @@ class Log
 		}
 	}
 
-	public function set_log_level( $level = null )
+	public function set_log_level( $level )
 	{
-		$level_name  = '';
-		if ( $level ) {
-			$level_class = '\\LogBook\\Level\\' . ucfirst( $level );
-			if ( class_exists( $level_class ) ) {
-				$level_object = new $level_class();
-				if ( is_a( $level_object, 'LogBook\Level' ) ) {
-					$level_name = $level_object->get_level();
-				}
-			}
-		}
-
-		if ( ! $level_name ) {
-			$obj = new Level\Default_Level();
-			$level_name = $obj->get_level();
-		}
-
-		$this->log->meta['log_level'] = $level_name;
+		$this->log->meta['log_level'] = $level;
 	}
 
 	public function get_log_level()

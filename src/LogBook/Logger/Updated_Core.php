@@ -7,7 +7,7 @@ class Updated_Core extends Logger
 {
 	protected $label = 'WordPress';
 	protected $hooks = array( '_core_updated_successfully' );
-	protected $log_level = '\LogBook\Level\Default_Level';
+	protected $log_level = \LogBook::DEFAULT_LEVEL;
 	protected $priority = 9;
 	protected $accepted_args = 1;
 

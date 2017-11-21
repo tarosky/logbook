@@ -50,7 +50,7 @@ class LogBook_Logger_Test extends \WP_UnitTestCase
 		$this->assertSame( 'debug', $logger->get_log_level() );
 		$this->assertSame( 'debug', $log_data->meta['log_level'] );
 
-		$logger->set_log_level_by_class( 'LogBook\Level\Error' );
+		$logger->set_level( LogBook::ERROR );
 		$this->assertSame( 'error', $log_data->meta['log_level'] );
 	}
 

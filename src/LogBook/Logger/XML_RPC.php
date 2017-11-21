@@ -7,7 +7,7 @@ class XML_RPC extends Logger
 {
 	protected $label = 'XML-RPC';
 	protected $hooks = array( 'xmlrpc_call' );
-	protected $log_level = '\LogBook\Level\Warn';
+	protected $log_level = \LogBook::WARN;
 	protected $priority = 10;
 	protected $accepted_args = 2;
 
