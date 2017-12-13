@@ -39,9 +39,9 @@ class Last_Error extends Logger
 				$this->add_content( $title, $content );
 			}
 
-			if ( in_array( intval( $error['type'] ), array( 1, 4, 16, 64, 4096 ) ) ) {
+			if ( in_array( intval( $error['type'] ), array( 1, 4, 16, 64 ) ) ) {
 				$this->set_level( \LogBook::ERROR );
-			} elseif ( in_array( intval( $error['type'] ), array( 8, 1024, 8192, 16384 ) ) ) {
+			} elseif ( in_array( intval( $error['type'] ), array( 8, 1024, 4096, 8192, 16384 ) ) ) {
 				$this->set_level( \LogBook::TRACE );
 			}
 		}
