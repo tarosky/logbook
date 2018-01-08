@@ -20,7 +20,11 @@ final class Admin
 		add_filter( 'manage_edit-logbook_columns', array( $this, 'manage_columns' ) );
 		add_filter( 'request', array( $this, 'request' ) );
 		add_filter( 'bulk_actions-edit-logbook', '__return_empty_array' );
-		add_action( 'restrict_manage_posts', array( $this, 'restrict_manage_posts' ) );
+
+		if ( 'edit.php' === $GLOBALS['pagenow'] && 'logbook' === $_GET['post_type'] ) {
+			add_action( 'restrict_manage_posts', array( $this, 'restrict_manage_posts' ) );
+		}
+
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 
 		add_filter( 'admin_title', function( $title ) {
