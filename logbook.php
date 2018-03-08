@@ -20,7 +20,54 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	\WP_CLI::add_command( 'log', 'LogBook\CLI' );
 }
 
+register_activation_hook( __FILE__, "\LogBook\activation" );
+
+function activation() {
+	if ( ! get_option( 'logbook-scheduled-event', false ) ) {
+		wp_schedule_event( time(), 'hourly', 'logbook_scheduled_event' );
+		update_option( 'logbook-scheduled-event', true );
+	}
+}
+
+register_deactivation_hook( __FILE__, "\LogBook\deactivation" );
+
+function deactivation() {
+	wp_clear_scheduled_hook( 'logbook_scheduled_event' );
+	delete_option( 'logbook-scheduled-event' );
+}
+
+add_action( 'logbook_scheduled_event', '\LogBook\scheduled_event');
+
+function scheduled_event() {
+	$args = array(
+		'post_type' => 'logbook',
+		'date_query' => array(
+			array(
+				'column' => 'post_modified_gmt',
+				'before'  => '1 month ago',
+			),
+		),
+		'posts_per_page' => -1,
+	);
+
+	$posts = get_posts( $args );
+
+	/**
+	 * @var $log \WP_Post
+	 */
+	foreach( $posts as $log ) {
+		wp_delete_post( $log->ID, true );
+	}
+}
+
+add_action( 'plugins_loaded', 'LogBook\plugins_loaded', 9 );
+
 function plugins_loaded() {
+	if ( ! get_option( 'logbook-scheduled-event', false ) ) {
+		wp_schedule_event( time(), 'hourly', 'logbook_scheduled_event' );
+		update_option( 'logbook-scheduled-event', true );
+	}
+
 	// Registers post type `logbook`.
 	$post_type = new Post_Type();
 	$post_type->register();
@@ -57,8 +104,6 @@ function plugins_loaded() {
 	} );
 }
 
-add_action( 'plugins_loaded', 'LogBook\plugins_loaded', 9 );
-
 /**
  * Registers the logger to the specific hooks.
  *
@@ -72,20 +117,5 @@ function init_log( $logger_class ) {
 		}
 	} else {
 		wp_die( '`' . $logger_class . '` not found.' );
-	}
-}
-
-function delete_all() {
-	define( 'SKIP_LOGGING', true );
-
-	$posts = get_posts( array(
-		'post_type' => 'logbook'
-	) );
-
-	/**
-	 * @var $log \WP_Post
-	 */
-	foreach( $posts as $log ) {
-		wp_delete_post( $log->ID, true );
 	}
 }
