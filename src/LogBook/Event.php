@@ -147,6 +147,11 @@ class Event
 
 	public function shutdown()
 	{
+		// Skip to save logs if `define( 'SKIP_LOGGING', true );` exists.
+		if ( defined( 'SKIP_LOGGING' ) && true === SKIP_LOGGING ) {
+			return;
+		}
+
 		foreach ( $this->logs as $log_object ) {
 			$this->save_log( $log_object );
 		}

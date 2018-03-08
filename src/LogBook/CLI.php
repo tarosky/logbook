@@ -138,4 +138,34 @@ class CLI extends CommandWithDBObject
 			$formatter->display_items( $posts );
 		}
 	}
+
+	/**
+	 * Delete all logs.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--force]
+	 * : Delete all logs without prompt.
+	 *
+	 * @subcommand delete-all
+	 *
+	 * @param array $_
+	 * @param array $assoc_args
+	 */
+	public function delete_all( $_, $assoc_args )
+	{
+		define( 'SKIP_LOGGING', true );
+
+		$posts = get_posts( array(
+			'post_type' => 'logbook'
+		) );
+
+		/**
+		 * @var $log \WP_Post
+		 */
+		foreach( $posts as $log ) {
+			print_r( $log->ID );
+			wp_delete_post( $log->ID, true );
+		}
+	}
 }
