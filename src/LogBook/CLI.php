@@ -142,11 +142,6 @@ class CLI extends CommandWithDBObject
 	/**
 	 * Delete all logs.
 	 *
-	 * ## OPTIONS
-	 *
-	 * [--force]
-	 * : Delete all logs without prompt.
-	 *
 	 * @subcommand delete-all
 	 *
 	 * @param array $_
