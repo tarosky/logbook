@@ -152,7 +152,8 @@ class CLI extends CommandWithDBObject
 		define( 'SKIP_LOGGING', true );
 
 		$posts = get_posts( array(
-			'post_type' => 'logbook'
+			'post_type' => 'logbook',
+			'posts_per_page' => -1,
 		) );
 
 		/**

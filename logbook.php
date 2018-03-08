@@ -25,7 +25,7 @@ register_activation_hook( __FILE__, "\LogBook\activation" );
 function activation() {
 	if ( ! get_option( 'logbook-scheduled-event', false ) ) {
 		wp_schedule_event( time(), 'hourly', 'logbook_scheduled_event' );
-		update_option( 'logbook-scheduled-event', true );
+		update_option( 'logbook-scheduled-event', 1 );
 	}
 }
 
@@ -39,6 +39,8 @@ function deactivation() {
 add_action( 'logbook_scheduled_event', '\LogBook\scheduled_event');
 
 function scheduled_event() {
+	define( 'SKIP_LOGGING', true );
+
 	$args = array(
 		'post_type' => 'logbook',
 		'date_query' => array(

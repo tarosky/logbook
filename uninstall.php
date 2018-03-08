@@ -5,7 +5,8 @@ if( ! defined( 'ABSPATH' ) && ! defined( 'WP_UNINSTALL_PLUGIN' ) )
 
 
 $posts = get_posts( array(
-	'post_type' => 'logbook'
+	'post_type' => 'logbook',
+	'posts_per_page' => -1,
 ) );
 
 /**
