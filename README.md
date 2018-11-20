@@ -48,7 +48,7 @@ add_action( 'plugins_loaded', function() {
 ```
 
 * [The example class is here.](https://github.com/tarosky/logbook/blob/master/example/Example.php)
-* See also [defaults](https://github.com/tarosky/logbook/tree/master/src/Logger).
+* See also [defaults](https://github.com/tarosky/logbook/blob/master/src/LogBook/Logger.php).
 
 ## Screenshot
 
